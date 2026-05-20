@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<div class="container">
+
+    <!-- LOGIN -->
+
+    <div class="card">
+
+        <h2>Iniciar Sesión</h2>
+
+        <input type="email" id="loginEmail" placeholder="Correo">
+
+        <input type="password" id="loginPassword" placeholder="Contraseña">
+
+        <button onclick="login()">
+            Ingresar
+        </button>
+
+    </div>
+
+    <!-- CREAR ADMIN -->
+
+    <div class="card">
+
+        <h2>Crear Administrador</h2>
+
+        <p>
+            Para crear un administrador es necesaria la clave maestra.
+        </p>
+
+        <input type="text" id="nombre" placeholder="Nombre">
+
+        <input type="email" id="email" placeholder="Correo">
+
+        <input type="password" id="password" placeholder="Contraseña">
+
+        <input
+            type="password"
+            id="adminKey"
+            placeholder="Clave Administrador"
+        >
+
+        <button onclick="crearAdmin()">
+            Crear Administrador
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+</html>

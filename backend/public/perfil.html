@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Perfil</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<script src="js/auth.js"></script>
+
+<script>
+
+    verificarLogin();
+
+</script>
+
+<header>
+
+    <div class="header-container">
+
+        <h1>TECHNOVA GT</h1>
+
+        <nav>
+
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
+
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
+
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
+
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
+
+</nav>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Perfil Usuario</h2>
+
+        <p>
+            <strong>Nombre:</strong>
+            <span id="perfilNombre"></span>
+        </p>
+
+        <p>
+            <strong>Correo:</strong>
+            <span id="perfilEmail"></span>
+        </p>
+
+        <p>
+            <strong>Rol:</strong>
+            <span id="perfilRol"></span>
+        </p>
+
+        <button onclick="volverPanel()">
+            Volver al Panel
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.getElementById('perfilNombre')
+        .innerHTML =
+        localStorage.getItem('nombre');
+
+    document.getElementById('perfilEmail')
+        .innerHTML =
+        localStorage.getItem('email');
+
+    document.getElementById('perfilRol')
+        .innerHTML =
+        localStorage.getItem('role');
+
+</script>
+
+</body>
+</html>

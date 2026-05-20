@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>TECHNOVA GT</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <h1>TECHNOVA GT</h1>
+
+        <nav>
+
+    <button onclick="window.location.href='login.html'">
+        Crear cuenta / Iniciar sesión
+    </button>
+
+</nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h2>Innovación y Tecnología para el Futuro</h2>
+
+      <p>
+        TECHNOVA GT es una empresa especializada en la gestión y distribución de
+        productos tecnológicos, ofreciendo soluciones modernas para inventarios,
+        equipos electrónicos y administración empresarial.
+      </p>
+
+      <a href="login.html">
+        <button>Ingresar al Sistema</button>
+      </a>
+    </section>
+
+    <section class="info">
+      <div class="card">
+        <h2>Misión</h2>
+
+        <p>
+          Brindar soluciones tecnológicas innovadoras mediante una plataforma
+          moderna y eficiente para el control de inventarios y productos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Visión</h2>
+
+        <p>
+          Ser una empresa líder en tecnología y administración digital en
+          Guatemala, ofreciendo herramientas eficientes para negocios modernos.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Servicios</h2>
+
+        <ul>
+          <li>Gestión de Inventarios</li>
+
+          <li>Control de Productos</li>
+
+          <li>Administración de Usuarios</li>
+
+          <li>Catálogo Tecnológico</li>
+
+          <li>Control de Stock</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>TECHNOVA GT © 2026</p>
+    </footer>
+    <script>
+      const token = localStorage.getItem("token");
+
+      const role = localStorage.getItem("role");
+
+      if (token) {
+        const navbar = document.getElementById("navbar");
+
+        navbar.innerHTML = `
+
+            <button onclick="window.location.href='perfil.html'">
+                Perfil
+            </button>
+
+            <button onclick="
+            
+                ${
+                  role === "admin"
+                    ? "window.location.href='dashboard-admin.html'"
+                    : "window.location.href='dashboard-user.html'"
+                }
+            ">
+                Mi Panel
+            </button>
+
+            <button onclick="logout()">
+                Cerrar Sesión
+            </button>
+        `;
+      }
+    </script>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>

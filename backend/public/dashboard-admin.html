@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Administrador</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<script src="js/auth.js"></script>
+
+<script>
+
+    verificarLogin();
+    verificarAdmin();
+
+</script>
+
+<header>
+
+    <div class="header-container">
+
+        <h1>TECHNOVA GT</h1>
+
+        <nav>
+
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
+
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
+
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
+
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
+
+</nav>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Bienvenido Admin</h2>
+
+        <p id="usuario"></p>
+
+        <button onclick="window.location.href='catalogo.html'">
+            Inventario
+        </button>
+
+        <button onclick="window.location.href='admin.html'">
+            Usuarios
+        </button>
+
+        <button onclick="logout()">
+            Cerrar Sesión
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById('usuario').innerHTML =
+    'Usuario: ' + localStorage.getItem('nombre');
+
+</script>
+
+</body>
+</html>

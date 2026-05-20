@@ -1,0 +1,70 @@
+const sqlite3 = require('sqlite3').verbose();
+
+const path = require('path');
+
+// RUTA BASE DE DATOS
+const dbPath = path.join(
+    __dirname,
+    'database',
+    'database.db'
+);
+
+// CONEXION SQLITE
+const db = new sqlite3.Database(dbPath, (err) => {
+
+    if (err) {
+
+        console.log(err.message);
+
+    } else {
+
+        console.log('Base de datos SQLite conectada');
+    }
+});
+
+// TABLA USERS
+db.run(`
+CREATE TABLE IF NOT EXISTS users (
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    nombre TEXT,
+
+    email TEXT UNIQUE,
+
+    password TEXT,
+
+    role TEXT DEFAULT 'user',
+
+    blocked INTEGER DEFAULT 0
+)
+`);
+
+// TABLA PRODUCTOS
+db.run(`
+CREATE TABLE IF NOT EXISTS productos (
+
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    nombre TEXT,
+
+    marca TEXT,
+
+    categoria TEXT,
+
+    descripcion TEXT,
+
+    precio REAL,
+
+    cantidad INTEGER,
+
+    imagen TEXT,
+
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+`);
+
+// EXPORTAR
+module.exports = db;

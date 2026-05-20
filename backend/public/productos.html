@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Productos</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<script src="js/auth.js"></script>
+
+<script>
+
+    verificarLogin();
+
+</script>
+
+<header>
+
+    <div class="header-container">
+
+        <h1>TECHNOVA GT</h1>
+
+        <nav>
+
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
+
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
+
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
+
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
+
+</nav>
+
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Productos Tecnológicos</h2>
+
+        <p>
+            Explora nuestro catálogo de productos disponibles.
+        </p>
+
+    </div>
+
+    <div id="productos" class="productos-grid">
+
+    </div>
+
+</div>
+
+<div id="modalImagen" class="modal-img">
+
+    <span class="close-img" onclick="cerrarImagen()">
+        &times;
+    </span>
+
+    <div class="zoom-controls">
+
+        <button onclick="resetZoom(event)">
+            🔄 Reset
+        </button>
+
+    </div>
+
+    <img id="imgZoom" src="">
+
+</div>
+
+<div id="modalImagen" class="modal-img">
+
+    <div class="zoom-controls">
+
+        <button onclick="resetZoom(event)">
+            🔄 Reset
+        </button>
+
+    </div>
+
+    <img id="imgZoom" src="">
+
+</div>
+
+<!-- MODAL ZOOM IMAGEN -->
+<div id="modalImagen" class="modal-img" onclick="cerrarImagen()">
+
+    <img id="imgZoom" src="">
+
+</div>
+<script src="js/productos.js"></script>
+
+</body>
+</html>
