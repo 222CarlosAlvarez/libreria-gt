@@ -58,6 +58,18 @@ global.upload = multer({
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+
+    res.sendFile(
+        path.join(
+            __dirname,
+            'public',
+            'login.html'
+        )
+    );
+});
+
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/productos', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
