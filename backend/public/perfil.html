@@ -65,7 +65,7 @@
 
         <p>
             <strong>Correo:</strong>
-            <span id="perfilEmail"></span>
+            <span id="correo"></span>
         </p>
 
         <p>
@@ -94,6 +94,10 @@
     document.getElementById('perfilRol')
         .innerHTML =
         localStorage.getItem('role');
+
+    document.getElementById('correo').innerText =
+    localStorage.getItem('email');
+
 
 </script>
 

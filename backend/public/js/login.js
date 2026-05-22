@@ -82,6 +82,8 @@ async function login() {
 
             localStorage.setItem('nombre', result.nombre);
 
+            localStorage.setItem('email', result.email);
+
             if (result.role === 'admin') {
 
                 window.location.href = 'dashboard-admin.html';

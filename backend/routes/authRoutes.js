@@ -164,15 +164,11 @@ router.post('/login', async (req, res) => {
         );
 
         res.json({
-
-            token,
-
-            role:
-                user.role,
-
-            nombre:
-                user.nombre
-        });
+    token,
+    role: user.role,
+    nombre: user.nombre,
+    email: user.email
+});
 
     } catch (err) {
 
