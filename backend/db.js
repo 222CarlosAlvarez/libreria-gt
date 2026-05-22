@@ -1,23 +1,10 @@
-const sqlite3 =
-    require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
 
-const { Pool } =
-    require('pg');
+const path = require('path');
 
-const path =
-    require('path');
+const { Pool } = require('pg');
 
-// RUTA BASE DE DATOS
-const dbPath = path.join(
-    __dirname,
-    'database',
-    'database.db'
-);
-
-// CONEXION SQLITE
-let db;
-
-// PRODUCCIÓN → PostgreSQL
+// SI EXISTE POSTGRESQL
 if (process.env.DATABASE_URL) {
 
     const pool = new Pool({
@@ -30,29 +17,27 @@ if (process.env.DATABASE_URL) {
         }
     });
 
-    console.log(
-        'PostgreSQL conectado'
-    );
+    console.log('PostgreSQL conectado');
 
-    db = {
-
-        query: (text, params) =>
-            pool.query(text, params)
-    };
+    module.exports = pool;
 
 } else {
 
-    // LOCAL → SQLite
+    // SQLITE LOCAL
 
-    db = new sqlite3.Database(
+    const dbPath = path.join(
+        __dirname,
+        'database',
+        'database.db'
+    );
+
+    const db = new sqlite3.Database(
         dbPath,
         (err) => {
 
             if (err) {
 
-                console.log(
-                    err.message
-                );
+                console.log(err.message);
 
             } else {
 
@@ -62,51 +47,6 @@ if (process.env.DATABASE_URL) {
             }
         }
     );
+
+    module.exports = db;
 }
-
-// TABLA USERS
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    nombre TEXT,
-
-    email TEXT UNIQUE,
-
-    password TEXT,
-
-    role TEXT DEFAULT 'user',
-
-    blocked INTEGER DEFAULT 0
-)
-`);
-
-// TABLA PRODUCTOS
-db.run(`
-CREATE TABLE IF NOT EXISTS productos (
-
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    nombre TEXT,
-
-    marca TEXT,
-
-    categoria TEXT,
-
-    descripcion TEXT,
-
-    precio REAL,
-
-    cantidad INTEGER,
-
-    imagen TEXT,
-
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP
-)
-`);
-
-// EXPORTAR
-module.exports = db;
