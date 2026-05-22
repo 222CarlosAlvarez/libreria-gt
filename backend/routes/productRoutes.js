@@ -1,166 +1,285 @@
 const express = require('express');
+
 const router = express.Router();
-const db = require('../db');
-const verifyToken = require('../middleware/authMiddleware');
+
+const {
+    all,
+    get,
+    run
+} = require('../dbHelpers');
+
+const verifyToken =
+    require('../middleware/authMiddleware');
+
+const multer = require('multer');
+
+const path = require('path');
+
+
+// ============================
+// MULTER
+// ============================
+
+const storage = multer.diskStorage({
+
+    destination: function(req, file, cb) {
+
+        cb(null, 'uploads/');
+    },
+
+    filename: function(req, file, cb) {
+
+        cb(
+
+            null,
+
+            Date.now()
+            +
+            path.extname(
+                file.originalname
+            )
+        );
+    }
+});
+
+const upload = multer({
+
+    storage
+});
+
+
+// ============================
 // OBTENER PRODUCTOS
-router.get('/', verifyToken, (req, res) => {
-db.all('SELECT * FROM productos', [], (err, rows) => {
-if (err) {
-return res.status(500).json(err);
-}
-res.json(rows);
-});
-});
-// AGREGAR PRODUCTO
-router.post(
+// ============================
+
+router.get(
+
     '/',
+
     verifyToken,
-    upload.single('imagen'),
-    (req, res) => {
 
-        const {
-            nombre,
-            marca,
-            categoria,
-            descripcion,
-            precio,
-            cantidad,
-            tipoMovimiento,
-            imagenURL
-        } = req.body;
+    async (req, res) => {
 
-        // IMAGEN FINAL
-        let imagen = imagenURL;
+        try {
 
-        // SI SUBEN ARCHIVO
-        if (req.file) {
+            const productos = await all(
 
-            imagen =
-                `/uploads/${req.file.filename}`;
-        }
+                // SQLITE
+                `
+                SELECT * FROM productos
+                `,
 
-        const fechaGuatemala = new Date()
-    .toLocaleString(
-        'sv-SE',
-        {
-            timeZone:
-                'America/Guatemala'
-        }
-    )
-    .replace(',', '');
+                // POSTGRESQL
+                `
+                SELECT * FROM productos
+                `,
 
-const verificarSQL = `
-    SELECT * FROM productos
-    WHERE LOWER(nombre)=LOWER(?)
-`;
+                []
+            );
 
-        const sql = `
-            INSERT INTO productos
-(
-    nombre,
-    marca,
-    categoria,
-    descripcion,
-    precio,
-    cantidad,
-    imagen,
-    fecha_creacion,
-    fecha_actualizacion
-)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
+            res.json(productos);
 
-        db.get(
-    verificarSQL,
-    [nombre],
-    (err, productoExistente) => {
+        } catch (err) {
 
-        if (err) {
+            console.log(err);
 
-            return res.status(500).json({
-                mensaje:
-                    'Error verificando producto'
+            res.status(500).json({
+
+                message:
+                    'Error obteniendo productos'
             });
         }
+    }
+);
 
-        // SI EL PRODUCTO YA EXISTE
-        if (productoExistente) {
 
-            const nuevaCantidad =
+// ============================
+// AGREGAR PRODUCTO
+// ============================
 
-                tipoMovimiento === 'salida'
+router.post(
 
-                ?
+    '/',
 
-                productoExistente.cantidad -
-                parseInt(cantidad)
+    verifyToken,
 
-                :
+    upload.single('imagen'),
 
-                productoExistente.cantidad +
-                parseInt(cantidad);
+    async (req, res) => {
 
-            const updateSQL = `
+        try {
 
-                UPDATE productos
+            const {
+                nombre,
+                marca,
+                categoria,
+                descripcion,
+                precio,
+                cantidad,
+                tipoMovimiento,
+                imagenURL
+            } = req.body;
 
-                SET
+            // IMAGEN FINAL
 
-                cantidad=?,
+            let imagen = imagenURL;
 
-                precio=?,
+            if (req.file) {
 
-                marca=?,
+                imagen =
+                    `/uploads/${req.file.filename}`;
+            }
 
-                categoria=?,
+            // FECHA GUATEMALA
 
-                descripcion=?,
+            const fechaGuatemala = new Date()
 
-                imagen=?,
+                .toLocaleString(
+                    'sv-SE',
+                    {
+                        timeZone:
+                            'America/Guatemala'
+                    }
+                )
 
-                fecha_actualizacion=?
+                .replace(',', '');
 
-                WHERE id=?
-            `;
+            // VERIFICAR PRODUCTO
 
-            db.run(
-                updateSQL,
-                [
-                    nuevaCantidad,
-                    precio,
+            const productoExistente = await get(
+
+                // SQLITE
+                `
+                SELECT * FROM productos
+                WHERE LOWER(nombre)=LOWER(?)
+                `,
+
+                // POSTGRESQL
+                `
+                SELECT * FROM productos
+                WHERE LOWER(nombre)=LOWER($1)
+                `,
+
+                [nombre]
+            );
+
+            // ============================
+            // SI YA EXISTE
+            // ============================
+
+            if (productoExistente) {
+
+                const nuevaCantidad =
+
+                    tipoMovimiento === 'salida'
+
+                    ?
+
+                    productoExistente.cantidad -
+                    parseInt(cantidad)
+
+                    :
+
+                    productoExistente.cantidad +
+                    parseInt(cantidad);
+
+                await run(
+
+                    // SQLITE
+                    `
+                    UPDATE productos
+                    SET
+
+                    cantidad=?,
+                    precio=?,
+                    marca=?,
+                    categoria=?,
+                    descripcion=?,
+                    imagen=?,
+                    fecha_actualizacion=?
+
+                    WHERE id=?
+                    `,
+
+                    // POSTGRESQL
+                    `
+                    UPDATE productos
+                    SET
+
+                    cantidad=$1,
+                    precio=$2,
+                    marca=$3,
+                    categoria=$4,
+                    descripcion=$5,
+                    imagen=$6,
+                    fecha_actualizacion=$7
+
+                    WHERE id=$8
+                    `,
+
+                    [
+                        nuevaCantidad,
+                        precio,
+                        marca,
+                        categoria,
+                        descripcion,
+                        imagen,
+                        fechaGuatemala,
+                        productoExistente.id
+                    ]
+                );
+
+                return res.json({
+
+                    mensaje:
+                        'Producto actualizado automáticamente'
+                });
+            }
+
+            // ============================
+            // NUEVO PRODUCTO
+            // ============================
+
+            await run(
+
+                // SQLITE
+                `
+                INSERT INTO productos
+                (
+                    nombre,
                     marca,
                     categoria,
                     descripcion,
+                    precio,
+                    cantidad,
                     imagen,
-                    fechaGuatemala,
-                    productoExistente.id
-                ],
-                function(err) {
+                    fecha_creacion,
+                    fecha_actualizacion
+                )
 
-                    if (err) {
+                VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `,
 
-                        return res
-                        .status(500)
-                        .json({
-                            mensaje:
-                            'Error actualizando producto'
-                        });
-                    }
+                // POSTGRESQL
+                `
+                INSERT INTO productos
+                (
+                    nombre,
+                    marca,
+                    categoria,
+                    descripcion,
+                    precio,
+                    cantidad,
+                    imagen,
+                    fecha_creacion,
+                    fecha_actualizacion
+                )
 
-                    return res.json({
+                VALUES
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                `,
 
-                        mensaje:
-                        'Producto existente actualizado automáticamente'
-                    });
-                }
-            );
-
-        } else {
-
-            // CREAR NUEVO PRODUCTO
-
-            db.run(
-                sql,
                 [
                     nombre,
                     marca,
@@ -171,106 +290,198 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     imagen,
                     fechaGuatemala,
                     fechaGuatemala
-                ],
-                function(err) {
-
-                    if (err) {
-
-                        console.log(err);
-
-                        return res
-                            .status(500)
-                            .json({
-                                mensaje:
-                                'Error servidor'
-                            });
-                    }
-
-                    res.json({
-
-                        mensaje:
-                        'Producto agregado'
-                    });
-                }
+                ]
             );
+
+            res.json({
+
+                mensaje:
+                    'Producto agregado correctamente'
+            });
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                mensaje:
+                    'Error servidor'
+            });
         }
     }
 );
-    }
-);
 
+
+// ============================
 // EDITAR PRODUCTO
-router.put('/:id', verifyToken, (req, res) => {
-const id = req.params.id;
-const {
-nombre,
-descripcion,
-precio,
-cantidad,
-imagen
-} = req.body;
+// ============================
 
-const fechaGuatemala = new Date()
+router.put(
 
-    .toLocaleString(
-        'sv-SE',
-        {
-            timeZone:
-                'America/Guatemala'
+    '/:id',
+
+    verifyToken,
+
+    async (req, res) => {
+
+        try {
+
+            const id = req.params.id;
+
+            const {
+                nombre,
+                marca,
+                categoria,
+                descripcion,
+                precio,
+                cantidad,
+                imagen
+            } = req.body;
+
+            const fechaGuatemala = new Date()
+
+                .toLocaleString(
+                    'sv-SE',
+                    {
+                        timeZone:
+                            'America/Guatemala'
+                    }
+                )
+
+                .replace(',', '');
+
+            await run(
+
+                // SQLITE
+                `
+                UPDATE productos
+
+                SET
+
+                nombre=?,
+                marca=?,
+                categoria=?,
+                descripcion=?,
+                precio=?,
+                cantidad=?,
+                imagen=?,
+                fecha_actualizacion=?
+
+                WHERE id=?
+                `,
+
+                // POSTGRESQL
+                `
+                UPDATE productos
+
+                SET
+
+                nombre=$1,
+                marca=$2,
+                categoria=$3,
+                descripcion=$4,
+                precio=$5,
+                cantidad=$6,
+                imagen=$7,
+                fecha_actualizacion=$8
+
+                WHERE id=$9
+                `,
+
+                [
+                    nombre,
+                    marca,
+                    categoria,
+                    descripcion,
+                    precio,
+                    cantidad,
+                    imagen,
+                    fechaGuatemala,
+                    id
+                ]
+            );
+
+            res.json({
+
+                message:
+                    'Producto actualizado'
+            });
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                message:
+                    'Error actualizando producto'
+            });
         }
-    )
-    .replace(',', ''); 
-
-const sql = `
-
- UPDATE productos
-SET
-
-nombre=?,
-marca=?,
-categoria=?,
-descripcion=?,
-precio=?,
-cantidad=?,
-imagen=?,
-
-fecha_actualizacion=?
-
-WHERE id=?
- `;
-
-db.run(
-sql,
-[nombre, descripcion, precio, cantidad, imagen, id],
-function(err) {
-if (err) {
-return res.status(500).json(err);
-}
-res.json({
-message: 'Producto actualizado'
-});
-}
+    }
 );
-});
+
+
+// ============================
 // ELIMINAR PRODUCTO
-router.delete('/:id', verifyToken, (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo admin puede eliminar productos'
-});
-}
-const id = req.params.id;
-db.run(
-'DELETE FROM productos WHERE id=?',
-[id],
-function(err) {
-if (err) {
-return res.status(500).json(err);
-}
-res.json({
-message: 'Producto eliminado'
-});
-}
+// ============================
+
+router.delete(
+
+    '/:id',
+
+    verifyToken,
+
+    async (req, res) => {
+
+        try {
+
+            if (req.user.role !== 'admin') {
+
+                return res.status(403).json({
+
+                    message:
+                        'Solo admin puede eliminar productos'
+                });
+            }
+
+            const id = req.params.id;
+
+            await run(
+
+                // SQLITE
+                `
+                DELETE FROM productos
+                WHERE id=?
+                `,
+
+                // POSTGRESQL
+                `
+                DELETE FROM productos
+                WHERE id=$1
+                `,
+
+                [id]
+            );
+
+            res.json({
+
+                message:
+                    'Producto eliminado'
+            });
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                message:
+                    'Error eliminando producto'
+            });
+        }
+    }
 );
-});
+
+
 module.exports = router;

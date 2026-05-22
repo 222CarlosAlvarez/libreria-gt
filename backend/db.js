@@ -1,6 +1,11 @@
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 =
+    require('sqlite3').verbose();
 
-const path = require('path');
+const { Pool } =
+    require('pg');
+
+const path =
+    require('path');
 
 // RUTA BASE DE DATOS
 const dbPath = path.join(
@@ -10,17 +15,54 @@ const dbPath = path.join(
 );
 
 // CONEXION SQLITE
-const db = new sqlite3.Database(dbPath, (err) => {
+let db;
 
-    if (err) {
+// PRODUCCIÓN → PostgreSQL
+if (process.env.DATABASE_URL) {
 
-        console.log(err.message);
+    const pool = new Pool({
 
-    } else {
+        connectionString:
+            process.env.DATABASE_URL,
 
-        console.log('Base de datos SQLite conectada');
-    }
-});
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
+
+    console.log(
+        'PostgreSQL conectado'
+    );
+
+    db = {
+
+        query: (text, params) =>
+            pool.query(text, params)
+    };
+
+} else {
+
+    // LOCAL → SQLite
+
+    db = new sqlite3.Database(
+        dbPath,
+        (err) => {
+
+            if (err) {
+
+                console.log(
+                    err.message
+                );
+
+            } else {
+
+                console.log(
+                    'Base de datos SQLite conectada'
+                );
+            }
+        }
+    );
+}
 
 // TABLA USERS
 db.run(`
