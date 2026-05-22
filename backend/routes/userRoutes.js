@@ -1,99 +1,262 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+
+const {
+    all,
+    run,
+    isPostgres
+} = require('../dbHelpers');
+
 const verifyToken = require('../middleware/authMiddleware');
+
 const bcrypt = require('bcryptjs');
+
+
 // VER USUARIOS
-router.get('/', verifyToken, (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo administrador'
+router.get('/', verifyToken, async (req, res) => {
+
+    try {
+
+        if (req.user.role !== 'admin') {
+
+            return res.status(403).json({
+                message: 'Solo administrador'
+            });
+        }
+
+        const usuarios = await all(
+
+            // SQLITE
+            `
+            SELECT
+            id,
+            nombre,
+            email,
+            role,
+            blocked
+            FROM users
+            `,
+
+            // POSTGRESQL
+            `
+            SELECT
+            id,
+            nombre,
+            email,
+            role,
+            blocked
+            FROM users
+            `,
+
+            []
+        );
+
+        res.json(usuarios);
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: 'Error obteniendo usuarios'
+        });
+    }
 });
-}
-db.all(
-'SELECT id, nombre, email, role, blocked FROM users',
-[],
-(err, rows) => {
-res.json(rows);
-}
-);
-});
+
+
 // CREAR USUARIO
 router.post('/', verifyToken, async (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo administrador'
+
+    try {
+
+        if (req.user.role !== 'admin') {
+
+            return res.status(403).json({
+                message: 'Solo administrador'
+            });
+        }
+
+        const {
+            nombre,
+            email,
+            password,
+            role
+        } = req.body;
+
+        const hashed = await bcrypt.hash(password, 10);
+
+        await run(
+
+            // SQLITE
+            `
+            INSERT INTO users
+            (nombre,email,password,role)
+            VALUES(?,?,?,?)
+            `,
+
+            // POSTGRESQL
+            `
+            INSERT INTO users
+            (nombre,email,password,role)
+            VALUES($1,$2,$3,$4)
+            `,
+
+            [
+                nombre,
+                email,
+                hashed,
+                role
+            ]
+        );
+
+        res.json({
+            message: 'Usuario creado'
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: 'Error creando usuario'
+        });
+    }
 });
-}
-const {
-nombre,
-email,
-password,
-role
-} = req.body;
-const hashed = await bcrypt.hash(password, 10);
-db.run(
-'INSERT INTO users(nombre,email,password,role) VALUES(?,?,?,?)',
-[nombre, email, hashed, role],
-function(err) {
-if (err) {
-return res.status(500).json(err);
-}
-res.json({
-message: 'Usuario creado'
-});
-}
-);
-});
+
+
 // BLOQUEAR
-router.put('/block/:id', verifyToken, (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo administrador'
+router.put('/block/:id', verifyToken, async (req, res) => {
+
+    try {
+
+        if (req.user.role !== 'admin') {
+
+            return res.status(403).json({
+                message: 'Solo administrador'
+            });
+        }
+
+        await run(
+
+            // SQLITE
+            `
+            UPDATE users
+            SET blocked = 1
+            WHERE id=?
+            `,
+
+            // POSTGRESQL
+            `
+            UPDATE users
+            SET blocked = true
+            WHERE id=$1
+            `,
+
+            [req.params.id]
+        );
+
+        res.json({
+            message: 'Usuario bloqueado'
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: 'Error bloqueando usuario'
+        });
+    }
 });
-}
-db.run(
-'UPDATE users SET blocked = 1 WHERE id=?',
-[req.params.id],
-function(err) {
-res.json({
-message: 'Usuario bloqueado'
-});
-}
-);
-});
+
+
 // DESBLOQUEAR
-router.put('/unblock/:id', verifyToken, (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo administrador'
+router.put('/unblock/:id', verifyToken, async (req, res) => {
+
+    try {
+
+        if (req.user.role !== 'admin') {
+
+            return res.status(403).json({
+                message: 'Solo administrador'
+            });
+        }
+
+        await run(
+
+            // SQLITE
+            `
+            UPDATE users
+            SET blocked = 0
+            WHERE id=?
+            `,
+
+            // POSTGRESQL
+            `
+            UPDATE users
+            SET blocked = false
+            WHERE id=$1
+            `,
+
+            [req.params.id]
+        );
+
+        res.json({
+            message: 'Usuario desbloqueado'
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: 'Error desbloqueando usuario'
+        });
+    }
 });
-}
-db.run(
-'UPDATE users SET blocked = 0 WHERE id=?',
-[req.params.id],
-function(err) {
-res.json({
-message: 'Usuario desbloqueado'
-});
-}
-);
-});
+
+
 // ELIMINAR USUARIO
-router.delete('/:id', verifyToken, (req, res) => {
-if (req.user.role !== 'admin') {
-return res.status(403).json({
-message: 'Solo administrador'
+router.delete('/:id', verifyToken, async (req, res) => {
+
+    try {
+
+        if (req.user.role !== 'admin') {
+
+            return res.status(403).json({
+                message: 'Solo administrador'
+            });
+        }
+
+        await run(
+
+            // SQLITE
+            `
+            DELETE FROM users
+            WHERE id=?
+            `,
+
+            // POSTGRESQL
+            `
+            DELETE FROM users
+            WHERE id=$1
+            `,
+
+            [req.params.id]
+        );
+
+        res.json({
+            message: 'Usuario eliminado'
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        res.status(500).json({
+            message: 'Error eliminando usuario'
+        });
+    }
 });
-}
-db.run(
-'DELETE FROM users WHERE id=?',
-[req.params.id],
-function(err) {
-res.json({
-message: 'Usuario eliminado'
-});
-}
-);
-});
+
 module.exports = router;

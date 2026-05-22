@@ -98,42 +98,6 @@
 </div>
 
 <script src="js/admin.js"></script>
-<script>
 
-    const token =
-        localStorage.getItem('token');
-
-    const role =
-        localStorage.getItem('role');
-
-    // SI YA HAY LOGIN
-    if (token) {
-
-        const nav =
-            document.querySelector('nav');
-
-        // ADMIN
-        if (role === 'admin') {
-
-            nav.innerHTML += `
-            
-                <button onclick="window.location.href='dashboard-admin.html'">
-                    Mi Panel
-                </button>
-            `;
-
-        } else {
-
-            // USER
-            nav.innerHTML += `
-            
-                <button onclick="window.location.href='dashboard-user.html'">
-                    Mi Panel
-                </button>
-            `;
-        }
-    }
-
-</script>
 </body>
 </html>
