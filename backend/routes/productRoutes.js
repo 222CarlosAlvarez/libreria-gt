@@ -1,5 +1,4 @@
 const XLSX = require('xlsx');
-const fs = require('fs');
 
 
 const express = require('express');
@@ -489,6 +488,8 @@ router.delete(
 
 // EXPORTAR EXCEL
 
+// EXPORTAR EXCEL
+
 router.get(
     '/export/excel',
     verifyToken,
@@ -509,27 +510,47 @@ router.get(
                 []
             );
 
-            const wb =
+            const workbook =
                 XLSX.utils.book_new();
 
-            const ws =
+            const worksheet =
                 XLSX.utils.json_to_sheet(productos);
 
             XLSX.utils.book_append_sheet(
-                wb,
-                ws,
+
+                workbook,
+
+                worksheet,
+
                 'Productos'
             );
 
-            const filePath =
-                'productos.xlsx';
+            const excelBuffer =
+                XLSX.write(
 
-            XLSX.writeFile(
-                wb,
-                filePath
+                    workbook,
+
+                    {
+                        bookType: 'xlsx',
+                        type: 'buffer'
+                    }
+                );
+
+            res.setHeader(
+
+                'Content-Type',
+
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             );
 
-            res.download(filePath);
+            res.setHeader(
+
+                'Content-Disposition',
+
+                'attachment; filename=productos.xlsx'
+            );
+
+            res.send(excelBuffer);
 
         } catch (err) {
 
