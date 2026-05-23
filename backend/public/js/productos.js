@@ -339,7 +339,7 @@ async function importarExcel() {
 
     if (!excel) {
 
-        alert('Selecciona un archivo Excel');
+        alert('Selecciona un Excel');
 
         return;
     }
@@ -351,20 +351,17 @@ async function importarExcel() {
     // ZIP OPCIONAL
     if (zip) {
 
-        formData.append('imagenes', zip);
+        formData.append('zip', zip);
     }
 
     try {
 
         const response = await fetch(
-
             '/api/productos/importar-excel',
-
             {
                 method: 'POST',
 
                 headers: {
-
                     Authorization:
                         localStorage.getItem('token')
                 },
@@ -386,6 +383,6 @@ async function importarExcel() {
 
         alert('Error importando Excel');
     }
-}
+} 
 
 cargarProductos();

@@ -918,40 +918,41 @@ router.post(
         try {
 
             // ARCHIVO EXCEL
-            if (
-                !req.files ||
-                !req.files['excel']
-            ) {
+            const excelFile =
+                req.files?.excel?.[0];
+
+            if (!excelFile) {
 
                 return res.status(400).json({
-                    message: 'Debe subir un Excel'
+                    message: 'Debes seleccionar un archivo Excel'
                 });
             }
 
-            const excelFile =
-                req.files['excel'][0];
-
             // ZIP OPCIONAL
-            let zipFile = null;
+            const zipFile =
+                req.files?.zip?.[0] || null;
 
-            if (
-                req.files['zip'] &&
-                req.files['zip'][0]
-            ) {
-
-                zipFile =
-                    req.files['zip'][0];
-            }
-
-            console.log('Excel:', excelFile.filename);
+            console.log('Excel:',
+                excelFile.originalname
+            );
 
             if (zipFile) {
 
-                console.log('ZIP:', zipFile.filename);
+                console.log('ZIP:',
+                    zipFile.originalname
+                );
+
+            } else {
+
+                console.log(
+                    'No se seleccionó ZIP'
+                );
             }
 
             // AQUI SIGUE TU CODIGO
-            // DE LECTURA DEL EXCEL
+            // LEER EXCEL
+            // IMPORTAR PRODUCTOS
+            // ETC...
 
             res.json({
                 message:
@@ -969,5 +970,4 @@ router.post(
         }
     }
 );
-
 module.exports = router;
