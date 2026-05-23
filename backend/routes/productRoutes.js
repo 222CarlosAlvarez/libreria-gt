@@ -633,8 +633,15 @@ router.get(
 
             doc.moveDown();
 
-            const fecha = new Date()
-                .toLocaleString('es-GT');
+            const fecha =
+    new Date()
+    .toLocaleString(
+        'es-GT',
+        {
+            timeZone:
+                'America/Guatemala'
+        }
+    );
 
             doc
                 .fontSize(10)
