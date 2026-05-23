@@ -908,34 +908,23 @@ router.get(
 
 router.post(
     '/importar-excel',
-
     verifyToken,
-
     upload.fields([
-        {
-            name: 'excel',
-            maxCount: 1
-        },
-        {
-            name: 'imagenes',
-            maxCount: 1
-        }
+        { name: 'excel', maxCount: 1 },
+        { name: 'zip', maxCount: 1 }
     ]),
-
     async (req, res) => {
 
         try {
 
-            // EXCEL
+            // ARCHIVO EXCEL
             if (
                 !req.files ||
                 !req.files['excel']
             ) {
 
                 return res.status(400).json({
-
-                    message:
-                        'Archivo Excel requerido'
+                    message: 'Debe subir un Excel'
                 });
             }
 
@@ -946,27 +935,25 @@ router.post(
             let zipFile = null;
 
             if (
-                req.files['imagenes'] &&
-                req.files['imagenes'][0]
+                req.files['zip'] &&
+                req.files['zip'][0]
             ) {
 
                 zipFile =
-                    req.files['imagenes'][0];
+                    req.files['zip'][0];
             }
 
-            console.log('Excel recibido');
-            console.log(excelFile.filename);
+            console.log('Excel:', excelFile.filename);
 
             if (zipFile) {
 
-                console.log('ZIP recibido');
-                console.log(zipFile.filename);
+                console.log('ZIP:', zipFile.filename);
             }
 
-            // AQUI VA TU CODIGO DE IMPORTACION
+            // AQUI SIGUE TU CODIGO
+            // DE LECTURA DEL EXCEL
 
             res.json({
-
                 message:
                     'Excel importado correctamente'
             });
@@ -976,7 +963,6 @@ router.post(
             console.log(error);
 
             res.status(500).json({
-
                 message:
                     'Error importando Excel'
             });
