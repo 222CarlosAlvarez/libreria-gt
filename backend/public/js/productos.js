@@ -208,39 +208,63 @@ function resetZoom(e) {
 
 async function exportarExcel() {
 
-    const token =
-        localStorage.getItem('token');
+    try {
 
-    const response = await fetch(
+        const token =
+            localStorage.getItem('token');
 
-        '/api/productos/export/excel',
+        const response = await fetch(
 
-        {
+            '/api/productos/export/excel',
 
-            headers: {
+            {
+                method: 'GET',
 
-                Authorization:
-                    `Bearer ${token}`
+                headers: {
+
+                    Authorization:
+                        `Bearer ${token}`
+                }
             }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                'Error descargando Excel'
+            );
         }
-    );
 
-    const blob =
-        await response.blob();
+        const blob =
+            await response.blob();
 
-    const url =
-        window.URL.createObjectURL(blob);
+        const url =
+            window.URL.createObjectURL(blob);
 
-    const a =
-        document.createElement('a');
+        const a =
+            document.createElement('a');
 
-    a.href = url;
+        a.href = url;
 
-    a.download =
-        'productos.xlsx';
+        a.download =
+            'productos.xlsx';
 
-    a.click();
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            'Error exportando Excel'
+        );
+    }
 }
-
 
 cargarProductos();
