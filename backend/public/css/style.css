@@ -94,6 +94,34 @@ table {
     backdrop-filter: blur(6px);
 }
 
+/* 1. Modificar el bloque de las imágenes dentro de cada producto */
+#productos .producto img {
+    width: 100%;             /* Se adapta a todo el ancho de la tarjeta */
+    height: 200px;           /* Establece un alto fijo para que todas queden exactamente iguales */
+    object-fit: contain;     /* Clave: evita que se distorsionen o aplasten las laptops */
+    background-color: #f9fafb; /* Rellena con fondo claro si la imagen tiene transparencias */
+    border-radius: 6px;      /* Bordes ligeramente redondeados */
+    margin-bottom: 12px;     /* Separa la imagen de los textos inferiores */
+}
+
+/* 2. Asegurar la cuadrícula ordenada de tarjetas de productos */
+#productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Crea columnas uniformes automáticamente */
+    gap: 20px;               /* Separación idéntica entre tarjetas (tanto arriba/abajo como a los lados) */
+    padding: 20px 0;
+}
+
+/* 3. Estructura uniforme para cada tarjeta de producto */
+#productos .producto {
+    background: #1f2937;     /* El color oscuro de fondo que se ve en tu app */
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;  /* Alinea el contenido en vertical (Título, Imagen, Info, Botones) */
+    justify-content: space-between; /* Obliga a que los botones siempre queden alineados abajo */
+}
 
 
 header {
