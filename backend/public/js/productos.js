@@ -206,5 +206,41 @@ function resetZoom(e) {
         `translate(0px, 0px) scale(1)`;
 }
 
+async function exportarExcel() {
+
+    const token =
+        localStorage.getItem('token');
+
+    const response = await fetch(
+
+        '/api/productos/export/excel',
+
+        {
+
+            headers: {
+
+                Authorization:
+                    `Bearer ${token}`
+            }
+        }
+    );
+
+    const blob =
+        await response.blob();
+
+    const url =
+        window.URL.createObjectURL(blob);
+
+    const a =
+        document.createElement('a');
+
+    a.href = url;
+
+    a.download =
+        'productos.xlsx';
+
+    a.click();
+}
+
 
 cargarProductos();

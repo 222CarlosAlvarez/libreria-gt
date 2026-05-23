@@ -1,3 +1,7 @@
+const XLSX = require('xlsx');
+const fs = require('fs');
+
+
 const express = require('express');
 
 const router = express.Router();
@@ -478,6 +482,63 @@ router.delete(
 
                 message:
                     'Error eliminando producto'
+            });
+        }
+    }
+);
+
+// EXPORTAR EXCEL
+
+router.get(
+    '/export/excel',
+    verifyToken,
+    async (req, res) => {
+
+        try {
+
+            const productos = await all(
+
+                `
+                SELECT * FROM productos
+                `,
+
+                `
+                SELECT * FROM productos
+                `,
+
+                []
+            );
+
+            const wb =
+                XLSX.utils.book_new();
+
+            const ws =
+                XLSX.utils.json_to_sheet(productos);
+
+            XLSX.utils.book_append_sheet(
+                wb,
+                ws,
+                'Productos'
+            );
+
+            const filePath =
+                'productos.xlsx';
+
+            XLSX.writeFile(
+                wb,
+                filePath
+            );
+
+            res.download(filePath);
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                message:
+                    'Error exportando Excel'
             });
         }
     }
