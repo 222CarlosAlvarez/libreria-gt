@@ -331,28 +331,19 @@ async function exportarPDF() {
 // IMPORTAR EXCEL
 async function importarExcel() {
 
-    const excel =
+    const archivo =
         document.getElementById('excelFile').files[0];
 
-    const zip =
-        document.getElementById('zipFile').files[0];
+    if (!archivo) {
 
-    if (!excel) {
-
-        alert('Selecciona un Excel');
+        alert('Selecciona un archivo Excel');
 
         return;
     }
 
     const formData = new FormData();
 
-    formData.append('excel', excel);
-
-    // ZIP OPCIONAL
-    if (zip) {
-
-        formData.append('zip', zip);
-    }
+    formData.append('excel', archivo);
 
     try {
 
@@ -383,6 +374,6 @@ async function importarExcel() {
 
         alert('Error importando Excel');
     }
-} 
+}
 
 cargarProductos();

@@ -905,54 +905,28 @@ router.get(
 );
 
 // IMPORTAR EXCEL + IMAGENES
-
 router.post(
     '/importar-excel',
     verifyToken,
-    upload.fields([
-        { name: 'excel', maxCount: 1 },
-        { name: 'zip', maxCount: 1 }
-    ]),
+    upload.single('excel'),
     async (req, res) => {
 
         try {
 
-            // ARCHIVO EXCEL
-            const excelFile =
-                req.files?.excel?.[0];
-
-            if (!excelFile) {
+            if (!req.file) {
 
                 return res.status(400).json({
-                    message: 'Debes seleccionar un archivo Excel'
+                    message:
+                        'No se seleccionó Excel'
                 });
             }
 
-            // ZIP OPCIONAL
-            const zipFile =
-                req.files?.zip?.[0] || null;
-
-            console.log('Excel:',
-                excelFile.originalname
+            console.log(
+                'Excel recibido:',
+                req.file.originalname
             );
 
-            if (zipFile) {
-
-                console.log('ZIP:',
-                    zipFile.originalname
-                );
-
-            } else {
-
-                console.log(
-                    'No se seleccionó ZIP'
-                );
-            }
-
-            // AQUI SIGUE TU CODIGO
-            // LEER EXCEL
-            // IMPORTAR PRODUCTOS
-            // ETC...
+            // TU CODIGO DE IMPORTACION AQUI
 
             res.json({
                 message:
@@ -970,4 +944,6 @@ router.post(
         }
     }
 );
+
+
 module.exports = router;
