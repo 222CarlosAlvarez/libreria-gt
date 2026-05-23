@@ -990,23 +990,54 @@ router.post(
 
         try {
 
-            const archivos =
-                req.files;
+            const archivos = req.files;
 
-            if (!archivos) {
+            if (!archivos || archivos.length === 0) {
 
-                return res.status(400)
-                .json({
+                return res.status(400).json({
 
-                    message:
-                        'No hay imágenes'
+                    message: 'No hay imágenes'
                 });
+            }
+
+            for (const archivo of archivos) {
+
+                // NOMBRE SIN EXTENSION
+                const nombreProducto =
+                    archivo.originalname
+                    .split('.')[0]
+                    .toLowerCase()
+                    .trim();
+
+                const imagenURL =
+                    `/uploads/${archivo.filename}`;
+
+                // ACTUALIZAR PRODUCTO
+                await run(
+
+                    `
+                    UPDATE productos
+                    SET imagen=?
+                    WHERE LOWER(nombre)=LOWER(?)
+                    `,
+
+                    `
+                    UPDATE productos
+                    SET imagen=$1
+                    WHERE LOWER(nombre)=LOWER($2)
+                    `,
+
+                    [
+                        imagenURL,
+                        nombreProducto
+                    ]
+                );
             }
 
             res.json({
 
                 message:
-                    `${archivos.length} imágenes subidas correctamente`
+                    `${archivos.length} imágenes asignadas correctamente`
             });
 
         } catch (error) {
