@@ -907,9 +907,11 @@ router.get(
 // IMPORTAR EXCEL + IMAGENES
 
 router.post(
-    '/import/excel',
+    '/importar-excel',
+
     verifyToken,
-    excelUpload.fields([
+
+    upload.fields([
         {
             name: 'excel',
             maxCount: 1
@@ -919,154 +921,49 @@ router.post(
             maxCount: 1
         }
     ]),
+
     async (req, res) => {
 
         try {
 
-            // ARCHIVOS
+            // EXCEL
+            if (
+                !req.files ||
+                !req.files['excel']
+            ) {
+
+                return res.status(400).json({
+
+                    message:
+                        'Archivo Excel requerido'
+                });
+            }
 
             const excelFile =
                 req.files['excel'][0];
 
-            const zipFile =
-                req.files['imagenes'][0];
+            // ZIP OPCIONAL
+            let zipFile = null;
 
-            // EXTRAER ZIP
+            if (
+                req.files['imagenes'] &&
+                req.files['imagenes'][0]
+            ) {
 
-            const zip =
-                new AdmZip(zipFile.path);
-
-            const extractPath =
-                'temp/images';
-
-            if (!fs.existsSync(extractPath)) {
-
-                fs.mkdirSync(
-                    extractPath,
-                    {
-                        recursive: true
-                    }
-                );
+                zipFile =
+                    req.files['imagenes'][0];
             }
 
-            zip.extractAllTo(
-                extractPath,
-                true
-            );
+            console.log('Excel recibido');
+            console.log(excelFile.filename);
 
-            // LEER EXCEL
+            if (zipFile) {
 
-            const workbook =
-                XLSX.readFile(
-                    excelFile.path
-                );
-
-            const sheetName =
-                workbook.SheetNames[0];
-
-            const worksheet =
-                workbook.Sheets[sheetName];
-
-            const productos =
-                XLSX.utils.sheet_to_json(
-                    worksheet
-                );
-
-            // INSERTAR PRODUCTOS
-
-            for (const p of productos) {
-
-                let imagenPath = '';
-
-                // BUSCAR IMAGEN
-
-                const tempImagePath =
-                    `${extractPath}/${p.imagen}`;
-
-                if (
-                    fs.existsSync(tempImagePath)
-                ) {
-
-                    const finalPath =
-                        `uploads/${p.imagen}`;
-
-                    fs.copyFileSync(
-                        tempImagePath,
-                        finalPath
-                    );
-
-                    imagenPath =
-                        `/uploads/${p.imagen}`;
-                }
-
-                const fechaGuatemala =
-                    new Date()
-                    .toLocaleString(
-                        'sv-SE',
-                        {
-                            timeZone:
-                                'America/Guatemala'
-                        }
-                    )
-                    .replace(',', '');
-
-                await run(
-
-                    `
-                    INSERT INTO productos
-                    (
-                        nombre,
-                        marca,
-                        categoria,
-                        descripcion,
-                        precio,
-                        cantidad,
-                        imagen,
-                        fecha_creacion,
-                        fecha_actualizacion
-                    )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    `,
-
-                    `
-                    INSERT INTO productos
-                    (
-                        nombre,
-                        marca,
-                        categoria,
-                        descripcion,
-                        precio,
-                        cantidad,
-                        imagen,
-                        fecha_creacion,
-                        fecha_actualizacion
-                    )
-                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-                    `,
-
-                    [
-                        p.nombre,
-                        p.marca,
-                        p.categoria,
-                        p.descripcion,
-                        p.precio,
-                        p.cantidad,
-                        imagenPath,
-                        fechaGuatemala,
-                        fechaGuatemala
-                    ]
-                );
+                console.log('ZIP recibido');
+                console.log(zipFile.filename);
             }
 
-            // LIMPIAR TEMPORALES
-
-            fs.rmSync(
-                'temp',
-                {
-                    recursive: true,
-                    force: true
-                }
-            );
+            // AQUI VA TU CODIGO DE IMPORTACION
 
             res.json({
 
@@ -1074,9 +971,9 @@ router.post(
                     'Excel importado correctamente'
             });
 
-        } catch (err) {
+        } catch (error) {
 
-            console.log(err);
+            console.log(error);
 
             res.status(500).json({
 
