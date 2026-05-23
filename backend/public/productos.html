@@ -32,6 +32,7 @@
     id="excelFile"
     accept=".xlsx,.xls"
 >
+        
 
             <button onclick="importarExcel()">
     Importar Excel
@@ -44,6 +45,17 @@
             <button onclick="exportarPDF()">
                 Exportar PDF
             </button>
+
+            <input
+    type="file"
+    id="imagenesMasivas"
+    multiple
+    accept="image/*"
+>
+
+<button onclick="subirImagenesMasivas()">
+    Subir Imágenes
+</button>
 
             <button class="panel" onclick="irPanel()">
                 Panel

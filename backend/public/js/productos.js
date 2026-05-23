@@ -377,3 +377,67 @@ async function importarExcel() {
 }
 
 cargarProductos();
+
+async function subirImagenesMasivas() {
+
+    const input =
+        document.getElementById(
+            'imagenesMasivas'
+        );
+
+    const archivos =
+        input.files;
+
+    if (archivos.length === 0) {
+
+        return alert(
+            'Selecciona imágenes'
+        );
+    }
+
+    const formData =
+        new FormData();
+
+    for (let i = 0; i < archivos.length; i++) {
+
+        formData.append(
+            'imagenes',
+            archivos[i]
+        );
+    }
+
+    try {
+
+        const response = await fetch(
+
+            '/api/productos/subir-imagenes',
+
+            {
+                method: 'POST',
+
+                headers: {
+
+                    Authorization:
+                        localStorage.getItem(
+                            'token'
+                        )
+                },
+
+                body: formData
+            }
+        );
+
+        const result =
+            await response.json();
+
+        alert(result.message);
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            'Error subiendo imágenes'
+        );
+    }
+}

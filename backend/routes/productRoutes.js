@@ -55,6 +55,9 @@ const upload = multer({
     storage
 });
 
+const uploadMultiple =
+    upload.array('imagenes', 100);
+
 const excelUpload = multer({
 
     dest: 'temp/'
@@ -975,5 +978,48 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
     }
 });
 
+router.post(
+
+    '/subir-imagenes',
+
+    verifyToken,
+
+    uploadMultiple,
+
+    async (req, res) => {
+
+        try {
+
+            const archivos =
+                req.files;
+
+            if (!archivos) {
+
+                return res.status(400)
+                .json({
+
+                    message:
+                        'No hay imágenes'
+                });
+            }
+
+            res.json({
+
+                message:
+                    `${archivos.length} imágenes subidas correctamente`
+            });
+
+        } catch (error) {
+
+            console.log(error);
+
+            res.status(500).json({
+
+                message:
+                    'Error subiendo imágenes'
+            });
+        }
+    }
+);
 
 module.exports = router;
