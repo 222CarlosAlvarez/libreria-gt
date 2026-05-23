@@ -328,64 +328,48 @@ async function exportarPDF() {
     }
 }
 
-async function importarExcel() {
+// IMPORTAR EXCEL
+async function importarExcel(event) {
+
+    const archivo = event.target.files[0];
+
+    if (!archivo) {
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('excel', archivo);
 
     try {
 
-        const token =
-            localStorage.getItem('token');
-
-        const excel =
-            document.getElementById('excelFile')
-            .files[0];
-
-        const zip =
-            document.getElementById('zipFile')
-            .files[0];
-
-        const formData =
-            new FormData();
-
-        formData.append(
-            'excel',
-            excel
-        );
-
-        formData.append(
-            'imagenes',
-            zip
-        );
-
         const response = await fetch(
 
-            '/api/productos/import/excel',
+            '/api/productos/importar-excel',
 
             {
                 method: 'POST',
 
                 headers: {
                     Authorization:
-                        `Bearer ${token}`
+                        localStorage.getItem('token')
                 },
 
                 body: formData
             }
         );
 
-        const result =
-            await response.json();
+        const result = await response.json();
 
         alert(result.message);
 
-        location.reload();
+        cargarProductos();
 
     } catch (error) {
 
         console.log(error);
 
-        alert(
-            'Error importando Excel'
-        );
+        alert('Error importando Excel');
     }
 }
 

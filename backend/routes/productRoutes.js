@@ -324,6 +324,102 @@ router.post(
     }
 );
 
+const XLSX = require('xlsx');
+
+router.post(
+    '/importar-excel',
+    verifyToken,
+    upload.single('excel'),
+    async (req, res) => {
+
+        try {
+
+            if (!req.file) {
+
+                return res.status(400).json({
+                    message: 'No se subió ningún archivo'
+                });
+            }
+
+            const workbook =
+                XLSX.readFile(req.file.path);
+
+            const sheetName =
+                workbook.SheetNames[0];
+
+            const worksheet =
+                workbook.Sheets[sheetName];
+
+            const productos =
+                XLSX.utils.sheet_to_json(worksheet);
+
+            for (const producto of productos) {
+
+                await run(
+
+                    `
+                    INSERT INTO productos
+                    (
+                        nombre,
+                        marca,
+                        categoria,
+                        descripcion,
+                        precio,
+                        cantidad,
+                        imagen,
+                        fecha_creacion,
+                        fecha_actualizacion
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    `,
+
+                    `
+                    INSERT INTO productos
+                    (
+                        nombre,
+                        marca,
+                        categoria,
+                        descripcion,
+                        precio,
+                        cantidad,
+                        imagen,
+                        fecha_creacion,
+                        fecha_actualizacion
+                    )
+                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                    `,
+
+                    [
+                        producto.nombre || '',
+                        producto.marca || '',
+                        producto.categoria || '',
+                        producto.descripcion || '',
+                        producto.precio || 0,
+                        producto.cantidad || 0,
+                        producto.imagen || '',
+                        new Date(),
+                        new Date()
+                    ]
+                );
+            }
+
+            res.json({
+                message:
+                    'Excel importado correctamente'
+            });
+
+        } catch (error) {
+
+            console.log(error);
+
+            res.status(500).json({
+                message:
+                    'Error importando Excel'
+            });
+        }
+    }
+);
+
 
 // ============================
 // EDITAR PRODUCTO
