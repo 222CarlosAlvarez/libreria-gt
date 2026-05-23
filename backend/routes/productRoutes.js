@@ -1,5 +1,6 @@
-const XLSX = require('xlsx');
+const PDFDocument = require('pdfkit');
 
+const XLSX = require('xlsx');
 
 const express = require('express');
 
@@ -565,5 +566,197 @@ router.get(
     }
 );
 
+// EXPORTAR PDF
+
+router.get(
+    '/export/pdf',
+    verifyToken,
+    async (req, res) => {
+
+        try {
+
+            const productos = await all(
+
+                `
+                SELECT * FROM productos
+                `,
+
+                `
+                SELECT * FROM productos
+                `,
+
+                []
+            );
+
+            const doc =
+                new PDFDocument({
+
+                    margin: 30,
+                    size: 'A4'
+                });
+
+            res.setHeader(
+                'Content-Type',
+                'application/pdf'
+            );
+
+            res.setHeader(
+                'Content-Disposition',
+                'attachment; filename=inventario.pdf'
+            );
+
+            doc.pipe(res);
+
+            // TITULO
+
+            doc
+                .fontSize(22)
+                .text(
+                    'TECHNOVA GT',
+                    {
+                        align: 'center'
+                    }
+                );
+
+            doc.moveDown();
+
+            doc
+                .fontSize(16)
+                .text(
+                    'Reporte de Inventario',
+                    {
+                        align: 'center'
+                    }
+                );
+
+            doc.moveDown();
+
+            const fecha =
+                new Date()
+                .toLocaleString(
+                    'es-GT'
+                );
+
+            doc
+                .fontSize(10)
+                .text(
+                    `Fecha: ${fecha}`
+                );
+
+            doc.moveDown();
+
+            // ENCABEZADOS
+
+            doc.fontSize(12);
+
+            doc.text(
+                'ID',
+                30,
+                doc.y,
+                {
+                    continued: true
+                }
+            );
+
+            doc.text(
+                'Nombre',
+                80,
+                doc.y,
+                {
+                    continued: true
+                }
+            );
+
+            doc.text(
+                'Marca',
+                220,
+                doc.y,
+                {
+                    continued: true
+                }
+            );
+
+            doc.text(
+                'Precio',
+                340,
+                doc.y,
+                {
+                    continued: true
+                }
+            );
+
+            doc.text(
+                'Cantidad',
+                430,
+                doc.y
+            );
+
+            doc.moveDown();
+
+            // PRODUCTOS
+
+            productos.forEach((p) => {
+
+                doc.fontSize(10);
+
+                doc.text(
+                    String(p.id),
+                    30,
+                    doc.y,
+                    {
+                        continued: true
+                    }
+                );
+
+                doc.text(
+                    p.nombre || '',
+                    80,
+                    doc.y,
+                    {
+                        continued: true
+                    }
+                );
+
+                doc.text(
+                    p.marca || '',
+                    220,
+                    doc.y,
+                    {
+                        continued: true
+                    }
+                );
+
+                doc.text(
+                    `Q${p.precio}`,
+                    340,
+                    doc.y,
+                    {
+                        continued: true
+                    }
+                );
+
+                doc.text(
+                    String(p.cantidad),
+                    430,
+                    doc.y
+                );
+
+                doc.moveDown();
+            });
+
+            doc.end();
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                message:
+                    'Error exportando PDF'
+            });
+        }
+    }
+);
 
 module.exports = router;

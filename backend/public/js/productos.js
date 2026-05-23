@@ -267,4 +267,65 @@ async function exportarExcel() {
     }
 }
 
+async function exportarPDF() {
+
+    try {
+
+        const token =
+            localStorage.getItem('token');
+
+        const response = await fetch(
+
+            '/api/productos/export/pdf',
+
+            {
+                method: 'GET',
+
+                headers: {
+
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                'Error exportando PDF'
+            );
+        }
+
+        const blob =
+            await response.blob();
+
+        const url =
+            window.URL.createObjectURL(blob);
+
+        const a =
+            document.createElement('a');
+
+        a.href = url;
+
+        a.download =
+            'inventario.pdf';
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            'Error exportando PDF'
+        );
+    }
+}
+
 cargarProductos();
