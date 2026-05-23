@@ -695,54 +695,113 @@ router.get(
 
             // PRODUCTOS
 
-            productos.forEach((p) => {
+            // POSICIÓN INICIAL
 
-                doc.fontSize(10);
+let y = doc.y;
 
-                doc.text(
-                    String(p.id),
-                    30,
-                    doc.y,
-                    {
-                        continued: true
-                    }
-                );
+// ENCABEZADOS
 
-                doc.text(
-                    p.nombre || '',
-                    80,
-                    doc.y,
-                    {
-                        continued: true
-                    }
-                );
+doc
+    .fontSize(11)
+    .font('Helvetica-Bold');
 
-                doc.text(
-                    p.marca || '',
-                    220,
-                    doc.y,
-                    {
-                        continued: true
-                    }
-                );
+doc.text('ID', 30, y);
+doc.text('Nombre', 70, y);
+doc.text('Marca', 220, y);
+doc.text('Precio', 340, y);
+doc.text('Stock', 430, y);
 
-                doc.text(
-                    `Q${p.precio}`,
-                    340,
-                    doc.y,
-                    {
-                        continued: true
-                    }
-                );
+y += 20;
 
-                doc.text(
-                    String(p.cantidad),
-                    430,
-                    doc.y
-                );
+// LINEA
 
-                doc.moveDown();
-            });
+doc.moveTo(30, y)
+   .lineTo(550, y)
+   .stroke();
+
+y += 10;
+
+// PRODUCTOS
+
+doc.font('Helvetica');
+
+productos.forEach((p) => {
+
+    // SALTO DE PAGINA
+
+    if (y > 750) {
+
+        doc.addPage();
+
+        y = 50;
+    }
+
+    // LIMITAR TEXTO
+
+    const nombre =
+        (p.nombre || '')
+        .substring(0, 20);
+
+    const marca =
+        (p.marca || '')
+        .substring(0, 15);
+
+    doc.fontSize(10);
+
+    doc.text(
+        String(p.id),
+        30,
+        y,
+        {
+            width: 30
+        }
+    );
+
+    doc.text(
+        nombre,
+        70,
+        y,
+        {
+            width: 130
+        }
+    );
+
+    doc.text(
+        marca,
+        220,
+        y,
+        {
+            width: 100
+        }
+    );
+
+    doc.text(
+        `Q${p.precio}`,
+        340,
+        y,
+        {
+            width: 70
+        }
+    );
+
+    doc.text(
+        String(p.cantidad),
+        430,
+        y,
+        {
+            width: 50
+        }
+    );
+
+    y += 25;
+
+    // LINEA SEPARADORA
+
+    doc.moveTo(30, y - 5)
+       .lineTo(550, y - 5)
+       .strokeColor('#cccccc')
+       .stroke();
+});
 
             doc.end();
 
