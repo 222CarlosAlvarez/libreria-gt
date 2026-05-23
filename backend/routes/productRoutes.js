@@ -945,5 +945,35 @@ router.post(
     }
 );
 
+// RESETEAR INVENTARIO
+router.delete('/reset/inventario', verifyToken, async (req, res) => {
+
+    if (req.user.role !== 'admin') {
+
+        return res.status(403).json({
+            message: 'Solo administrador'
+        });
+    }
+
+    try {
+
+        await db.query(`
+            TRUNCATE TABLE productos RESTART IDENTITY CASCADE
+        `);
+
+        res.json({
+            message: 'Inventario reiniciado correctamente'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: 'Error reiniciando inventario'
+        });
+    }
+});
+
 
 module.exports = router;

@@ -26,48 +26,43 @@
 
         <nav>
 
-    <!-- IMPORTAR EXCEL -->
-    <input
-        type="file"
-        id="excelFile"
-        accept=".xlsx,.xls"
-    >
+            <!-- IMPORTAR EXCEL -->
+            <input
+                type="file"
+                id="excelFile"
+                accept=".xlsx,.xls"
+                onchange="importarExcel(event)"
+            >
 
-    <!-- IMPORTAR IMAGENES ZIP -->
+            <button onclick="exportarExcel()">
+                Exportar Excel
+            </button>
 
-    <button onclick="importarExcel()">
-        Importar Excel
-    </button>
+            <button onclick="exportarPDF()">
+                Exportar PDF
+            </button>
 
-    <button onclick="exportarExcel()">
-        Exportar Excel
-    </button>
+            <button class="panel" onclick="irPanel()">
+                Panel
+            </button>
 
-    <button onclick="exportarPDF()">
-        Exportar PDF
-    </button>
+            <button onclick="window.location.href='productos.html'">
+                Productos
+            </button>
 
-    <button class="panel" onclick="irPanel()">
-        Panel
-    </button>
+            <button class="perfil" onclick="window.location.href='perfil.html'">
+                Perfil
+            </button>
 
-    <button onclick="window.location.href='productos.html'">
-        Productos
-    </button>
+            <button onclick="window.location.href='catalogo.html'">
+                Catálogo
+            </button>
 
-    <button class="perfil" onclick="window.location.href='perfil.html'">
-        Perfil
-    </button>
+            <button class="logout" onclick="logout()">
+                Cerrar Sesión
+            </button>
 
-    <button onclick="window.location.href='catalogo.html'">
-        Catálogo
-    </button>
-
-    <button class="logout" onclick="logout()">
-        Cerrar Sesión
-    </button>
-
-</nav>
+        </nav>
 
     </div>
 
