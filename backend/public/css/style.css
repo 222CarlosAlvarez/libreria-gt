@@ -145,6 +145,61 @@ table {
     background-color: #b91c1c;
 }
 
+header {
+
+    background: #111827;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+header h1 {
+
+    margin: 0;
+}
+
+nav {
+    background: var(--primary);
+}
+
+nav {
+    background: rgba(2, 6, 23, 0.9);
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid #1d4ed8;
+}
+
+nav button {
+    background: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+nav button:hover {
+    background: #3b82f6;
+}
+
+nav a {
+
+    color: white;
+
+    margin-left: 20px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
 .hero {
 
     text-align: center;
