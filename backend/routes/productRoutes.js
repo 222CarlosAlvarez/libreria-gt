@@ -979,78 +979,44 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
 });
 
 router.post(
+  '/subir-imagenes',
+  verifyToken,
+  upload.array('imagenes', 50),
+  async (req, res) => {
+    try {
+      const files = req.files;
 
-    '/subir-imagenes',
+      if (!files || files.length === 0) {
+        return res.status(400).json({
+          message: 'No hay imágenes'
+        });
+      }
 
-    verifyToken,
+      for (const file of files) {
+        const url = `/uploads/${file.filename}`;
 
-    uploadMultiple,
+        // EJEMPLO: actualizar por nombre del archivo
+        // ejemplo: producto llamado "laptop.jpg"
+        const nombre = file.originalname.split('.')[0];
 
-    async (req, res) => {
+        await run(
+          `UPDATE productos SET imagen = ? WHERE LOWER(nombre) = LOWER(?)`,
+          `UPDATE productos SET imagen = $1 WHERE LOWER(nombre) = LOWER($2)`,
+          [url, nombre]
+        );
+      }
 
-        try {
+      res.json({
+        message: `${files.length} imágenes actualizadas en productos`
+      });
 
-            const archivos = req.files;
-
-            if (!archivos || archivos.length === 0) {
-
-                return res.status(400).json({
-
-                    message: 'No hay imágenes'
-                });
-            }
-
-            for (const archivo of archivos) {
-
-                // NOMBRE SIN EXTENSION
-                const nombreProducto =
-                    archivo.originalname
-                    .split('.')[0]
-                    .toLowerCase()
-                    .trim();
-
-                const imagenURL =
-                    `/uploads/${archivo.filename}`;
-
-                // ACTUALIZAR PRODUCTO
-                await run(
-
-                    `
-                    UPDATE productos
-                    SET imagen=?
-                    WHERE LOWER(nombre)=LOWER(?)
-                    `,
-
-                    `
-                    UPDATE productos
-                    SET imagen=$1
-                    WHERE LOWER(nombre)=LOWER($2)
-                    `,
-
-                    [
-                        imagenURL,
-                        nombreProducto
-                    ]
-                );
-            }
-
-            res.json({
-
-                message:
-                    `${archivos.length} imágenes asignadas correctamente`
-            });
-
-        } catch (error) {
-
-            console.log(error);
-
-            res.status(500).json({
-
-                message:
-                    'Error subiendo imágenes'
-            });
-        }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: 'Error subiendo imágenes'
+      });
     }
+  }
 );
 
 module.exports = router;
