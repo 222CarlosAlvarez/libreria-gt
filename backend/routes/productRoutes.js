@@ -1,4 +1,5 @@
 const XLSX = require('xlsx');
+
 const AdmZip = require('adm-zip');
 
 const fs = require('fs');
@@ -323,8 +324,6 @@ router.post(
         }
     }
 );
-
-const XLSX = require('xlsx');
 
 router.post(
     '/importar-excel',
