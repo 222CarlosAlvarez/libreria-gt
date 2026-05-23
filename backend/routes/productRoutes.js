@@ -1,10 +1,9 @@
 const XLSX = require('xlsx');
 const AdmZip = require('adm-zip');
+
 const fs = require('fs');
 
 const PDFDocument = require('pdfkit');
-
-const XLSX = require('xlsx');
 
 const express = require('express');
 
