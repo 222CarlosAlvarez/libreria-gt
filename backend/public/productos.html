@@ -26,27 +26,31 @@
 
         <nav>
 
-    <input type="file" id="excelFile">
+    <!-- IMPORTAR EXCEL -->
+    <input
+        type="file"
+        id="excelFile"
+        accept=".xlsx,.xls"
+    >
 
-<input type="file" id="zipFile">
+    <!-- IMPORTAR IMAGENES ZIP -->
+    <input
+        type="file"
+        id="zipFile"
+        accept=".zip"
+    >
 
-<button onclick="importarExcel()">
-    Importar Excel
-</button>        
+    <button onclick="importarExcel()">
+        Importar Excel
+    </button>
 
     <button onclick="exportarExcel()">
-    Exportar Excel
-</button>
+        Exportar Excel
+    </button>
 
     <button onclick="exportarPDF()">
-    Exportar PDF
-</button>
-
-<input
-    type="file"
-    accept=".xlsx,.xls"
-    onchange="importarExcel(event)"
->
+        Exportar PDF
+    </button>
 
     <button class="panel" onclick="irPanel()">
         Panel

@@ -329,17 +329,30 @@ async function exportarPDF() {
 }
 
 // IMPORTAR EXCEL
-async function importarExcel(event) {
+async function importarExcel() {
 
-    const archivo = event.target.files[0];
+    const excel =
+        document.getElementById('excelFile').files[0];
 
-    if (!archivo) {
+    const zip =
+        document.getElementById('zipFile').files[0];
+
+    if (!excel) {
+
+        alert('Selecciona un archivo Excel');
+
         return;
     }
 
     const formData = new FormData();
 
-    formData.append('excel', archivo);
+    formData.append('excel', excel);
+
+    // ZIP OPCIONAL
+    if (zip) {
+
+        formData.append('imagenes', zip);
+    }
 
     try {
 
@@ -351,6 +364,7 @@ async function importarExcel(event) {
                 method: 'POST',
 
                 headers: {
+
                     Authorization:
                         localStorage.getItem('token')
                 },
@@ -359,7 +373,8 @@ async function importarExcel(event) {
             }
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
         alert(result.message);
 
