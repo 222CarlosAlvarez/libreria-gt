@@ -94,59 +94,55 @@ table {
     backdrop-filter: blur(6px);
 }
 
-header {
-
+/* Contenedor principal del Header (Basado en tu imagen original) */
+.header-container {
     background: #111827;
-
     padding: 20px;
-
     display: flex;
-
     justify-content: space-between;
+    align-items: center;
+    color: white; /* Para que resalte el texto de TECHNOVA GT */
+}
 
+/* El contenedor <nav> que ahora agrupa las dos filas */
+.nav-menu {
+    display: flex;
+    flex-direction: column; /* Coloca la Fila 1 arriba y la Fila 2 abajo */
+    gap: 12px;              /* Espacio de separación vertical entre las dos filas */
+    align-items: flex-end;  /* Alinea todo el bloque de botones hacia la derecha */
+}
+
+/* Estilo para cada una de las dos filas de botones */
+.fila-botones {
+    display: flex;
+    flex-direction: row;    /* Mantiene los botones de cada grupo en línea horizontal */
+    gap: 8px;               /* Separación horizontal entre botón y botón */
     align-items: center;
 }
 
-header h1 {
-
-    margin: 0;
-}
-
-nav {
-    background: var(--primary);
-}
-
-nav {
-    background: rgba(2, 6, 23, 0.9);
-    padding: 15px;
-    display: flex;
-    gap: 10px;
-    border-bottom: 2px solid #1d4ed8;
-}
-
-nav button {
-    background: #1e3a8a;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+/* Estilo opcional y limpio para los botones (puedes adaptarlo a tu gusto) */
+.fila-botones button {
+    padding: 6px 12px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-nav button:hover {
-    background: #3b82f6;
-}
-
-nav a {
-
+    background-color: #374151;
     color: white;
+    border: 1px solid #4b5563;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background 0.2s;
+}
 
-    margin-left: 20px;
+.fila-botones button:hover {
+    background-color: #4b5563; /* Efecto al pasar el mouse */
+}
 
-    text-decoration: none;
-
-    font-weight: bold;
+/* Botón especial de cerrar sesión */
+.fila-botones .logout {
+    background-color: #991b1b;
+    border-color: #b91c1c;
+}
+.fila-botones .logout:hover {
+    background-color: #b91c1c;
 }
 
 .hero {
