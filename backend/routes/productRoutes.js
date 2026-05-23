@@ -567,7 +567,6 @@ router.get(
 );
 
 // EXPORTAR PDF
-
 router.get(
     '/export/pdf',
     verifyToken,
@@ -588,12 +587,13 @@ router.get(
                 []
             );
 
-            const doc =
-                new PDFDocument({
+            const PDFDocument = require('pdfkit');
 
-                    margin: 30,
-                    size: 'A4'
-                });
+            const doc = new PDFDocument({
+
+                margin: 30,
+                size: 'A4'
+            });
 
             res.setHeader(
                 'Content-Type',
@@ -607,10 +607,11 @@ router.get(
 
             doc.pipe(res);
 
-            // TITULO
+            // ===== TITULO =====
 
             doc
                 .fontSize(22)
+                .font('Helvetica-Bold')
                 .text(
                     'TECHNOVA GT',
                     {
@@ -618,12 +619,13 @@ router.get(
                     }
                 );
 
-            doc.moveDown();
+            doc.moveDown(0.5);
 
             doc
-                .fontSize(16)
+                .fontSize(15)
+                .font('Helvetica')
                 .text(
-                    'Reporte de Inventario',
+                    'Reporte Profesional de Inventario',
                     {
                         align: 'center'
                     }
@@ -631,11 +633,8 @@ router.get(
 
             doc.moveDown();
 
-            const fecha =
-                new Date()
-                .toLocaleString(
-                    'es-GT'
-                );
+            const fecha = new Date()
+                .toLocaleString('es-GT');
 
             doc
                 .fontSize(10)
@@ -643,165 +642,142 @@ router.get(
                     `Fecha: ${fecha}`
                 );
 
-            doc.moveDown();
+            doc.moveDown(2);
 
-            // ENCABEZADOS
+            // ===== TABLA =====
 
-            doc.fontSize(12);
+            let y = doc.y;
 
-            doc.text(
-                'ID',
-                30,
-                doc.y,
-                {
-                    continued: true
+            // FONDO ENCABEZADO
+
+            doc
+                .rect(30, y, 535, 25)
+                .fill('#0f172a');
+
+            doc
+                .fillColor('white')
+                .fontSize(11)
+                .font('Helvetica-Bold');
+
+            doc.text('ID', 40, y + 7);
+            doc.text('Nombre', 80, y + 7);
+            doc.text('Marca', 230, y + 7);
+            doc.text('Precio', 360, y + 7);
+            doc.text('Stock', 470, y + 7);
+
+            y += 35;
+
+            // ===== PRODUCTOS =====
+
+            doc.fillColor('black');
+
+            productos.forEach((p, index) => {
+
+                // SALTO DE PAGINA
+
+                if (y > 740) {
+
+                    doc.addPage();
+
+                    y = 50;
+
+                    // REENCABEZADO
+
+                    doc
+                        .rect(30, y, 535, 25)
+                        .fill('#0f172a');
+
+                    doc
+                        .fillColor('white')
+                        .fontSize(11)
+                        .font('Helvetica-Bold');
+
+                    doc.text('ID', 40, y + 7);
+                    doc.text('Nombre', 80, y + 7);
+                    doc.text('Marca', 230, y + 7);
+                    doc.text('Precio', 360, y + 7);
+                    doc.text('Stock', 470, y + 7);
+
+                    y += 35;
+
+                    doc.fillColor('black');
                 }
-            );
 
-            doc.text(
-                'Nombre',
-                80,
-                doc.y,
-                {
-                    continued: true
+                // FILAS ALTERNADAS
+
+                if (index % 2 === 0) {
+
+                    doc
+                        .rect(30, y - 5, 535, 25)
+                        .fill('#f1f5f9');
+
+                    doc.fillColor('black');
                 }
-            );
 
-            doc.text(
-                'Marca',
-                220,
-                doc.y,
-                {
-                    continued: true
-                }
-            );
+                const nombre =
+                    (p.nombre || '')
+                    .substring(0, 22);
 
-            doc.text(
-                'Precio',
-                340,
-                doc.y,
-                {
-                    continued: true
-                }
-            );
+                const marca =
+                    (p.marca || '')
+                    .substring(0, 15);
 
-            doc.text(
-                'Cantidad',
-                430,
-                doc.y
-            );
+                doc
+                    .fontSize(10)
+                    .font('Helvetica');
 
-            doc.moveDown();
+                doc.text(
+                    String(p.id),
+                    40,
+                    y
+                );
 
-            // PRODUCTOS
+                doc.text(
+                    nombre,
+                    80,
+                    y,
+                    {
+                        width: 130
+                    }
+                );
 
-            // POSICIÓN INICIAL
+                doc.text(
+                    marca,
+                    230,
+                    y,
+                    {
+                        width: 100
+                    }
+                );
 
-let y = doc.y;
+                doc.text(
+                    `Q ${p.precio}`,
+                    360,
+                    y
+                );
 
-// ENCABEZADOS
+                doc.text(
+                    String(p.cantidad),
+                    470,
+                    y
+                );
 
-doc
-    .fontSize(11)
-    .font('Helvetica-Bold');
+                y += 25;
+            });
 
-doc.text('ID', 30, y);
-doc.text('Nombre', 70, y);
-doc.text('Marca', 220, y);
-doc.text('Precio', 340, y);
-doc.text('Stock', 430, y);
+            // ===== PIE =====
 
-y += 20;
+            doc.moveDown(2);
 
-// LINEA
-
-doc.moveTo(30, y)
-   .lineTo(550, y)
-   .stroke();
-
-y += 10;
-
-// PRODUCTOS
-
-doc.font('Helvetica');
-
-productos.forEach((p) => {
-
-    // SALTO DE PAGINA
-
-    if (y > 750) {
-
-        doc.addPage();
-
-        y = 50;
-    }
-
-    // LIMITAR TEXTO
-
-    const nombre =
-        (p.nombre || '')
-        .substring(0, 20);
-
-    const marca =
-        (p.marca || '')
-        .substring(0, 15);
-
-    doc.fontSize(10);
-
-    doc.text(
-        String(p.id),
-        30,
-        y,
-        {
-            width: 30
-        }
-    );
-
-    doc.text(
-        nombre,
-        70,
-        y,
-        {
-            width: 130
-        }
-    );
-
-    doc.text(
-        marca,
-        220,
-        y,
-        {
-            width: 100
-        }
-    );
-
-    doc.text(
-        `Q${p.precio}`,
-        340,
-        y,
-        {
-            width: 70
-        }
-    );
-
-    doc.text(
-        String(p.cantidad),
-        430,
-        y,
-        {
-            width: 50
-        }
-    );
-
-    y += 25;
-
-    // LINEA SEPARADORA
-
-    doc.moveTo(30, y - 5)
-       .lineTo(550, y - 5)
-       .strokeColor('#cccccc')
-       .stroke();
-});
+            doc
+                .fontSize(9)
+                .fillColor('gray')
+                .text(
+                    'Documento generado automáticamente por TECHNOVA GT',
+                    {
+                        align: 'center'
+                    }
+                );
 
             doc.end();
 
