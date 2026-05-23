@@ -19,27 +19,58 @@
 </script>
 
 <header>
+
     <div class="header-container">
+
         <h1>TECHNOVA GT</h1>
 
-        <nav class="nav-menu">
-            <div class="fila-botones">
-                <input type="file" id="excelFile" accept=".csv, .xlsx, .xls">
-                
-                <button onclick="importarExcel()">Importar Excel</button>
-                <button onclick="exportarExcel()">Exportar Excel</button>
-                <button onclick="exportarPDF()">Exportar PDF</button>
-            </div>
+        <nav>
 
-            <div class="fila-botones">
-                <button class="panel" onclick="irPanel()">Panel</button>
-                <button onclick="window.location.href='productos.html'">Productos</button>
-                <button class="perfil" onclick="window.location.href='perfil.html'">Perfil</button>
-                <button onclick="window.location.href='catalogo.html'">Catálogo</button>
-                <button class="logout" onclick="logout()">Cerrar Sesión</button>
-            </div>
+            <!-- IMPORTAR EXCEL -->
+            <input
+    type="file"
+    id="excelFile"
+    accept=".xlsx,.xls"
+>
+        
+
+            <button onclick="importarExcel()">
+    Importar Excel
+</button>
+
+            <button onclick="exportarExcel()">
+                Exportar Excel
+            </button>
+
+            <button onclick="exportarPDF()">
+                Exportar PDF
+            </button> <br><br>
+
+
+            <button class="panel" onclick="irPanel()">
+                Panel
+            </button>
+
+            <button onclick="window.location.href='productos.html'">
+                Productos
+            </button>
+
+            <button class="perfil" onclick="window.location.href='perfil.html'">
+                Perfil
+            </button>
+
+            <button onclick="window.location.href='catalogo.html'">
+                Catálogo
+            </button>
+
+            <button class="logout" onclick="logout()">
+                Cerrar Sesión
+            </button>
+
         </nav>
+
     </div>
+
 </header>
 
 <div class="container">
