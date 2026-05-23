@@ -328,4 +328,65 @@ async function exportarPDF() {
     }
 }
 
+async function importarExcel() {
+
+    try {
+
+        const token =
+            localStorage.getItem('token');
+
+        const excel =
+            document.getElementById('excelFile')
+            .files[0];
+
+        const zip =
+            document.getElementById('zipFile')
+            .files[0];
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            'excel',
+            excel
+        );
+
+        formData.append(
+            'imagenes',
+            zip
+        );
+
+        const response = await fetch(
+
+            '/api/productos/import/excel',
+
+            {
+                method: 'POST',
+
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`
+                },
+
+                body: formData
+            }
+        );
+
+        const result =
+            await response.json();
+
+        alert(result.message);
+
+        location.reload();
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            'Error importando Excel'
+        );
+    }
+}
+
 cargarProductos();

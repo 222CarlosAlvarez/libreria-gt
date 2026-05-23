@@ -1,3 +1,7 @@
+const XLSX = require('xlsx');
+const AdmZip = require('adm-zip');
+const fs = require('fs');
+
 const PDFDocument = require('pdfkit');
 
 const XLSX = require('xlsx');
@@ -49,6 +53,11 @@ const storage = multer.diskStorage({
 const upload = multer({
 
     storage
+});
+
+const excelUpload = multer({
+
+    dest: 'temp/'
 });
 
 
@@ -796,6 +805,189 @@ router.get(
 
                 message:
                     'Error exportando PDF'
+            });
+        }
+    }
+);
+
+// IMPORTAR EXCEL + IMAGENES
+
+router.post(
+    '/import/excel',
+    verifyToken,
+    excelUpload.fields([
+        {
+            name: 'excel',
+            maxCount: 1
+        },
+        {
+            name: 'imagenes',
+            maxCount: 1
+        }
+    ]),
+    async (req, res) => {
+
+        try {
+
+            // ARCHIVOS
+
+            const excelFile =
+                req.files['excel'][0];
+
+            const zipFile =
+                req.files['imagenes'][0];
+
+            // EXTRAER ZIP
+
+            const zip =
+                new AdmZip(zipFile.path);
+
+            const extractPath =
+                'temp/images';
+
+            if (!fs.existsSync(extractPath)) {
+
+                fs.mkdirSync(
+                    extractPath,
+                    {
+                        recursive: true
+                    }
+                );
+            }
+
+            zip.extractAllTo(
+                extractPath,
+                true
+            );
+
+            // LEER EXCEL
+
+            const workbook =
+                XLSX.readFile(
+                    excelFile.path
+                );
+
+            const sheetName =
+                workbook.SheetNames[0];
+
+            const worksheet =
+                workbook.Sheets[sheetName];
+
+            const productos =
+                XLSX.utils.sheet_to_json(
+                    worksheet
+                );
+
+            // INSERTAR PRODUCTOS
+
+            for (const p of productos) {
+
+                let imagenPath = '';
+
+                // BUSCAR IMAGEN
+
+                const tempImagePath =
+                    `${extractPath}/${p.imagen}`;
+
+                if (
+                    fs.existsSync(tempImagePath)
+                ) {
+
+                    const finalPath =
+                        `uploads/${p.imagen}`;
+
+                    fs.copyFileSync(
+                        tempImagePath,
+                        finalPath
+                    );
+
+                    imagenPath =
+                        `/uploads/${p.imagen}`;
+                }
+
+                const fechaGuatemala =
+                    new Date()
+                    .toLocaleString(
+                        'sv-SE',
+                        {
+                            timeZone:
+                                'America/Guatemala'
+                        }
+                    )
+                    .replace(',', '');
+
+                await run(
+
+                    `
+                    INSERT INTO productos
+                    (
+                        nombre,
+                        marca,
+                        categoria,
+                        descripcion,
+                        precio,
+                        cantidad,
+                        imagen,
+                        fecha_creacion,
+                        fecha_actualizacion
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    `,
+
+                    `
+                    INSERT INTO productos
+                    (
+                        nombre,
+                        marca,
+                        categoria,
+                        descripcion,
+                        precio,
+                        cantidad,
+                        imagen,
+                        fecha_creacion,
+                        fecha_actualizacion
+                    )
+                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                    `,
+
+                    [
+                        p.nombre,
+                        p.marca,
+                        p.categoria,
+                        p.descripcion,
+                        p.precio,
+                        p.cantidad,
+                        imagenPath,
+                        fechaGuatemala,
+                        fechaGuatemala
+                    ]
+                );
+            }
+
+            // LIMPIAR TEMPORALES
+
+            fs.rmSync(
+                'temp',
+                {
+                    recursive: true,
+                    force: true
+                }
+            );
+
+            res.json({
+
+                message:
+                    'Excel importado correctamente'
+            });
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                message:
+                    'Error importando Excel'
             });
         }
     }
