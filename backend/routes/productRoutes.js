@@ -978,45 +978,6 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
     }
 });
 
-router.post(
-  '/subir-imagenes',
-  verifyToken,
-  upload.array('imagenes', 50),
-  async (req, res) => {
-    try {
-      const files = req.files;
 
-      if (!files || files.length === 0) {
-        return res.status(400).json({
-          message: 'No hay imágenes'
-        });
-      }
-
-      for (const file of files) {
-        const url = `/uploads/${file.filename}`;
-
-        // EJEMPLO: actualizar por nombre del archivo
-        // ejemplo: producto llamado "laptop.jpg"
-        const nombre = file.originalname.split('.')[0];
-
-        await run(
-          `UPDATE productos SET imagen = ? WHERE LOWER(nombre) = LOWER(?)`,
-          `UPDATE productos SET imagen = $1 WHERE LOWER(nombre) = LOWER($2)`,
-          [url, nombre]
-        );
-      }
-
-      res.json({
-        message: `${files.length} imágenes actualizadas en productos`
-      });
-
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: 'Error subiendo imágenes'
-      });
-    }
-  }
-);
 
 module.exports = router;
