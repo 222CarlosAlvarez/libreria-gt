@@ -309,9 +309,6 @@ async function agregarProducto() {
     const nombre =
         document.getElementById('nombre').value;
 
-    const sku =
-    document.getElementById('sku').value;
-
     const marca =
         document.getElementById('marca').value;
 
@@ -345,8 +342,6 @@ async function agregarProducto() {
 
     // FORM DATA
     const formData = new FormData();
-
-    formData.append('sku', sku);
 
     formData.append('nombre', nombre);
 
