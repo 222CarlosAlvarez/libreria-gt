@@ -324,6 +324,7 @@ if (sku && sku.trim() !== '') {
                     SET
 
                     sku=?,
+                    nombre=?,
                     precio=?,
                     cantidad=?,
                     marca=?,
@@ -340,19 +341,21 @@ if (sku && sku.trim() !== '') {
                     UPDATE productos
                     SET
                     sku=$1,
-                    precio=$2,
-                    cantidad=$3,
-                    marca=$4,
-                    categoria=$5,
-                    descripcion=$6,
-                    imagen=$7,
-                    fecha_actualizacion=$8
+                    nombre=$2
+                    precio=$3,
+                    cantidad=$4,
+                    marca=$5,
+                    categoria=$6,
+                    descripcion=$7,
+                    imagen=$8,
+                    fecha_actualizacion=$9
 
-                    WHERE id=$9
+                    WHERE id=$10
                     `,
 
                     [
                         skuFinal,
+                        nombre,
                         precioFinal,
                         nuevaCantidad,
                         marca,
