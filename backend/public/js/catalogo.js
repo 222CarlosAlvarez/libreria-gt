@@ -307,7 +307,6 @@ async function agregarProducto() {
 
     const sku = document.getElementById('sku').value.trim().toUpperCase();
 
-    const skuInput = document.getElementById('sku').value.trim();
 
 const sku = skuInput
     ? skuInput.toUpperCase()
