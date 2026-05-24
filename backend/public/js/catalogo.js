@@ -324,6 +324,9 @@ async function agregarProducto() {
     const precio =
         document.getElementById('precio').value;
 
+    const sku =
+    document.getElementById('sku').value;
+
     const cantidad =
         document.getElementById('cantidad').value;
 
@@ -343,6 +346,7 @@ async function agregarProducto() {
     // FORM DATA
     const formData = new FormData();
 
+
     formData.append('nombre', nombre);
 
     formData.append('marca', marca);
@@ -350,6 +354,8 @@ async function agregarProducto() {
     formData.append('categoria', categoria);
 
     formData.append('descripcion', descripcion);
+
+    formData.append('sku', sku);
 
     formData.append('precio', precio);
 

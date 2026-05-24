@@ -170,7 +170,8 @@ router.post(
                 precio,
                 cantidad,
                 tipoMovimiento,
-                imagenURL
+                imagenURL,
+                sku
             } = req.body;
 
             // ============================
@@ -337,8 +338,10 @@ router.post(
             // SKU NUEVO
             // ============================
 
-            const sku =
-                generarSKU(nombre);
+            const skuFinal =
+    sku && sku.trim() !== ''
+    ? sku
+    : generarSKU(nombre);
 
             // ============================
             // NUEVO PRODUCTO
@@ -393,7 +396,7 @@ router.post(
                     descripcion,
                     precioFinal,
                     cantidadFinal,
-                    sku,
+                    skuFinal,
                     imagen,
                     fechaGuatemala,
                     fechaGuatemala
