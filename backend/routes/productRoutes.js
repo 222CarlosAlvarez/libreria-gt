@@ -167,13 +167,13 @@ router.post(
                 // SQLITE
                 `
                 SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER(?)
+    WHERE LOWER(nombre)=LOWER(?) AND LOWER(marca)=LOWER(?)
                 `,
 
                 // POSTGRESQL
                 `
                 SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER($1)
+    WHERE LOWER(nombre)=LOWER($1) AND LOWER(marca)=LOWER($2)
                 `,
 
                 [nombre]
