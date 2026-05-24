@@ -305,9 +305,9 @@ function filtrarProductos() {
 // AGREGAR
 async function agregarProducto() {
 
-    const sku = document.getElementById('sku').value.trim().toUpperCase();
+    const skuInput = document.getElementById('sku').value.trim();
 
-
+// 🔥 SKU obligatorio o automático
 const sku = skuInput
     ? skuInput.toUpperCase()
     : 'SKU-' + Date.now();
@@ -349,7 +349,7 @@ const sku = skuInput
     // FORM DATA
     const formData = new FormData();
 
-    formData.append('sku', sku || '');
+    formData.append('sku', sku);
 
     formData.append('nombre', nombre);
 

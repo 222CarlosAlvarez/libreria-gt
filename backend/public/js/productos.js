@@ -66,7 +66,13 @@ function mostrarProductos(productos) {
     style="cursor:pointer;"
 >
 
+
                 <h3>${producto.nombre}</h3>
+
+                <p>
+    <strong>SKU:</strong>
+    ${producto.sku || 'SIN SKU'}
+</p>
 
                 <p>
                     <strong>Categoría:</strong>
