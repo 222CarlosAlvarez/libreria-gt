@@ -595,11 +595,7 @@ if (sku && sku.trim() !== '') {
 
                 if (productoExistente) {
 
-                    const nuevaCantidad =
-
-                        parseInt(
-                            productoExistente.cantidad
-                        ) + cantidad;
+                    const nuevaCantidad = cantidad;
 
                     await run(
 
@@ -608,6 +604,7 @@ if (sku && sku.trim() !== '') {
                         UPDATE productos
                         SET
 
+                        nombre=?,
                         marca=?,
                         categoria=?,
                         descripcion=?,
@@ -623,19 +620,20 @@ if (sku && sku.trim() !== '') {
                         `
                         UPDATE productos
                         SET
+                        nombre=$1,
+                        marca=$2,
+                        categoria=$3,
+                        descripcion=$4,
+                        precio=$5,
+                        cantidad=$6,
+                        imagen=$7,
+                        fecha_actualizacion=$8
 
-                        marca=$1,
-                        categoria=$2,
-                        descripcion=$3,
-                        precio=$4,
-                        cantidad=$5,
-                        imagen=$6,
-                        fecha_actualizacion=$7
-
-                        WHERE id=$8
+                        WHERE id=$9
                         `,
 
                         [
+                            nombre,
                             marca,
                             categoria,
                             descripcion,
