@@ -232,22 +232,57 @@ router.post(
             // VERIFICAR PRODUCTO
             // ============================
 
-            const productoExistente = await get(
+            const skuFinal =
+    sku && sku.trim() !== ''
+    ? sku
+    : generarSKU(nombre);
+            // ============================
+// BUSCAR PRODUCTO
+// ============================
 
-                // SQLITE
-                `
-                SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER(?)
-                `,
+let productoExistente;
 
-                // POSTGRESQL
-                `
-                SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER($1)
-                `,
+// SI HAY SKU
+if (sku && sku.trim() !== '') {
 
-                [nombre]
-            );
+    productoExistente = await get(
+
+        // SQLITE
+        `
+        SELECT * FROM productos
+        WHERE LOWER(sku)=LOWER(?)
+        `,
+
+        // POSTGRESQL
+        `
+        SELECT * FROM productos
+        WHERE LOWER(sku)=LOWER($1)
+        `,
+
+        [skuFinal]
+    );
+
+} else {
+
+    // BUSCAR POR NOMBRE
+
+    productoExistente = await get(
+
+        // SQLITE
+        `
+        SELECT * FROM productos
+        WHERE LOWER(nombre)=LOWER(?)
+        `,
+
+        // POSTGRESQL
+        `
+        SELECT * FROM productos
+        WHERE LOWER(nombre)=LOWER($1)
+        `,
+
+        [nombre]
+    );
+}
 
             // ============================
             // SI YA EXISTE
@@ -288,6 +323,7 @@ router.post(
                     UPDATE productos
                     SET
 
+                    sku=?,
                     precio=?,
                     cantidad=?,
                     marca=?,
@@ -303,19 +339,20 @@ router.post(
                     `
                     UPDATE productos
                     SET
+                    sku=$1,
+                    precio=$2,
+                    cantidad=$3,
+                    marca=$4,
+                    categoria=$5,
+                    descripcion=$6,
+                    imagen=$7,
+                    fecha_actualizacion=$8
 
-                    precio=$1,
-                    cantidad=$2,
-                    marca=$3,
-                    categoria=$4,
-                    descripcion=$5,
-                    imagen=$6,
-                    fecha_actualizacion=$7
-
-                    WHERE id=$8
+                    WHERE id=$9
                     `,
 
                     [
+                        skuFinal,
                         precioFinal,
                         nuevaCantidad,
                         marca,
@@ -336,12 +373,9 @@ router.post(
 
             // ============================
             // SKU NUEVO
-            // ============================
+            // ============================  
 
-            const skuFinal =
-    sku && sku.trim() !== ''
-    ? sku
-    : generarSKU(nombre);
+            
 
             // ============================
             // NUEVO PRODUCTO
@@ -603,7 +637,7 @@ if (sku && sku.trim() !== '') {
                         `
                         UPDATE productos
                         SET
-
+                        sku=?,
                         nombre=?,
                         marca=?,
                         categoria=?,
@@ -620,19 +654,22 @@ if (sku && sku.trim() !== '') {
                         `
                         UPDATE productos
                         SET
-                        nombre=$1,
-                        marca=$2,
-                        categoria=$3,
-                        descripcion=$4,
-                        precio=$5,
-                        cantidad=$6,
-                        imagen=$7,
-                        fecha_actualizacion=$8
 
-                        WHERE id=$9
+                        sku=$1,
+                        nombre=$2,
+                        marca=$3,
+                        categoria=$4,
+                        descripcion=$5,
+                        precio=$6,
+                        cantidad=$7,
+                        imagen=$8,
+                        fecha_actualizacion=$9
+
+                        WHERE id=$10
                         `,
 
                         [
+                            sku,
                             nombre,
                             marca,
                             categoria,
@@ -746,6 +783,7 @@ router.put(
             const id = req.params.id;
 
             const {
+                sku,
                 nombre,
                 marca,
                 categoria,
@@ -767,6 +805,31 @@ router.put(
 
                 .replace(',', '');
 
+            const productoSKU = await get(
+
+    `
+    SELECT * FROM productos
+    WHERE LOWER(sku)=LOWER(?)
+    AND id != ?
+    `,
+
+    `
+    SELECT * FROM productos
+    WHERE LOWER(sku)=LOWER($1)
+    AND id != $2
+    `,
+
+    [sku, id]
+);
+
+if (productoSKU) {
+
+    return res.status(400).json({
+
+        message: 'El SKU ya existe'
+    });
+}
+
             await run(
 
                 // SQLITE
@@ -774,7 +837,7 @@ router.put(
                 UPDATE productos
 
                 SET
-
+                sku=?,
                 nombre=?,
                 marca=?,
                 categoria=?,
@@ -792,20 +855,21 @@ router.put(
                 UPDATE productos
 
                 SET
+                sku=$1,
+                nombre=$2,
+                marca=$3,
+                categoria=$4,
+                descripcion=$5,
+                precio=$6,
+                cantidad=$7,
+                imagen=$8,
+                fecha_actualizacion=$9
 
-                nombre=$1,
-                marca=$2,
-                categoria=$3,
-                descripcion=$4,
-                precio=$5,
-                cantidad=$6,
-                imagen=$7,
-                fecha_actualizacion=$8
-
-                WHERE id=$9
+                WHERE id=$10
                 `,
 
                 [
+                    sku,
                     nombre,
                     marca,
                     categoria,
