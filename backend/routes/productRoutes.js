@@ -1,3 +1,5 @@
+
+
 const XLSX = require('xlsx');
 
 const AdmZip = require('adm-zip');
@@ -108,6 +110,18 @@ router.get(
     }
 );
 
+function generarSKU(nombre) {
+
+    const base = nombre
+        .substring(0, 3)
+        .toUpperCase();
+
+    const timestamp =
+        Date.now().toString().slice(-5);
+
+    return `${base}-${timestamp}`;
+}
+
 
 // ============================
 // AGREGAR PRODUCTO
@@ -138,6 +152,22 @@ router.post(
 
             const precioFinal = parseFloat(precio) || 0;
 const cantidadFinal = parseInt(cantidad) || 0;
+              
+            if (!nombre) {
+
+    return res.status(400).json({
+
+        mensaje: 'Nombre requerido'
+    });
+}
+
+            if (precioFinal < 0) {
+
+    return res.status(400).json({
+
+        mensaje: 'Precio inválido'
+    });
+}
 
             // IMAGEN FINAL
 
@@ -197,6 +227,15 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     productoExistente.cantidad - cantidadFinal
     : productoExistente.cantidad + cantidadFinal;
 
+    if (nuevaCantidad < 0) {
+
+    return res.status(400).json({
+
+        mensaje: 'Stock insuficiente'
+    });
+}
+
+              
                 await run(
 
                     // SQLITE
@@ -204,8 +243,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     UPDATE productos
                     SET
 
-                    cantidadFinal=?,
-                    precioFinal=?,
+                    cantidad=?,
+                    precio=?,
                     marca=?,
                     categoria=?,
                     descripcion=?,
@@ -220,8 +259,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     UPDATE productos
                     SET
 
-                    cantidadFinal=$1,
-                    precioFinal=$2,
+                    cantidad=$1,
+                    precio=$2,
                     marca=$3,
                     categoria=$4,
                     descripcion=$5,
@@ -254,6 +293,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
             // NUEVO PRODUCTO
             // ============================
 
+            const sku = generarSKU(nombre);
+
             await run(
 
                 // SQLITE
@@ -266,13 +307,14 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     descripcion,
                     precio,
                     cantidad,
+                    sku,
                     imagen,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
                 // POSTGRESQL
@@ -285,13 +327,14 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     descripcion,
                     precio,
                     cantidad,
+                    sku,
                     imagen,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
                 `,
 
                 [
@@ -301,6 +344,7 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     descripcion,
                     precioFinal,
                     cantidadFinal,
+                    sku,
                     imagen,
                     fechaGuatemala,
                     fechaGuatemala

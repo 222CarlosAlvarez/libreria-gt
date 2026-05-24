@@ -43,6 +43,8 @@ function mostrarProductos(productos) {
 
                 <h3>${producto.nombre}</h3>
 
+                <p><strong>SKU:</strong> ${producto.sku}</p>
+
                 <p>
                     <strong>Categoría:</strong>
                     ${producto.categoria}
