@@ -288,27 +288,22 @@ if (sku && sku.trim() !== '') {
             // SI YA EXISTE
             // ============================
 
-            let nuevaCantidad;
+            if (productoExistente) {
 
-// SALIDA
-if (tipoMovimiento === 'salida') {
+                let nuevaCantidad;
 
-    nuevaCantidad =
-        productoExistente.cantidad -
-        cantidadFinal;
+                if (tipoMovimiento === 'salida') {
 
-// ENTRADA
-} else if (tipoMovimiento === 'entrada') {
+                    nuevaCantidad =
+                        productoExistente.cantidad -
+                        cantidadFinal;
 
-    nuevaCantidad =
-        productoExistente.cantidad +
-        cantidadFinal;
+                } else {
 
-// EDICIÓN MANUAL
-} else {
-
-    nuevaCantidad = cantidadFinal;
-}
+                    nuevaCantidad =
+                        productoExistente.cantidad +
+                        cantidadFinal;
+                }
 
                 // EVITAR STOCK NEGATIVO
 
@@ -346,7 +341,7 @@ if (tipoMovimiento === 'salida') {
                     UPDATE productos
                     SET
                     sku=$1,
-                    nombre=$2,
+                    nombre=$2
                     precio=$3,
                     cantidad=$4,
                     marca=$5,
