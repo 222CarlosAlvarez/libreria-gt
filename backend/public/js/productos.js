@@ -4,22 +4,31 @@ const token = localStorage.getItem('token');
 
 async function cargarProductos() {
 
-    const response = await fetch(
+    try {
 
-        `${API}/api/productos`,
-
-        {
-
-            headers: {
-
-                Authorization: token
+        const response = await fetch(
+            '/api/productos',
+            {
+                headers: {
+                    Authorization:
+                        localStorage.getItem('token')
+                }
             }
-        }
-    );
+        );
 
-    const productos = await response.json();
+        const productos = await response.json();
 
-    mostrarProductos(productos);
+        // MOSTRAR PRODUCTOS
+        mostrarProductos(productos);
+
+        // 🔥 ACTUALIZAR INVENTARIO
+        document.getElementById('totalProductos')
+            .innerText = productos.length;
+
+    } catch (error) {
+
+        console.log(error);
+    }
 }
 
 function mostrarProductos(productos) {
