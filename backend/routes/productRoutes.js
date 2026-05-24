@@ -116,12 +116,10 @@ function generarSKU(nombre) {
         .substring(0, 3)
         .toUpperCase();
 
-    const random = Math.random()
-        .toString(36)
-        .substring(2, 7)
-        .toUpperCase();
+    const timestamp =
+        Date.now().toString().slice(-5);
 
-    return `${base}-${random}`;
+    return `${base}-${timestamp}`;
 }
 
 
@@ -156,7 +154,7 @@ router.post(
             const precioFinal = parseFloat(precio) || 0;
 const cantidadFinal = parseInt(cantidad) || 0;
 
-const sku = generarSKU(nombre);
+
 
               
             if (!nombre) {
@@ -294,6 +292,8 @@ const sku = generarSKU(nombre);
                         'Producto actualizado automáticamente'
                 });
             }
+
+            const sku = generarSKU(nombre);
 
             // ============================
             // NUEVO PRODUCTO
