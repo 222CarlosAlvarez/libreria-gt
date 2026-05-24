@@ -947,11 +947,14 @@ router.get(
     }
 );
 
-// IMPORTAR EXCEL + IMAGENES
 router.post(
+
     '/importar-excel',
+
     verifyToken,
+
     upload.single('excel'),
+
     async (req, res) => {
 
         try {
@@ -959,19 +962,213 @@ router.post(
             if (!req.file) {
 
                 return res.status(400).json({
+
                     message:
                         'No se seleccionó Excel'
                 });
             }
 
-            console.log(
-                'Excel recibido:',
-                req.file.originalname
-            );
+            const XLSX =
+                require('xlsx');
 
-            // TU CODIGO DE IMPORTACION AQUI
+            const workbook =
+                XLSX.readFile(req.file.path);
+
+            const sheetName =
+                workbook.SheetNames[0];
+
+            const sheet =
+                workbook.Sheets[sheetName];
+
+            const productos =
+                XLSX.utils.sheet_to_json(sheet);
+
+            for (const fila of productos) {
+
+                const sku =
+                    fila.sku || fila.SKU || '';
+
+                const nombre =
+                    fila.nombre || fila.Nombre || '';
+
+                const marca =
+                    fila.marca || fila.Marca || '';
+
+                const categoria =
+                    fila.categoria || fila.Categoria || '';
+
+                const descripcion =
+                    fila.descripcion || fila.Descripcion || '';
+
+                const precio =
+                    parseFloat(fila.precio || fila.Precio) || 0;
+
+                const cantidad =
+                    parseInt(fila.cantidad || fila.Cantidad) || 0;
+
+                const imagen =
+                    fila.imagen || fila.Imagen || '';
+
+                // VERIFICAR SKU
+
+                const productoExistente = await get(
+
+                    // SQLITE
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(sku)=LOWER(?)
+                    `,
+
+                    // POSTGRESQL
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(sku)=LOWER($1)
+                    `,
+
+                    [sku]
+                );
+
+                // FECHA GUATEMALA
+
+                const fechaGuatemala =
+                    new Date()
+
+                    .toLocaleString(
+                        'sv-SE',
+                        {
+                            timeZone:
+                                'America/Guatemala'
+                        }
+                    )
+
+                    .replace(',', '');
+
+                // ======================
+                // ACTUALIZAR
+                // ======================
+
+                if (productoExistente) {
+
+                    const nuevaCantidad =
+
+                        productoExistente.cantidad +
+                        cantidad;
+
+                    await run(
+
+                        // SQLITE
+                        `
+                        UPDATE productos
+                        SET
+
+                        nombre=?,
+                        marca=?,
+                        categoria=?,
+                        descripcion=?,
+                        precio=?,
+                        cantidad=?,
+                        imagen=?,
+                        fecha_actualizacion=?
+
+                        WHERE id=?
+                        `,
+
+                        // POSTGRESQL
+                        `
+                        UPDATE productos
+                        SET
+
+                        nombre=$1,
+                        marca=$2,
+                        categoria=$3,
+                        descripcion=$4,
+                        precio=$5,
+                        cantidad=$6,
+                        imagen=$7,
+                        fecha_actualizacion=$8
+
+                        WHERE id=$9
+                        `,
+
+                        [
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            nuevaCantidad,
+                            imagen,
+                            fechaGuatemala,
+                            productoExistente.id
+                        ]
+                    );
+
+                } else {
+
+                    // ======================
+                    // NUEVO PRODUCTO
+                    // ======================
+
+                    await run(
+
+                        // SQLITE
+                        `
+                        INSERT INTO productos
+                        (
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fecha_creacion,
+                            fecha_actualizacion
+                        )
+
+                        VALUES
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        `,
+
+                        // POSTGRESQL
+                        `
+                        INSERT INTO productos
+                        (
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fecha_creacion,
+                            fecha_actualizacion
+                        )
+
+                        VALUES
+                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                        `,
+
+                        [
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fechaGuatemala,
+                            fechaGuatemala
+                        ]
+                    );
+                }
+            }
 
             res.json({
+
                 message:
                     'Excel importado correctamente'
             });
@@ -981,13 +1178,13 @@ router.post(
             console.log(error);
 
             res.status(500).json({
+
                 message:
                     'Error importando Excel'
             });
         }
     }
 );
-
 // RESETEAR INVENTARIO
 router.delete('/reset/inventario', verifyToken, async (req, res) => {
 
