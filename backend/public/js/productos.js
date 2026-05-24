@@ -4,22 +4,47 @@ const token = localStorage.getItem('token');
 
 async function cargarProductos() {
 
-    const response = await fetch(
+    try {
 
-        `${API}/api/productos`,
-
-        {
-
-            headers: {
-
-                Authorization: token
+        const response = await fetch(
+            `${API}/api/productos`,
+            {
+                headers: {
+                    Authorization: token
+                }
             }
+        );
+
+        const productos = await response.json();
+
+        // ⚠️ Validación por seguridad
+        if (!Array.isArray(productos)) {
+            console.log('Respuesta inválida:', productos);
+            return;
         }
-    );
 
-    const productos = await response.json();
+        mostrarProductos(productos);
 
-    mostrarProductos(productos);
+        // 📦 Total de productos
+        const totalEl = document.getElementById('totalProductos');
+        if (totalEl) {
+            totalEl.innerText = productos.length;
+        }
+
+        // 📊 Stock total (suma de cantidades)
+        const stockTotal = productos.reduce((total, p) => {
+            return total + (parseInt(p.cantidad) || 0);
+        }, 0);
+
+        const stockEl = document.getElementById('stockTotal');
+        if (stockEl) {
+            stockEl.innerText = stockTotal;
+        }
+
+    } catch (error) {
+
+        console.log('Error cargando productos:', error);
+    }
 }
 
 function mostrarProductos(productos) {
