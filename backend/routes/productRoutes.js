@@ -136,6 +136,9 @@ router.post(
                 imagenURL
             } = req.body;
 
+            const precioFinal = parseFloat(precio) || 0;
+const cantidadFinal = parseInt(cantidad) || 0;
+
             // IMAGEN FINAL
 
             let imagen = imagenURL;
@@ -191,13 +194,8 @@ router.post(
 
                     ?
 
-                    productoExistente.cantidad -
-                    parseInt(cantidad)
-
-                    :
-
-                    productoExistente.cantidad +
-                    parseInt(cantidad);
+                    productoExistente.cantidad - cantidadFinal
+    : productoExistente.cantidad + cantidadFinal;
 
                 await run(
 
@@ -206,8 +204,8 @@ router.post(
                     UPDATE productos
                     SET
 
-                    cantidad=?,
-                    precio=?,
+                    cantidadFinal=?,
+                    precioFinal=?,
                     marca=?,
                     categoria=?,
                     descripcion=?,
@@ -222,8 +220,8 @@ router.post(
                     UPDATE productos
                     SET
 
-                    cantidad=$1,
-                    precio=$2,
+                    cantidadFinal=$1,
+                    precioFinal=$2,
                     marca=$3,
                     categoria=$4,
                     descripcion=$5,
@@ -235,7 +233,7 @@ router.post(
 
                     [
                         nuevaCantidad,
-                        precio,
+                        precioFinal,
                         marca,
                         categoria,
                         descripcion,
@@ -301,8 +299,8 @@ router.post(
                     marca,
                     categoria,
                     descripcion,
-                    precio,
-                    cantidad,
+                    precioFinal,
+                    cantidadFinal,
                     imagen,
                     fechaGuatemala,
                     fechaGuatemala
