@@ -1,46 +1,25 @@
+const API = window.location.origin;
+
+const token = localStorage.getItem('token');
+
 async function cargarProductos() {
 
-    try {
+    const response = await fetch(
 
-        const response = await fetch(
-            `${API}/api/productos`,
-            {
-                headers: {
-                    Authorization: token
-                }
+        `${API}/api/productos`,
+
+        {
+
+            headers: {
+
+                Authorization: token
             }
-        );
-
-        const productos = await response.json();
-
-        // ⚠️ Validación por seguridad
-        if (!Array.isArray(productos)) {
-            console.log('Respuesta inválida:', productos);
-            return;
         }
+    );
 
-        mostrarProductos(productos);
+    const productos = await response.json();
 
-        // 📦 Total de productos
-        const totalEl = document.getElementById('totalProductos');
-        if (totalEl) {
-            totalEl.innerText = productos.length;
-        }
-
-        // 📊 Stock total (suma de cantidades)
-        const stockTotal = productos.reduce((total, p) => {
-            return total + (parseInt(p.cantidad) || 0);
-        }, 0);
-
-        const stockEl = document.getElementById('stockTotal');
-        if (stockEl) {
-            stockEl.innerText = stockTotal;
-        }
-
-    } catch (error) {
-
-        console.log('Error cargando productos:', error);
-    }
+    mostrarProductos(productos);
 }
 
 function mostrarProductos(productos) {
@@ -62,13 +41,7 @@ function mostrarProductos(productos) {
     style="cursor:pointer;"
 >
 
-
                 <h3>${producto.nombre}</h3>
-
-                <p>
-    <strong>SKU:</strong>
-    ${producto.sku || 'SIN SKU'}
-</p>
 
                 <p>
                     <strong>Categoría:</strong>

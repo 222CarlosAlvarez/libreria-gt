@@ -1,3 +1,7 @@
+const API = window.location.origin;
+
+const token = localStorage.getItem('token');
+
 const role = localStorage.getItem('role');
 
 
@@ -301,13 +305,6 @@ function filtrarProductos() {
 // AGREGAR
 async function agregarProducto() {
 
-    const skuInput = document.getElementById('sku').value.trim();
-
-// 🔥 SKU obligatorio o automático
-const sku = skuInput
-    ? skuInput.toUpperCase()
-    : 'SKU-' + Date.now();
-
     const nombre =
         document.getElementById('nombre').value;
 
@@ -345,8 +342,6 @@ const sku = skuInput
     // FORM DATA
     const formData = new FormData();
 
-    formData.append('sku', sku);
-
     formData.append('nombre', nombre);
 
     formData.append('marca', marca);
@@ -372,11 +367,6 @@ const sku = skuInput
             archivoImagen
         );
     }
-
-    if (!sku) {
-    alert('El SKU es obligatorio');
-    return;
-}
 
     const response = await fetch(
         '/api/productos',
