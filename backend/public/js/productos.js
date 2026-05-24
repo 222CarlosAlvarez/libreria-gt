@@ -7,27 +7,43 @@ async function cargarProductos() {
     try {
 
         const response = await fetch(
-            '/api/productos',
+            `${API}/api/productos`,
             {
                 headers: {
-                    Authorization:
-                        localStorage.getItem('token')
+                    Authorization: token
                 }
             }
         );
 
         const productos = await response.json();
 
-        // MOSTRAR PRODUCTOS
+        // ⚠️ Validación por seguridad
+        if (!Array.isArray(productos)) {
+            console.log('Respuesta inválida:', productos);
+            return;
+        }
+
         mostrarProductos(productos);
 
-        // 🔥 ACTUALIZAR INVENTARIO
-        document.getElementById('totalProductos')
-            .innerText = productos.length;
+        // 📦 Total de productos
+        const totalEl = document.getElementById('totalProductos');
+        if (totalEl) {
+            totalEl.innerText = productos.length;
+        }
+
+        // 📊 Stock total (suma de cantidades)
+        const stockTotal = productos.reduce((total, p) => {
+            return total + (parseInt(p.cantidad) || 0);
+        }, 0);
+
+        const stockEl = document.getElementById('stockTotal');
+        if (stockEl) {
+            stockEl.innerText = stockTotal;
+        }
 
     } catch (error) {
 
-        console.log(error);
+        console.log('Error cargando productos:', error);
     }
 }
 
