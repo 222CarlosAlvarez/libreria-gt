@@ -292,27 +292,18 @@ if (sku && sku.trim() !== '') {
 
                 let nuevaCantidad;
 
-                let nuevaCantidad;
+                if (tipoMovimiento === 'salida') {
 
-// SALIDA
-if (tipoMovimiento === 'salida') {
+                    nuevaCantidad =
+                        productoExistente.cantidad -
+                        cantidadFinal;
 
-    nuevaCantidad =
-        productoExistente.cantidad -
-        cantidadFinal;
+                } else {
 
-// ENTRADA
-} else if (tipoMovimiento === 'entrada') {
-
-    nuevaCantidad =
-        productoExistente.cantidad +
-        cantidadFinal;
-
-// EDICIÓN MANUAL
-} else {
-
-    nuevaCantidad = cantidadFinal;
-}
+                    nuevaCantidad =
+                        productoExistente.cantidad +
+                        cantidadFinal;
+                }
 
                 // EVITAR STOCK NEGATIVO
 
