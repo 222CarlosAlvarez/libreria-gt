@@ -1,4 +1,4 @@
-const API = window.location.origin;
+
 
 // CREAR ADMIN
 async function crearAdmin() {

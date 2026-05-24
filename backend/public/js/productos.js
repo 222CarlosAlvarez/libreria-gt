@@ -1,7 +1,3 @@
-const API = window.location.origin;
-
-const token = localStorage.getItem('token');
-
 async function cargarProductos() {
 
     try {

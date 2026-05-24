@@ -30,10 +30,6 @@ async function crearUsuario() {
     cargarUsuarios();
 }
 
-const API = window.location.origin;
-
-const token = localStorage.getItem('token');
-
 // CARGAR USUARIOS
 async function cargarUsuarios() {
 
