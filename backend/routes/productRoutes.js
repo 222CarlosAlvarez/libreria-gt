@@ -143,7 +143,6 @@ router.post(
         try {
 
             const {
-                sku,
                 nombre,
                 marca,
                 categoria,
@@ -157,13 +156,8 @@ router.post(
             const precioFinal = parseFloat(precio) || 0;
 const cantidadFinal = parseInt(cantidad) || 0;
 
-if (!sku) {
+const sku = generarSKU(nombre);
 
-    return res.status(400).json({
-
-        mensaje: 'SKU requerido'
-    });
-}
               
             if (!nombre) {
 
@@ -212,13 +206,13 @@ if (!sku) {
                 // SQLITE
                 `
                 SELECT * FROM productos
-                WHERE LOWER(sku)=LOWER(?)
+                WHERE LOWER(nombre)=LOWER(?)
                 `,
 
                 // POSTGRESQL
                 `
                 SELECT * FROM productos
-                WHERE LOWER(sku)=LOWER($1)
+                WHERE LOWER(nombre)=LOWER($1)
                 `,
 
                 [nombre]
@@ -304,8 +298,6 @@ if (!sku) {
             // ============================
             // NUEVO PRODUCTO
             // ============================
-
-            const sku = generarSKU(nombre);
 
             await run(
 
