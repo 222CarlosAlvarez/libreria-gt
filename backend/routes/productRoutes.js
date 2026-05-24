@@ -126,6 +126,7 @@ router.post(
         try {
 
             let {
+                sku,
                 nombre,
                 marca,
                 categoria,
@@ -135,6 +136,14 @@ router.post(
                 tipoMovimiento,
                 imagenURL
             } = req.body;
+
+            sku = sku?.trim()?.toUpperCase();
+
+            if (!sku) {
+    return res.status(400).json({
+        mensaje: 'SKU es obligatorio'
+    });
+}
 
             // 🧼 LIMPIEZA DE DATOS
             nombre = nombre?.trim();
@@ -158,22 +167,11 @@ router.post(
                 .replace(',', '');
 
             // 🔎 BUSCAR PRODUCTO (NO DUPLICAR)
-            const productoExistente = await get(
-
-                `
-                SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER(?) 
-                AND LOWER(marca)=LOWER(?)
-                `,
-
-                `
-                SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER($1)
-                AND LOWER(marca)=LOWER($2)
-                `,
-
-                [nombre, marca]
-            );
+           const productoExistente = await get(
+    `SELECT * FROM productos WHERE sku=?`,
+    `SELECT * FROM productos WHERE sku=$1`,
+    [sku]
+);
 
             // ============================
             // 🔄 SI EXISTE → ACTUALIZAR
@@ -245,17 +243,18 @@ router.post(
 
                 `
                 INSERT INTO productos
-                (nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
+                (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
                 `
                 INSERT INTO productos
-                (nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
+                (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
                 `,
 
                 [
+                    sku,
                     nombre,
                     marca,
                     categoria,

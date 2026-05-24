@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS productos (
 
     id SERIAL PRIMARY KEY,
 
+    sku TEXT UNIQUE,
+
     nombre TEXT,
 
     marca TEXT,
@@ -34,7 +36,9 @@ CREATE TABLE IF NOT EXISTS productos (
     fecha_creacion TIMESTAMP,
 
     fecha_actualizacion TIMESTAMP
-);CREATE TABLE IF NOT EXISTS productos (
+);
+
+CREATE TABLE IF NOT EXISTS productos (
 
     id SERIAL PRIMARY KEY,
 

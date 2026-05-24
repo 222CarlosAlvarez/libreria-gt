@@ -305,6 +305,14 @@ function filtrarProductos() {
 // AGREGAR
 async function agregarProducto() {
 
+    const sku = document.getElementById('sku').value.trim().toUpperCase();
+
+    const skuInput = document.getElementById('sku').value.trim();
+
+const sku = skuInput
+    ? skuInput.toUpperCase()
+    : 'SKU-' + Date.now();
+
     const nombre =
         document.getElementById('nombre').value;
 
@@ -342,6 +350,8 @@ async function agregarProducto() {
     // FORM DATA
     const formData = new FormData();
 
+    formData.append('sku', sku || '');
+
     formData.append('nombre', nombre);
 
     formData.append('marca', marca);
@@ -367,6 +377,11 @@ async function agregarProducto() {
             archivoImagen
         );
     }
+
+    if (!sku) {
+    alert('El SKU es obligatorio');
+    return;
+}
 
     const response = await fetch(
         '/api/productos',
