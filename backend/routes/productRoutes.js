@@ -110,6 +110,20 @@ router.get(
     }
 );
 
+function generarSKU(nombre) {
+
+    const base = nombre
+        .substring(0, 3)
+        .toUpperCase();
+
+    const random = Math.random()
+        .toString(36)
+        .substring(2, 7)
+        .toUpperCase();
+
+    return `${base}-${random}`;
+}
+
 
 
 // ============================
@@ -291,7 +305,7 @@ if (!sku) {
             // NUEVO PRODUCTO
             // ============================
 
-            
+            const sku = generarSKU(nombre);
 
             await run(
 
