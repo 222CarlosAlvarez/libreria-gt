@@ -125,8 +125,7 @@ router.post(
 
         try {
 
-            let {
-                sku,
+            const {
                 nombre,
                 marca,
                 categoria,
@@ -137,85 +136,100 @@ router.post(
                 imagenURL
             } = req.body;
 
-            sku = sku?.trim()?.toUpperCase();
+            // IMAGEN FINAL
 
-            if (!sku) {
-    return res.status(400).json({
-        mensaje: 'SKU es obligatorio'
-    });
-}
-
-            // 🧼 LIMPIEZA DE DATOS
-            nombre = nombre?.trim();
-            marca = marca?.trim();
-
-            precio = parseFloat(precio) || 0;
-            cantidad = parseInt(cantidad) || 0;
-
-            // 🖼️ IMAGEN FINAL
-            let imagen = imagenURL || null;
+            let imagen = imagenURL;
 
             if (req.file) {
-                imagen = `/uploads/${req.file.filename}`;
+
+                imagen =
+                    `/uploads/${req.file.filename}`;
             }
 
-            // 📅 FECHA GUATEMALA
+            // FECHA GUATEMALA
+
             const fechaGuatemala = new Date()
-                .toLocaleString('sv-SE', {
-                    timeZone: 'America/Guatemala'
-                })
+
+                .toLocaleString(
+                    'sv-SE',
+                    {
+                        timeZone:
+                            'America/Guatemala'
+                    }
+                )
+
                 .replace(',', '');
 
-            // 🔎 BUSCAR PRODUCTO (NO DUPLICAR)
-           const productoExistente = await get(
-    `SELECT * FROM productos WHERE sku=?`,
-    `SELECT * FROM productos WHERE sku=$1`,
-    [sku]
-);
+            // VERIFICAR PRODUCTO
+
+            const productoExistente = await get(
+
+                // SQLITE
+                `
+                SELECT * FROM productos
+                WHERE LOWER(nombre)=LOWER(?)
+                `,
+
+                // POSTGRESQL
+                `
+                SELECT * FROM productos
+                WHERE LOWER(nombre)=LOWER($1)
+                `,
+
+                [nombre]
+            );
 
             // ============================
-            // 🔄 SI EXISTE → ACTUALIZAR
+            // SI YA EXISTE
             // ============================
+
             if (productoExistente) {
 
-                let nuevaCantidad = productoExistente.cantidad || 0;
+                const nuevaCantidad =
 
-                if (tipoMovimiento === 'salida') {
-                    nuevaCantidad -= cantidad;
-                } else {
-                    nuevaCantidad += cantidad;
-                }
+                    tipoMovimiento === 'salida'
 
-                // 🚫 EVITAR NEGATIVOS
-                if (nuevaCantidad < 0) {
-                    nuevaCantidad = 0;
-                }
+                    ?
+
+                    productoExistente.cantidad -
+                    parseInt(cantidad)
+
+                    :
+
+                    productoExistente.cantidad +
+                    parseInt(cantidad);
 
                 await run(
 
+                    // SQLITE
                     `
                     UPDATE productos
                     SET
-                        cantidad=?,
-                        precio=?,
-                        marca=?,
-                        categoria=?,
-                        descripcion=?,
-                        imagen=?,
-                        fecha_actualizacion=?
+
+                    cantidad=?,
+                    precio=?,
+                    marca=?,
+                    categoria=?,
+                    descripcion=?,
+                    imagen=?,
+                    fecha_actualizacion=?
+
                     WHERE id=?
                     `,
 
+                    // POSTGRESQL
                     `
                     UPDATE productos
                     SET
-                        cantidad=$1,
-                        precio=$2,
-                        marca=$3,
-                        categoria=$4,
-                        descripcion=$5,
-                        imagen=$6,
-                        fecha_actualizacion=$7
+
+                    cantidad=$1,
+                    precio=$2,
+                    marca=$3,
+                    categoria=$4,
+                    descripcion=$5,
+                    imagen=$6,
+                    fecha_actualizacion=$7
+
                     WHERE id=$8
                     `,
 
@@ -232,29 +246,57 @@ router.post(
                 );
 
                 return res.json({
-                    mensaje: 'Producto actualizado correctamente (sin duplicar)'
+
+                    mensaje:
+                        'Producto actualizado automáticamente'
                 });
             }
 
             // ============================
-            // ➕ NUEVO PRODUCTO
+            // NUEVO PRODUCTO
             // ============================
+
             await run(
 
+                // SQLITE
                 `
                 INSERT INTO productos
-                (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (
+                    nombre,
+                    marca,
+                    categoria,
+                    descripcion,
+                    precio,
+                    cantidad,
+                    imagen,
+                    fecha_creacion,
+                    fecha_actualizacion
+                )
+
+                VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
+                // POSTGRESQL
                 `
                 INSERT INTO productos
-                (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                (
+                    nombre,
+                    marca,
+                    categoria,
+                    descripcion,
+                    precio,
+                    cantidad,
+                    imagen,
+                    fecha_creacion,
+                    fecha_actualizacion
+                )
+
+                VALUES
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9)
                 `,
 
                 [
-                    sku,
                     nombre,
                     marca,
                     categoria,
@@ -268,7 +310,9 @@ router.post(
             );
 
             res.json({
-                mensaje: 'Producto agregado correctamente'
+
+                mensaje:
+                    'Producto agregado correctamente'
             });
 
         } catch (err) {
@@ -276,7 +320,9 @@ router.post(
             console.log(err);
 
             res.status(500).json({
-                mensaje: 'Error servidor'
+
+                mensaje:
+                    'Error servidor'
             });
         }
     }
