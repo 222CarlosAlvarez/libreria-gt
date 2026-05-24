@@ -244,13 +244,13 @@ router.post(
                 `
                 INSERT INTO productos
                 (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
                 `
                 INSERT INTO productos
                 (sku, nombre, marca, categoria, descripcion, precio, cantidad, imagen, fecha_creacion, fecha_actualizacion)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
                 `,
 
                 [
