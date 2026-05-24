@@ -541,23 +541,53 @@ router.post(
                 // BUSCAR PRODUCTO
                 // =========================
 
-                const productoExistente =
-                    await get(
+                // =========================
+// BUSCAR PRODUCTO
+// =========================
 
-                        // SQLITE
-                        `
-                        SELECT * FROM productos
-                        WHERE LOWER(nombre)=LOWER(?)
-                        `,
+let productoExistente;
 
-                        // POSTGRESQL
-                        `
-                        SELECT * FROM productos
-                        WHERE LOWER(nombre)=LOWER($1)
-                        `,
+// SI HAY SKU
+if (sku && sku.trim() !== '') {
 
-                        [nombre]
-                    );
+    productoExistente = await get(
+
+        // SQLITE
+        `
+        SELECT * FROM productos
+        WHERE LOWER(sku)=LOWER(?)
+        `,
+
+        // POSTGRESQL
+        `
+        SELECT * FROM productos
+        WHERE LOWER(sku)=LOWER($1)
+        `,
+
+        [sku]
+    );
+
+} else {
+
+    // BUSCAR POR NOMBRE
+
+    productoExistente = await get(
+
+        // SQLITE
+        `
+        SELECT * FROM productos
+        WHERE LOWER(nombre)=LOWER(?)
+        `,
+
+        // POSTGRESQL
+        `
+        SELECT * FROM productos
+        WHERE LOWER(nombre)=LOWER($1)
+        `,
+
+        [nombre]
+    );
+}
 
                 // =========================
                 // SI EXISTE → ACTUALIZAR
