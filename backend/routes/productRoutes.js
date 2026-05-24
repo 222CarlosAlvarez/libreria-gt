@@ -110,6 +110,29 @@ router.get(
     }
 );
 
+function generarSKU(nombre = '') {
+
+    const base = nombre
+        .trim()
+        .substring(0, 3)
+        .toUpperCase();
+
+    const timestamp =
+        Date.now().toString().slice(-5);
+
+    return `${base}-${timestamp}`;
+}
+
+
+
+// ============================
+// AGREGAR PRODUCTO
+// ============================
+
+// ============================
+// GENERAR SKU
+// ============================
+
 function generarSKU(nombre) {
 
     const base = nombre
@@ -121,7 +144,6 @@ function generarSKU(nombre) {
 
     return `${base}-${timestamp}`;
 }
-
 
 
 // ============================
@@ -151,31 +173,37 @@ router.post(
                 imagenURL
             } = req.body;
 
-            const precioFinal = parseFloat(precio) || 0;
-const cantidadFinal = parseInt(cantidad) || 0;
+            // ============================
+            // VALIDACIONES
+            // ============================
 
+            if (!nombre || nombre.trim() === '') {
 
+                return res.status(400).json({
 
-              
-            if (!nombre) {
+                    mensaje: 'Nombre requerido'
+                });
+            }
 
-    return res.status(400).json({
+            const precioFinal =
+                parseFloat(precio) || 0;
 
-        mensaje: 'Nombre requerido'
-    });
-}
+            const cantidadFinal =
+                parseInt(cantidad) || 0;
 
             if (precioFinal < 0) {
 
-    return res.status(400).json({
+                return res.status(400).json({
 
-        mensaje: 'Precio inválido'
-    });
-}
+                    mensaje: 'Precio inválido'
+                });
+            }
 
-            // IMAGEN FINAL
+            // ============================
+            // IMAGEN
+            // ============================
 
-            let imagen = imagenURL;
+            let imagen = imagenURL || '';
 
             if (req.file) {
 
@@ -183,7 +211,9 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     `/uploads/${req.file.filename}`;
             }
 
+            // ============================
             // FECHA GUATEMALA
+            // ============================
 
             const fechaGuatemala = new Date()
 
@@ -197,7 +227,9 @@ const cantidadFinal = parseInt(cantidad) || 0;
 
                 .replace(',', '');
 
+            // ============================
             // VERIFICAR PRODUCTO
+            // ============================
 
             const productoExistente = await get(
 
@@ -222,24 +254,32 @@ const cantidadFinal = parseInt(cantidad) || 0;
 
             if (productoExistente) {
 
-                const nuevaCantidad =
+                let nuevaCantidad;
 
-                    tipoMovimiento === 'salida'
+                if (tipoMovimiento === 'salida') {
 
-                    ?
+                    nuevaCantidad =
+                        productoExistente.cantidad -
+                        cantidadFinal;
 
-                    productoExistente.cantidad - cantidadFinal
-    : productoExistente.cantidad + cantidadFinal;
+                } else {
 
-    if (nuevaCantidad < 0) {
+                    nuevaCantidad =
+                        productoExistente.cantidad +
+                        cantidadFinal;
+                }
 
-    return res.status(400).json({
+                // EVITAR STOCK NEGATIVO
 
-        mensaje: 'Stock insuficiente'
-    });
-}
+                if (nuevaCantidad < 0) {
 
-              
+                    return res.status(400).json({
+
+                        mensaje:
+                            'Stock insuficiente'
+                    });
+                }
+
                 await run(
 
                     // SQLITE
@@ -247,8 +287,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     UPDATE productos
                     SET
 
-                    cantidad=?,
                     precio=?,
+                    cantidad=?,
                     marca=?,
                     categoria=?,
                     descripcion=?,
@@ -263,8 +303,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     UPDATE productos
                     SET
 
-                    cantidad=$1,
-                    precio=$2,
+                    precio=$1,
+                    cantidad=$2,
                     marca=$3,
                     categoria=$4,
                     descripcion=$5,
@@ -275,8 +315,8 @@ const cantidadFinal = parseInt(cantidad) || 0;
                     `,
 
                     [
-                        nuevaCantidad,
                         precioFinal,
+                        nuevaCantidad,
                         marca,
                         categoria,
                         descripcion,
@@ -293,7 +333,12 @@ const cantidadFinal = parseInt(cantidad) || 0;
                 });
             }
 
-            const sku = generarSKU(nombre);
+            // ============================
+            // SKU NUEVO
+            // ============================
+
+            const sku =
+                generarSKU(nombre);
 
             // ============================
             // NUEVO PRODUCTO
@@ -375,9 +420,13 @@ const cantidadFinal = parseInt(cantidad) || 0;
 );
 
 router.post(
+
     '/importar-excel',
+
     verifyToken,
+
     upload.single('excel'),
+
     async (req, res) => {
 
         try {
@@ -385,9 +434,14 @@ router.post(
             if (!req.file) {
 
                 return res.status(400).json({
-                    message: 'No se subió ningún archivo'
+
+                    message:
+                        'No se subió ningún archivo Excel'
                 });
             }
+
+            const XLSX =
+                require('xlsx');
 
             const workbook =
                 XLSX.readFile(req.file.path);
@@ -401,57 +455,231 @@ router.post(
             const productos =
                 XLSX.utils.sheet_to_json(worksheet);
 
-            for (const producto of productos) {
+            for (const fila of productos) {
 
-                await run(
+                // =========================
+                // DATOS
+                // =========================
 
-                    `
-                    INSERT INTO productos
-                    (
-                        nombre,
-                        marca,
-                        categoria,
-                        descripcion,
-                        precio,
-                        cantidad,
-                        imagen,
-                        fecha_creacion,
-                        fecha_actualizacion
+                const nombre =
+                    fila.nombre ||
+                    fila.Nombre ||
+                    '';
+
+                if (!nombre) {
+                    continue;
+                }
+
+                const marca =
+                    fila.marca ||
+                    fila.Marca ||
+                    '';
+
+                const categoria =
+                    fila.categoria ||
+                    fila.Categoria ||
+                    '';
+
+                const descripcion =
+                    fila.descripcion ||
+                    fila.Descripcion ||
+                    '';
+
+                const precio =
+                    parseFloat(
+                        fila.precio ||
+                        fila.Precio
+                    ) || 0;
+
+                const cantidad =
+                    parseInt(
+                        fila.cantidad ||
+                        fila.Cantidad
+                    ) || 0;
+
+                const imagen =
+                    fila.imagen ||
+                    fila.Imagen ||
+                    '';
+
+                // =========================
+                // SKU
+                // =========================
+
+                let sku =
+                    fila.sku ||
+                    fila.SKU ||
+                    '';
+
+                // SI NO EXISTE SKU
+                if (!sku || sku.trim() === '') {
+
+                    sku = generarSKU(nombre);
+                }
+
+                // =========================
+                // FECHA GUATEMALA
+                // =========================
+
+                const fechaGuatemala =
+                    new Date()
+
+                    .toLocaleString(
+                        'sv-SE',
+                        {
+                            timeZone:
+                                'America/Guatemala'
+                        }
                     )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    `,
 
-                    `
-                    INSERT INTO productos
-                    (
-                        nombre,
-                        marca,
-                        categoria,
-                        descripcion,
-                        precio,
-                        cantidad,
-                        imagen,
-                        fecha_creacion,
-                        fecha_actualizacion
-                    )
-                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-                    `,
+                    .replace(',', '');
 
-                    [
-                        producto.nombre || '',
-                        producto.marca || '',
-                        producto.categoria || '',
-                        producto.descripcion || '',
-                        producto.precio || 0,
-                        producto.cantidad || 0,
-                        producto.imagen || '',
-                        new Date(),
-                        new Date()
-                    ]
-                );
+                // =========================
+                // BUSCAR PRODUCTO
+                // =========================
+
+                const productoExistente =
+                    await get(
+
+                        // SQLITE
+                        `
+                        SELECT * FROM productos
+                        WHERE LOWER(nombre)=LOWER(?)
+                        `,
+
+                        // POSTGRESQL
+                        `
+                        SELECT * FROM productos
+                        WHERE LOWER(nombre)=LOWER($1)
+                        `,
+
+                        [nombre]
+                    );
+
+                // =========================
+                // SI EXISTE → ACTUALIZAR
+                // =========================
+
+                if (productoExistente) {
+
+                    const nuevaCantidad =
+
+                        parseInt(
+                            productoExistente.cantidad
+                        ) + cantidad;
+
+                    await run(
+
+                        // SQLITE
+                        `
+                        UPDATE productos
+                        SET
+
+                        marca=?,
+                        categoria=?,
+                        descripcion=?,
+                        precio=?,
+                        cantidad=?,
+                        imagen=?,
+                        fecha_actualizacion=?
+
+                        WHERE id=?
+                        `,
+
+                        // POSTGRESQL
+                        `
+                        UPDATE productos
+                        SET
+
+                        marca=$1,
+                        categoria=$2,
+                        descripcion=$3,
+                        precio=$4,
+                        cantidad=$5,
+                        imagen=$6,
+                        fecha_actualizacion=$7
+
+                        WHERE id=$8
+                        `,
+
+                        [
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            nuevaCantidad,
+                            imagen,
+                            fechaGuatemala,
+                            productoExistente.id
+                        ]
+                    );
+
+                } else {
+
+                    // =========================
+                    // NUEVO PRODUCTO
+                    // =========================
+
+                    await run(
+
+                        // SQLITE
+                        `
+                        INSERT INTO productos
+                        (
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fecha_creacion,
+                            fecha_actualizacion
+                        )
+
+                        VALUES
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        `,
+
+                        // POSTGRESQL
+                        `
+                        INSERT INTO productos
+                        (
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fecha_creacion,
+                            fecha_actualizacion
+                        )
+
+                        VALUES
+                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                        `,
+
+                        [
+                            sku,
+                            nombre,
+                            marca,
+                            categoria,
+                            descripcion,
+                            precio,
+                            cantidad,
+                            imagen,
+                            fechaGuatemala,
+                            fechaGuatemala
+                        ]
+                    );
+                }
             }
 
             res.json({
+
                 message:
                     'Excel importado correctamente'
             });
@@ -461,6 +689,7 @@ router.post(
             console.log(error);
 
             res.status(500).json({
+
                 message:
                     'Error importando Excel'
             });
@@ -953,244 +1182,6 @@ router.get(
     }
 );
 
-router.post(
-
-    '/importar-excel',
-
-    verifyToken,
-
-    upload.single('excel'),
-
-    async (req, res) => {
-
-        try {
-
-            if (!req.file) {
-
-                return res.status(400).json({
-
-                    message:
-                        'No se seleccionó Excel'
-                });
-            }
-
-            const XLSX =
-                require('xlsx');
-
-            const workbook =
-                XLSX.readFile(req.file.path);
-
-            const sheetName =
-                workbook.SheetNames[0];
-
-            const sheet =
-                workbook.Sheets[sheetName];
-
-            const productos =
-                XLSX.utils.sheet_to_json(sheet);
-
-            for (const fila of productos) {
-
-                const sku =
-                    fila.sku || fila.SKU || '';
-
-                const nombre =
-                    fila.nombre || fila.Nombre || '';
-
-                const marca =
-                    fila.marca || fila.Marca || '';
-
-                const categoria =
-                    fila.categoria || fila.Categoria || '';
-
-                const descripcion =
-                    fila.descripcion || fila.Descripcion || '';
-
-                const precio =
-                    parseFloat(fila.precio || fila.Precio) || 0;
-
-                const cantidad =
-                    parseInt(fila.cantidad || fila.Cantidad) || 0;
-
-                const imagen =
-                    fila.imagen || fila.Imagen || '';
-
-                // VERIFICAR SKU
-
-                const productoExistente = await get(
-
-                    // SQLITE
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(sku)=LOWER(?)
-                    `,
-
-                    // POSTGRESQL
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(sku)=LOWER($1)
-                    `,
-
-                    [sku]
-                );
-
-                // FECHA GUATEMALA
-
-                const fechaGuatemala =
-                    new Date()
-
-                    .toLocaleString(
-                        'sv-SE',
-                        {
-                            timeZone:
-                                'America/Guatemala'
-                        }
-                    )
-
-                    .replace(',', '');
-
-                // ======================
-                // ACTUALIZAR
-                // ======================
-
-                if (productoExistente) {
-
-                    const nuevaCantidad =
-
-                        productoExistente.cantidad +
-                        cantidad;
-
-                    await run(
-
-                        // SQLITE
-                        `
-                        UPDATE productos
-                        SET
-
-                        nombre=?,
-                        marca=?,
-                        categoria=?,
-                        descripcion=?,
-                        precio=?,
-                        cantidad=?,
-                        imagen=?,
-                        fecha_actualizacion=?
-
-                        WHERE id=?
-                        `,
-
-                        // POSTGRESQL
-                        `
-                        UPDATE productos
-                        SET
-
-                        nombre=$1,
-                        marca=$2,
-                        categoria=$3,
-                        descripcion=$4,
-                        precio=$5,
-                        cantidad=$6,
-                        imagen=$7,
-                        fecha_actualizacion=$8
-
-                        WHERE id=$9
-                        `,
-
-                        [
-                            nombre,
-                            marca,
-                            categoria,
-                            descripcion,
-                            precio,
-                            nuevaCantidad,
-                            imagen,
-                            fechaGuatemala,
-                            productoExistente.id
-                        ]
-                    );
-
-                } else {
-
-                    // ======================
-                    // NUEVO PRODUCTO
-                    // ======================
-
-                    await run(
-
-                        // SQLITE
-                        `
-                        INSERT INTO productos
-                        (
-                            sku,
-                            nombre,
-                            marca,
-                            categoria,
-                            descripcion,
-                            precio,
-                            cantidad,
-                            imagen,
-                            fecha_creacion,
-                            fecha_actualizacion
-                        )
-
-                        VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        `,
-
-                        // POSTGRESQL
-                        `
-                        INSERT INTO productos
-                        (
-                            sku,
-                            nombre,
-                            marca,
-                            categoria,
-                            descripcion,
-                            precio,
-                            cantidad,
-                            imagen,
-                            fecha_creacion,
-                            fecha_actualizacion
-                        )
-
-                        VALUES
-                        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
-                        `,
-
-                        [
-                            sku,
-                            nombre,
-                            marca,
-                            categoria,
-                            descripcion,
-                            precio,
-                            cantidad,
-                            imagen,
-                            fechaGuatemala,
-                            fechaGuatemala
-                        ]
-                    );
-                }
-            }
-
-            res.json({
-
-                message:
-                    'Excel importado correctamente'
-            });
-
-        } catch (error) {
-
-            console.log(error);
-
-            res.status(500).json({
-
-                message:
-                    'Error importando Excel'
-            });
-        }
-    }
-);
 // RESETEAR INVENTARIO
 router.delete('/reset/inventario', verifyToken, async (req, res) => {
 
