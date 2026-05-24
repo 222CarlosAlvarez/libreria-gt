@@ -341,7 +341,7 @@ if (sku && sku.trim() !== '') {
                     UPDATE productos
                     SET
                     sku=$1,
-                    nombre=$2
+                    nombre=$2,
                     precio=$3,
                     cantidad=$4,
                     marca=$5,
