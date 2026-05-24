@@ -110,17 +110,6 @@ router.get(
     }
 );
 
-function generarSKU(nombre) {
-
-    const base = nombre
-        .substring(0, 3)
-        .toUpperCase();
-
-    const timestamp =
-        Date.now().toString().slice(-5);
-
-    return `${base}-${timestamp}`;
-}
 
 
 // ============================
@@ -140,6 +129,7 @@ router.post(
         try {
 
             const {
+                sku,
                 nombre,
                 marca,
                 categoria,
@@ -152,6 +142,14 @@ router.post(
 
             const precioFinal = parseFloat(precio) || 0;
 const cantidadFinal = parseInt(cantidad) || 0;
+
+if (!sku) {
+
+    return res.status(400).json({
+
+        mensaje: 'SKU requerido'
+    });
+}
               
             if (!nombre) {
 
@@ -200,13 +198,13 @@ const cantidadFinal = parseInt(cantidad) || 0;
                 // SQLITE
                 `
                 SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER(?)
+                WHERE LOWER(sku)=LOWER(?)
                 `,
 
                 // POSTGRESQL
                 `
                 SELECT * FROM productos
-                WHERE LOWER(nombre)=LOWER($1)
+                WHERE LOWER(sku)=LOWER($1)
                 `,
 
                 [nombre]
@@ -293,7 +291,7 @@ const cantidadFinal = parseInt(cantidad) || 0;
             // NUEVO PRODUCTO
             // ============================
 
-            const sku = generarSKU(nombre);
+            
 
             await run(
 
