@@ -127,6 +127,8 @@ function mostrarProductos(productos) {
 
             <p><strong>SKU:</strong> ${producto.sku}</p>
 
+            <p>Categoría: ${producto.categoria}</p>
+
             <p>${producto.descripcion}</p>
 
             <p>Precio: Q${producto.precio}</p>
