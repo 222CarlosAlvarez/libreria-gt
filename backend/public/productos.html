@@ -105,9 +105,44 @@
 
 </div>
 
-    <div id="productos" class="productos-grid">
+<div style="display:flex; gap:10px; margin-bottom:20px;">
 
-    </div>
+    <input
+        type="text"
+        id="buscador"
+        placeholder="Buscar producto..."
+    />
+
+    <select id="categoria">
+        <option value="todas">Todas</option>
+        <option value="laptops">Laptops</option>
+        <option value="celulares">Celulares</option>
+        <option value="accesorios">Accesorios</option>
+    </select>
+
+    <button onclick="buscarProductos()">
+        Buscar
+    </button>
+
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>SKU</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody id="tabla-productos"></tbody>
+</table>
+
+    
 
 </div>
 

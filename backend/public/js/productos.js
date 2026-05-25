@@ -403,4 +403,175 @@ async function importarExcel() {
     }
 }
 
+router.get(
+    '/buscar',
+    verifyToken,
+    async (req, res) => {
+
+        try {
+
+            const { q, categoria } = req.query;
+
+            let productos;
+
+            // =========================
+            // FILTRO POR CATEGORIA
+            // =========================
+            if (categoria && categoria !== 'todas') {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(categoria)=LOWER(?)
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(categoria)=LOWER($1)
+                    `,
+
+                    [categoria]
+                );
+
+            // =========================
+            // BUSQUEDA POR NOMBRE
+            // =========================
+            } else if (q) {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(nombre) LIKE LOWER(?)
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(nombre) LIKE LOWER($1)
+                    `,
+
+                    [`%${q}%`]
+                );
+
+            // =========================
+            // TODOS
+            // =========================
+            } else {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    `,
+
+                    []
+                );
+            }
+
+            res.json(productos);
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                mensaje: 'Error buscando productos'
+            });
+        }
+    }
+);
+
+async function buscarProductos() {
+
+    const q = document.getElementById('buscador').value;
+    const categoria = document.getElementById('categoria').value;
+
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(
+        `/productos/buscar?q=${q}&categoria=${categoria}`,
+        {
+            headers: {
+                Authorization: token
+            }
+        }
+    );
+
+    const data = await res.json();
+
+    renderProductos(data); // tu función que dibuja la tabla
+    actualizarStats(data);
+}
+
+function renderProductos(productos) {
+
+    const tbody = document.getElementById('tabla-productos');
+
+    // LIMPIAR TABLA
+    tbody.innerHTML = '';
+
+    // SI NO HAY PRODUCTOS
+    if (!productos || productos.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;">
+                    No hay productos
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    // RECORRER PRODUCTOS
+    productos.forEach(p => {
+
+        const fila = document.createElement('tr');
+
+        fila.innerHTML = `
+            <td>${p.sku || 'N/A'}</td>
+            <td>${p.nombre || ''}</td>
+            <td>${p.marca || ''}</td>
+            <td>${p.categoria || ''}</td>
+            <td>Q ${p.precio || 0}</td>
+            <td>${p.cantidad || 0}</td>
+
+            <td>
+                <button onclick="editarProducto('${p.id}')">
+                    Editar
+                </button>
+
+                <button onclick="eliminarProducto('${p.id}')">
+                    Eliminar
+                </button>
+            </td>
+        `;
+
+        tbody.appendChild(fila);
+    });
+}
+
+function actualizarStats(productos) {
+
+    const total = productos.length;
+
+    const stock = productos.reduce((acc, p) => {
+        return acc + (parseInt(p.cantidad) || 0);
+    }, 0);
+
+    document.getElementById('totalProductos').innerText = total;
+    document.getElementById('stockTotal').innerText = stock; 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    buscarProductos();
+});
+
+
 cargarProductos();
