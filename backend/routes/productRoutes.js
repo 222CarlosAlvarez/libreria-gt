@@ -1308,7 +1308,89 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
     }
 });
 
+router.get(
+    '/buscar',
+    verifyToken,
+    async (req, res) => {
 
+        try {
+
+            const { q, categoria } = req.query;
+
+            let productos;
+
+            // =========================
+            // FILTRO POR CATEGORIA
+            // =========================
+            if (categoria && categoria !== 'todas') {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(categoria)=LOWER(?)
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(categoria)=LOWER($1)
+                    `,
+
+                    [categoria]
+                );
+
+            // =========================
+            // BUSQUEDA POR NOMBRE
+            // =========================
+            } else if (q) {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(nombre) LIKE LOWER(?)
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    WHERE LOWER(nombre) LIKE LOWER($1)
+                    `,
+
+                    [`%${q}%`]
+                );
+
+            // =========================
+            // TODOS
+            // =========================
+            } else {
+
+                productos = await all(
+
+                    `
+                    SELECT * FROM productos
+                    `,
+
+                    `
+                    SELECT * FROM productos
+                    `,
+
+                    []
+                );
+            }
+
+            res.json(productos);
+
+        } catch (err) {
+
+            console.log(err);
+
+            res.status(500).json({
+
+                mensaje: 'Error buscando productos'
+            });
+        }
+    }
+);
 
 
 module.exports = router;

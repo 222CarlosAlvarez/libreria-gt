@@ -403,90 +403,6 @@ async function importarExcel() {
     }
 }
 
-router.get(
-    '/buscar',
-    verifyToken,
-    async (req, res) => {
-
-        try {
-
-            const { q, categoria } = req.query;
-
-            let productos;
-
-            // =========================
-            // FILTRO POR CATEGORIA
-            // =========================
-            if (categoria && categoria !== 'todas') {
-
-                productos = await all(
-
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(categoria)=LOWER(?)
-                    `,
-
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(categoria)=LOWER($1)
-                    `,
-
-                    [categoria]
-                );
-
-            // =========================
-            // BUSQUEDA POR NOMBRE
-            // =========================
-            } else if (q) {
-
-                productos = await all(
-
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(nombre) LIKE LOWER(?)
-                    `,
-
-                    `
-                    SELECT * FROM productos
-                    WHERE LOWER(nombre) LIKE LOWER($1)
-                    `,
-
-                    [`%${q}%`]
-                );
-
-            // =========================
-            // TODOS
-            // =========================
-            } else {
-
-                productos = await all(
-
-                    `
-                    SELECT * FROM productos
-                    `,
-
-                    `
-                    SELECT * FROM productos
-                    `,
-
-                    []
-                );
-            }
-
-            res.json(productos);
-
-        } catch (err) {
-
-            console.log(err);
-
-            res.status(500).json({
-
-                mensaje: 'Error buscando productos'
-            });
-        }
-    }
-);
-
 async function buscarProductos() {
 
     const q = document.getElementById('buscador').value;
@@ -506,7 +422,6 @@ async function buscarProductos() {
     const data = await res.json();
 
     renderProductos(data); // tu función que dibuja la tabla
-    actualizarStats(data);
 }
 
 function renderProductos(productos) {
@@ -556,22 +471,5 @@ function renderProductos(productos) {
         tbody.appendChild(fila);
     });
 }
-
-function actualizarStats(productos) {
-
-    const total = productos.length;
-
-    const stock = productos.reduce((acc, p) => {
-        return acc + (parseInt(p.cantidad) || 0);
-    }, 0);
-
-    document.getElementById('totalProductos').innerText = total;
-    document.getElementById('stockTotal').innerText = stock; 
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    buscarProductos();
-});
-
 
 cargarProductos();
