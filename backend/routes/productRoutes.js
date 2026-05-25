@@ -1148,11 +1148,10 @@ router.get(
                 .font('Helvetica-Bold');
 
             doc.text('SKU', 40, y + 7);  
-            doc.text('ID', 40, y + 7);
-            doc.text('Nombre', 80, y + 7);
-            doc.text('Marca', 230, y + 7);
-            doc.text('Precio', 360, y + 7);
-            doc.text('Stock', 470, y + 7);
+            doc.text('Nombre', 120, y + 7);
+            doc.text('Marca', 270, y + 7);
+            doc.text('Precio', 390, y + 7);
+            doc.text('Stock', 480, y + 7);
 
             y += 35;
 
@@ -1181,11 +1180,11 @@ router.get(
                         .fontSize(11)
                         .font('Helvetica-Bold');
 
-                    doc.text('ID', 40, y + 7);
-                    doc.text('Nombre', 80, y + 7);
-                    doc.text('Marca', 230, y + 7);
-                    doc.text('Precio', 360, y + 7);
-                    doc.text('Stock', 470, y + 7);
+                    doc.text('SKU', 40, y + 7);
+                    doc.text('Nombre', 120, y + 7);
+                    doc.text('Marca', 270, y + 7);
+                    doc.text('Precio', 390, y + 7);
+                    doc.text('Stock', 480, y + 7);
 
                     y += 35;
 
@@ -1216,12 +1215,6 @@ router.get(
                     .font('Helvetica');
 
                 doc.text(p.sku || 'N/A', 40, y);
-
-                doc.text(
-                    String(p.id),
-                    40,
-                    y
-                );
 
                 doc.text(
                     nombre,
