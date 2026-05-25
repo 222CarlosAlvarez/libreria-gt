@@ -47,56 +47,6 @@ async function cargarProductos() {
     }
 }
 
-async function buscarPorSKU() {
-
-    const sku = document.getElementById('sku').value;
-
-    if (!sku || sku.length < 3) return;
-
-    try {
-
-        const response = await fetch(
-            `/api/productos/buscar-sku/${sku}`,
-            {
-                headers: {
-                    Authorization: token
-                }
-            }
-        );
-
-        if (!response.ok) return;
-
-        const producto = await response.json();
-
-        // AUTO COMPLETAR CAMPOS
-        document.getElementById('nombre').value = producto.nombre;
-        document.getElementById('marca').value = producto.marca;
-
-        if (producto.id) {
-
-           document.getElementById('nombre').readOnly = true;
-           document.getElementById('marca').readOnly = true;
-        }
-
-        document.getElementById('categoria').value = producto.categoria;
-        document.getElementById('descripcion').value = producto.descripcion;
-        document.getElementById('precio').value = producto.precio;
-        document.getElementById('cantidad').value = producto.cantidad;
-
-        // IMAGEN (si tienes preview)
-        if (document.getElementById('previewImagen')) {
-            document.getElementById('previewImagen').src = producto.imagen;
-        }
-
-        // GUARDAR ID OCULTO
-        document.getElementById('productoId').value = producto.id;
-
-    } catch (error) {
-
-        console.log(error);
-    }
-}
-
 function mostrarProductos(productos) {
 
     const contenedor =
