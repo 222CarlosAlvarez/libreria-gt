@@ -1312,6 +1312,47 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
     }
 });
 
+router.get('/buscar-sku/:sku', verifyToken, async (req, res) => {
+
+    try {
+
+        const { sku } = req.params;
+
+        const producto = await get(
+
+            `
+            SELECT * FROM productos
+            WHERE LOWER(sku)=LOWER(?)
+            `,
+
+            `
+            SELECT * FROM productos
+            WHERE LOWER(sku)=LOWER($1)
+            `,
+
+            [sku]
+        );
+
+        if (!producto) {
+
+            return res.status(404).json({
+
+                message: 'Producto no encontrado'
+            });
+        }
+
+        res.json(producto);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message: 'Error buscando producto'
+        });
+    }
+});
 
 
 module.exports = router;
