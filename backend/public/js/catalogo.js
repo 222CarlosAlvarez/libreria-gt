@@ -125,6 +125,8 @@ function mostrarProductos(productos) {
     style="cursor:pointer;"
 >
 
+            <p><strong>SKU:</strong> ${producto.sku}</p>
+
             <p>${producto.descripcion}</p>
 
             <p>Precio: Q${producto.precio}</p>
