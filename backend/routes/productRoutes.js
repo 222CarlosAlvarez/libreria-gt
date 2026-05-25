@@ -292,18 +292,25 @@ if (sku && sku.trim() !== '') {
 
                 let nuevaCantidad;
 
-                if (tipoMovimiento === 'salida') {
+// SALIDA
+if (tipoMovimiento === 'salida') {
 
-                    nuevaCantidad =
-                        productoExistente.cantidad -
-                        cantidadFinal;
+    nuevaCantidad =
+        productoExistente.cantidad -
+        cantidadFinal;
 
-                } else {
+// ENTRADA
+} else if (tipoMovimiento === 'entrada') {
 
-                    nuevaCantidad =
-                        productoExistente.cantidad +
-                        cantidadFinal;
-                }
+    nuevaCantidad =
+        productoExistente.cantidad +
+        cantidadFinal;
+
+// EDICIÓN MANUAL
+} else {
+
+    nuevaCantidad = cantidadFinal;
+}
 
                 // EVITAR STOCK NEGATIVO
 
@@ -340,8 +347,9 @@ if (sku && sku.trim() !== '') {
                     `
                     UPDATE productos
                     SET
+
                     sku=$1,
-                    nombre=$2
+                    nombre=$2,
                     precio=$3,
                     cantidad=$4,
                     marca=$5,
@@ -585,17 +593,18 @@ router.post(
 let productoExistente;
 
 // SI HAY SKU
+let productoExistente;
+
+// SI HAY SKU
 if (sku && sku.trim() !== '') {
 
     productoExistente = await get(
 
-        // SQLITE
         `
         SELECT * FROM productos
         WHERE LOWER(sku)=LOWER(?)
         `,
 
-        // POSTGRESQL
         `
         SELECT * FROM productos
         WHERE LOWER(sku)=LOWER($1)
@@ -606,17 +615,13 @@ if (sku && sku.trim() !== '') {
 
 } else {
 
-    // BUSCAR POR NOMBRE
-
     productoExistente = await get(
 
-        // SQLITE
         `
         SELECT * FROM productos
         WHERE LOWER(nombre)=LOWER(?)
         `,
 
-        // POSTGRESQL
         `
         SELECT * FROM productos
         WHERE LOWER(nombre)=LOWER($1)
