@@ -1147,6 +1147,7 @@ router.get(
                 .fontSize(11)
                 .font('Helvetica-Bold');
 
+            doc.text('SKU', 40, y + 7);  
             doc.text('ID', 40, y + 7);
             doc.text('Nombre', 80, y + 7);
             doc.text('Marca', 230, y + 7);
@@ -1214,6 +1215,8 @@ router.get(
                     .fontSize(10)
                     .font('Helvetica');
 
+                doc.text(p.sku || 'N/A', 40, y);
+
                 doc.text(
                     String(p.id),
                     40,
@@ -1222,7 +1225,7 @@ router.get(
 
                 doc.text(
                     nombre,
-                    80,
+                    110,
                     y,
                     {
                         width: 130
@@ -1231,7 +1234,7 @@ router.get(
 
                 doc.text(
                     marca,
-                    230,
+                    260,
                     y,
                     {
                         width: 100
@@ -1240,7 +1243,7 @@ router.get(
 
                 doc.text(
                     `Q ${p.precio}`,
-                    360,
+                    380,
                     y
                 );
 
