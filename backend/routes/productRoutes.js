@@ -593,9 +593,6 @@ router.post(
 let productoExistente;
 
 // SI HAY SKU
-let productoExistente;
-
-// SI HAY SKU
 if (sku && sku.trim() !== '') {
 
     productoExistente = await get(
