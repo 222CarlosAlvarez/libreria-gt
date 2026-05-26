@@ -211,8 +211,6 @@ function mostrarTablaInventario(productos) {
 
                 <td>${index + 1}</td>
 
-                <td>${producto.id}</td>
-
                 <td>${producto.nombre}</td>
 
                 <td>${producto.sku || ''}</td>
