@@ -65,7 +65,6 @@ const excelUpload = multer({
     dest: 'temp/'
 });
 
-
 // ============================
 // OBTENER PRODUCTOS
 // ============================
@@ -80,19 +79,40 @@ router.get(
 
         try {
 
+            // BUSQUEDA
+            const busqueda =
+                req.query.busqueda || '';
+
             const productos = await all(
 
                 // SQLITE
                 `
-                SELECT * FROM productos
+                SELECT *
+                FROM productos
+
+                WHERE
+                LOWER(nombre) LIKE LOWER(?)
+                OR LOWER(sku) LIKE LOWER(?)
+
+                ORDER BY id DESC
                 `,
 
                 // POSTGRESQL
                 `
-                SELECT * FROM productos
+                SELECT *
+                FROM productos
+
+                WHERE
+                LOWER(nombre) LIKE LOWER($1)
+                OR LOWER(sku) LIKE LOWER($2)
+
+                ORDER BY id DESC
                 `,
 
-                []
+                [
+                    `%${busqueda}%`,
+                    `%${busqueda}%`
+                ]
             );
 
             res.json(productos);
@@ -110,6 +130,11 @@ router.get(
     }
 );
 
+
+// ============================
+// GENERAR SKU
+// ============================
+
 function generarSKU(nombre = '') {
 
     const base = nombre
@@ -122,29 +147,6 @@ function generarSKU(nombre = '') {
 
     return `${base}-${timestamp}`;
 }
-
-
-
-// ============================
-// AGREGAR PRODUCTO
-// ============================
-
-// ============================
-// GENERAR SKU
-// ============================
-
-function generarSKU(nombre) {
-
-    const base = nombre
-        .substring(0, 3)
-        .toUpperCase();
-
-    const timestamp =
-        Date.now().toString().slice(-5);
-
-    return `${base}-${timestamp}`;
-}
-
 
 // ============================
 // AGREGAR PRODUCTO

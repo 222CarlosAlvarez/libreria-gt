@@ -2,12 +2,14 @@ const API = window.location.origin;
 
 const token = localStorage.getItem('token');
 
-async function cargarProductos() {
+async function cargarProductos(busqueda = '') {
 
     try {
 
         const response = await fetch(
-            `${API}/api/productos`,
+
+            `${API}/api/productos?busqueda=${encodeURIComponent(busqueda)}`,
+
             {
                 headers: {
                     Authorization: token
@@ -19,33 +21,74 @@ async function cargarProductos() {
 
         // ⚠️ Validación por seguridad
         if (!Array.isArray(productos)) {
-            console.log('Respuesta inválida:', productos);
+
+            console.log(
+                'Respuesta inválida:',
+                productos
+            );
+
             return;
         }
 
         mostrarProductos(productos);
 
-        // 📦 Total de productos
-        const totalEl = document.getElementById('totalProductos');
+        // 📦 Total productos
+        const totalEl =
+            document.getElementById(
+                'totalProductos'
+            );
+
         if (totalEl) {
-            totalEl.innerText = productos.length;
+
+            totalEl.innerText =
+                productos.length;
         }
 
-        // 📊 Stock total (suma de cantidades)
-        const stockTotal = productos.reduce((total, p) => {
-            return total + (parseInt(p.cantidad) || 0);
-        }, 0);
+        // 📊 Stock total
+        const stockTotal =
+            productos.reduce(
+                (total, p) => {
 
-        const stockEl = document.getElementById('stockTotal');
+                    return total +
+                    (parseInt(p.cantidad) || 0);
+
+                }, 0
+            );
+
+        const stockEl =
+            document.getElementById(
+                'stockTotal'
+            );
+
         if (stockEl) {
-            stockEl.innerText = stockTotal;
+
+            stockEl.innerText =
+                stockTotal;
         }
 
     } catch (error) {
 
-        console.log('Error cargando productos:', error);
+        console.log(
+            'Error cargando productos:',
+            error
+        );
     }
 }
+
+const buscador =
+    document.getElementById(
+        'busqueda'
+    );
+
+buscador.addEventListener(
+    'input',
+    (e) => {
+
+        cargarProductos(
+            e.target.value
+        );
+    }
+);
 
 function mostrarProductos(productos) {
 
