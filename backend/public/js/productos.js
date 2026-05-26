@@ -2,6 +2,8 @@ const API = window.location.origin;
 
 const token = localStorage.getItem('token');
 
+let productosGlobal = [];
+
 async function cargarProductos() {
 
     try {
@@ -23,6 +25,7 @@ async function cargarProductos() {
             return;
         }
 
+        productosGlobal = productos;
         mostrarProductos(productos);
 
         // 📦 Total de productos
@@ -401,6 +404,50 @@ async function importarExcel() {
 
         alert('Error importando Excel');
     }
+}
+
+// ============================
+// FILTRAR PRODUCTOS
+// ============================
+
+function filtrarProductos() {
+
+    const texto = document
+        .getElementById('busquedaProductos')
+        .value
+        .toLowerCase();
+
+    const filtrados = productosGlobal.filter(producto => {
+
+        // NOMBRE
+        const coincideNombre =
+
+            (producto.nombre || '')
+            .toLowerCase()
+            .includes(texto);
+
+        // SKU
+        const coincideSKU =
+
+            (producto.sku || '')
+            .toLowerCase()
+            .includes(texto);
+
+        // CATEGORIA
+        const coincideCategoria =
+
+            (producto.categoria || '')
+            .toLowerCase()
+            .includes(texto);
+
+        return (
+            coincideNombre ||
+            coincideSKU ||
+            coincideCategoria
+        );
+    });
+
+    mostrarProductos(filtrados);
 }
 
 cargarProductos();
