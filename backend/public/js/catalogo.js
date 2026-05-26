@@ -211,7 +211,11 @@ function mostrarTablaInventario(productos) {
 
                 <td>${index + 1}</td>
 
+                <td>${producto.id}</td>
+
                 <td>${producto.nombre}</td>
+
+                <td>${producto.sku || ''}</td>
 
                 <td>${producto.categoria}</td>
 
@@ -265,6 +269,7 @@ function mostrarTablaInventario(productos) {
 }
 
 // FILTRAR
+// FILTRAR
 function filtrarProductos() {
 
     const texto = document
@@ -282,7 +287,14 @@ function filtrarProductos() {
         // BUSCAR POR NOMBRE
         const coincideNombre =
 
-            producto.nombre
+            (producto.nombre || '')
+            .toLowerCase()
+            .includes(texto);
+
+        // BUSCAR POR SKU
+        const coincideSKU =
+
+            (producto.sku || '')
             .toLowerCase()
             .includes(texto);
 
@@ -295,8 +307,10 @@ function filtrarProductos() {
 
             producto.categoria === categoria;
 
-        return coincideNombre &&
-               coincideCategoria;
+        return (
+            coincideNombre ||
+            coincideSKU
+        ) && coincideCategoria;
     });
 
     // ACTUALIZAR CATALOGO
