@@ -26,6 +26,9 @@ async function cargarProductos() {
         }
 
         productosGlobal = productos;
+         // CREAR CATEGORIAS
+        cargarCategoriasFiltro(productos);
+         // MOSTRAR PRODUCTOS
         mostrarProductos(productos);
 
         // 📦 Total de productos
@@ -410,12 +413,22 @@ async function importarExcel() {
 // FILTRAR PRODUCTOS
 // ============================
 
+// ============================
+// FILTRAR PRODUCTOS
+// ============================
+
 function filtrarProductos() {
 
     const texto = document
         .getElementById('busquedaProductos')
         .value
         .toLowerCase();
+
+    const categoriaSeleccionada = document
+        .getElementById(
+            'filtroCategoriaProductos'
+        )
+        .value;
 
     const filtrados = productosGlobal.filter(producto => {
 
@@ -433,21 +446,82 @@ function filtrarProductos() {
             .toLowerCase()
             .includes(texto);
 
-        // CATEGORIA
-        const coincideCategoria =
+        // CATEGORIA TEXTO
+        const coincideCategoriaTexto =
 
             (producto.categoria || '')
             .toLowerCase()
             .includes(texto);
 
+        // FILTRO SELECT
+        const coincideCategoriaSelect =
+
+            categoriaSeleccionada === 'todas'
+
+            ||
+
+            producto.categoria ===
+            categoriaSeleccionada;
+
         return (
-            coincideNombre ||
-            coincideSKU ||
-            coincideCategoria
+
+            (
+                coincideNombre ||
+                coincideSKU ||
+                coincideCategoriaTexto
+            )
+
+            &&
+
+            coincideCategoriaSelect
         );
     });
 
     mostrarProductos(filtrados);
+}
+
+// ============================
+// CARGAR CATEGORIAS FILTRO
+// ============================
+
+function cargarCategoriasFiltro(productos) {
+
+    const select = document.getElementById(
+        'filtroCategoriaProductos'
+    );
+
+    // LIMPIAR
+    select.innerHTML = `
+        <option value="todas">
+            Todas las categorías
+        </option>
+    `;
+
+    // OBTENER CATEGORIAS UNICAS
+    const categorias = [
+
+        ...new Set(
+
+            productos.map(
+                p => p.categoria
+            )
+        )
+    ];
+
+    // AGREGAR OPCIONES
+    categorias.forEach(categoria => {
+
+        if (!categoria) return;
+
+        const option =
+            document.createElement('option');
+
+        option.value = categoria;
+
+        option.textContent = categoria;
+
+        select.appendChild(option);
+    });
 }
 
 cargarProductos();

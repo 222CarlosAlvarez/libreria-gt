@@ -115,7 +115,17 @@
         placeholder="Buscar por nombre, SKU o categoría..."
         onkeyup="filtrarProductos()"
     >
+    <select
+    id="filtroCategoriaProductos"
+    onchange="filtrarProductos()"
+>
 
+    <option value="todas">
+        Todas las categorías
+    </option>
+
+    </select>
+    
 </div>
 
     <div id="productos" class="productos-grid">
