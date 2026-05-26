@@ -2,14 +2,12 @@ const API = window.location.origin;
 
 const token = localStorage.getItem('token');
 
-async function cargarProductos(busqueda = '') {
+async function cargarProductos() {
 
     try {
 
         const response = await fetch(
-
-            `${API}/api/productos?busqueda=${encodeURIComponent(busqueda)}`,
-
+            `${API}/api/productos`,
             {
                 headers: {
                     Authorization: token
@@ -21,74 +19,33 @@ async function cargarProductos(busqueda = '') {
 
         // ⚠️ Validación por seguridad
         if (!Array.isArray(productos)) {
-
-            console.log(
-                'Respuesta inválida:',
-                productos
-            );
-
+            console.log('Respuesta inválida:', productos);
             return;
         }
 
         mostrarProductos(productos);
 
-        // 📦 Total productos
-        const totalEl =
-            document.getElementById(
-                'totalProductos'
-            );
-
+        // 📦 Total de productos
+        const totalEl = document.getElementById('totalProductos');
         if (totalEl) {
-
-            totalEl.innerText =
-                productos.length;
+            totalEl.innerText = productos.length;
         }
 
-        // 📊 Stock total
-        const stockTotal =
-            productos.reduce(
-                (total, p) => {
+        // 📊 Stock total (suma de cantidades)
+        const stockTotal = productos.reduce((total, p) => {
+            return total + (parseInt(p.cantidad) || 0);
+        }, 0);
 
-                    return total +
-                    (parseInt(p.cantidad) || 0);
-
-                }, 0
-            );
-
-        const stockEl =
-            document.getElementById(
-                'stockTotal'
-            );
-
+        const stockEl = document.getElementById('stockTotal');
         if (stockEl) {
-
-            stockEl.innerText =
-                stockTotal;
+            stockEl.innerText = stockTotal;
         }
 
     } catch (error) {
 
-        console.log(
-            'Error cargando productos:',
-            error
-        );
+        console.log('Error cargando productos:', error);
     }
 }
-
-const buscador =
-    document.getElementById(
-        'busqueda'
-    );
-
-buscador.addEventListener(
-    'input',
-    (e) => {
-
-        cargarProductos(
-            e.target.value
-        );
-    }
-);
 
 function mostrarProductos(productos) {
 

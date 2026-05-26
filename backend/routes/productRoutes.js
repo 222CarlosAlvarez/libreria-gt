@@ -65,6 +65,7 @@ const excelUpload = multer({
     dest: 'temp/'
 });
 
+
 // ============================
 // OBTENER PRODUCTOS
 // ============================
@@ -130,11 +131,6 @@ router.get(
     }
 );
 
-
-// ============================
-// GENERAR SKU
-// ============================
-
 function generarSKU(nombre = '') {
 
     const base = nombre
@@ -147,6 +143,29 @@ function generarSKU(nombre = '') {
 
     return `${base}-${timestamp}`;
 }
+
+
+
+// ============================
+// AGREGAR PRODUCTO
+// ============================
+
+// ============================
+// GENERAR SKU
+// ============================
+
+function generarSKU(nombre) {
+
+    const base = nombre
+        .substring(0, 3)
+        .toUpperCase();
+
+    const timestamp =
+        Date.now().toString().slice(-5);
+
+    return `${base}-${timestamp}`;
+}
+
 
 // ============================
 // AGREGAR PRODUCTO
