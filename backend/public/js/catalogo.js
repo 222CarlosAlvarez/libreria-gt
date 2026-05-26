@@ -69,93 +69,32 @@ function cargarCategorias(productos) {
 }
 
 // CARGAR PRODUCTOS
-async function cargarProductos(busqueda = '') {
+async function cargarProductos() {
 
     try {
 
-        const response = await fetch(
-
-            `${API}/api/productos?busqueda=${encodeURIComponent(busqueda)}`,
-
-            {
-                headers: {
-                    Authorization: token
-                }
+        const response = await fetch(`${API}/api/productos`, {
+            headers: {
+                Authorization: token
             }
-        );
+        });
 
         const productos = await response.json();
 
-        // ⚠️ Validación por seguridad
-        if (!Array.isArray(productos)) {
-
-            console.log(
-                'Respuesta inválida:',
-                productos
-            );
-
-            return;
-        }
+        productosGlobal = productos;
 
         mostrarProductos(productos);
 
-        // 📦 Total productos
-        const totalEl =
-            document.getElementById(
-                'totalProductos'
-            );
+        mostrarTablaInventario(productos);
 
-        if (totalEl) {
-
-            totalEl.innerText =
-                productos.length;
-        }
-
-        // 📊 Stock total
-        const stockTotal =
-            productos.reduce(
-                (total, p) => {
-
-                    return total +
-                    (parseInt(p.cantidad) || 0);
-
-                }, 0
-            );
-
-        const stockEl =
-            document.getElementById(
-                'stockTotal'
-            );
-
-        if (stockEl) {
-
-            stockEl.innerText =
-                stockTotal;
-        }
+        cargarCategorias(productos);
 
     } catch (error) {
 
-        console.log(
-            'Error cargando productos:',
-            error
-        );
+        console.log(error);
+
     }
 }
-
-const buscador =
-    document.getElementById(
-        'busqueda'
-    );
-
-buscador.addEventListener(
-    'input',
-    (e) => {
-
-        cargarProductos(
-            e.target.value
-        );
-    }
-);
 
 // MOSTRAR PRODUCTOS
 function mostrarProductos(productos) {

@@ -1,5 +1,3 @@
-
-
 const XLSX = require('xlsx');
 
 const AdmZip = require('adm-zip');
@@ -80,40 +78,19 @@ router.get(
 
         try {
 
-            // BUSQUEDA
-            const busqueda =
-                req.query.busqueda || '';
-
             const productos = await all(
 
                 // SQLITE
                 `
-                SELECT *
-                FROM productos
-
-                WHERE
-                LOWER(nombre) LIKE LOWER(?)
-                OR LOWER(sku) LIKE LOWER(?)
-
-                ORDER BY id DESC
+                SELECT * FROM productos
                 `,
 
                 // POSTGRESQL
                 `
-                SELECT *
-                FROM productos
-
-                WHERE
-                LOWER(nombre) LIKE LOWER($1)
-                OR LOWER(sku) LIKE LOWER($2)
-
-                ORDER BY id DESC
+                SELECT * FROM productos
                 `,
 
-                [
-                    `%${busqueda}%`,
-                    `%${busqueda}%`
-                ]
+                []
             );
 
             res.json(productos);
