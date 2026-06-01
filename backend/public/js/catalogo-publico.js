@@ -32,11 +32,20 @@ function mostrarCatalogo(productos) {
 
         const estado =
 
-            producto.cantidad > 0
+        <p>
+    Disponibles:
+    ${producto.cantidad}
+</p>
 
-            ? 'En existencia'
+    producto.cantidad > 0
 
-            : 'Agotado';
+    ? '<span style="color:green;font-weight:bold;">En existencia</span>'
+
+    : '<span style="color:red;font-weight:bold;">Agotado</span>';
+
+    <p>${estado}</p>
+
+    
 
         catalogo.innerHTML += `
 
