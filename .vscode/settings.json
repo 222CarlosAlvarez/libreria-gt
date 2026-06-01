@@ -15,6 +15,22 @@
             "name": "TECHNOVA_RENDER",
             "database": "technova_1lxg",
             "username": "technova_user"
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": false
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "dpg-d8edoss2m8qs738q4uh0-a.virginia-postgres.render.com",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "libreria_render",
+            "database": "libreria_w0mh",
+            "username": "libreria_user"
         }
     ]
 }
