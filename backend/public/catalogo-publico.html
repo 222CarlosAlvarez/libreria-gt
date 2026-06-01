@@ -20,6 +20,32 @@
 
 </header>
 
+<div class="filtros">
+
+    <input
+        type="text"
+        id="buscar"
+        placeholder="Buscar producto..."
+        onkeyup="filtrarProductos()"
+    >
+
+    <select
+        id="categoriaFiltro"
+        onchange="filtrarProductos()"
+    >
+
+        <option value="">
+            Todas las categorías
+        </option>
+
+    </select>
+
+</div>
+
+<p id="contadorProductos"></p>
+
+<div id="catalogo"></div>
+
 <div
     class="productos-grid"
     id="catalogo">
