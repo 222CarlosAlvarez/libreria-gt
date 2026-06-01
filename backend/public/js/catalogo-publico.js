@@ -32,11 +32,6 @@ function mostrarCatalogo(productos) {
 
         const estado =
 
-        <p>
-    Disponibles:
-    ${producto.cantidad}
-</p>
-
     producto.cantidad > 0
 
     ? '<span style="color:green;font-weight:bold;">En existencia</span>'
