@@ -32,15 +32,11 @@ function mostrarCatalogo(productos) {
 
         const estado =
 
-    producto.cantidad > 0
+            producto.cantidad > 0
 
-    ? '<span style="color:green;font-weight:bold;">En existencia</span>'
+            ? '<span style="color:green;font-weight:bold;">En existencia</span>'
 
-    : '<span style="color:red;font-weight:bold;">Agotado</span>';
-
-    <p>${estado}</p>
-
-    
+            : '<span style="color:red;font-weight:bold;">Agotado</span>';
 
         catalogo.innerHTML += `
 
@@ -67,10 +63,11 @@ function mostrarCatalogo(productos) {
             </p>
 
             <p>
-                <strong>${estado}</strong>
+                ${estado}
             </p>
 
         </div>
+
         `;
     });
 }
