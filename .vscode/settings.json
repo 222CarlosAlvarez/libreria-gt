@@ -24,13 +24,13 @@
             },
             "ssh": "Disabled",
             "previewLimit": 50,
-            "server": "dpg-d8edoss2m8qs738q4uh0-a.virginia-postgres.render.com",
+            "server": "dpg-d8ee3nfavr4c738lb3k0-a.virginia-postgres.render.com",
             "port": 5432,
             "askForPassword": true,
             "driver": "PostgreSQL",
-            "name": "libreria_render",
-            "database": "libreria_w0mh",
-            "username": "libreria_user"
+            "database": "technova_v2_db",
+            "username": "technova_v2_db_user",
+            "name": "TECHNOVA_V2"
         }
     ]
 }

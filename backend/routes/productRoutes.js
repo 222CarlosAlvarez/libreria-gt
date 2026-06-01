@@ -1306,6 +1306,43 @@ router.delete('/reset/inventario', verifyToken, async (req, res) => {
     }
 });
 
+router.get(
+
+    '/public',
+
+    async (req, res) => {
+
+        try {
+
+            const productos = await all(
+
+                `
+                SELECT *
+                FROM productos
+                ORDER BY nombre
+                `,
+
+                `
+                SELECT *
+                FROM productos
+                ORDER BY nombre
+                `
+            );
+
+            res.json(productos);
+
+        } catch(error) {
+
+            console.log(error);
+
+            res.status(500).json({
+
+                message:
+                    'Error obteniendo productos'
+            });
+        }
+    }
+);
 
 
 
