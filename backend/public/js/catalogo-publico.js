@@ -63,9 +63,30 @@ function mostrarCatalogo(productos) {
 
             <h3>${producto.nombre}</h3>
 
-            <p>
-                ${producto.descripcion}
-            </p>
+            <p class="descripcion-corta">
+
+    ${
+        producto.descripcion.length > 80
+
+        ?
+
+        producto.descripcion.substring(0,80)
+        + '...'
+
+        :
+
+        producto.descripcion
+    }
+
+</p>
+
+<button
+    onclick="verDescripcion(
+        \`${producto.descripcion}\`
+    )"
+>
+    Ver más
+</button>
 
             <p>
                 Categoría:
@@ -228,5 +249,23 @@ document.addEventListener(
     },
     { passive: false }
 );
+
+function verDescripcion(texto) {
+
+    document.getElementById(
+        'textoDescripcion'
+    ).innerText = texto;
+
+    document.getElementById(
+        'modalDescripcion'
+    ).style.display = 'flex';
+}
+
+function cerrarDescripcion() {
+
+    document.getElementById(
+        'modalDescripcion'
+    ).style.display = 'none';
+}
 
 cargarCatalogo();
