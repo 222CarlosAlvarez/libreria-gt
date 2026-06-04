@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<title>Catálogo TECHNOVA GT</title>
 
-    <title>
-        Catálogo Público | Librería Escolar GT
-    </title>
-
-    <link rel="stylesheet" href="css/base.css">
-
-    <link rel="stylesheet" href="css/publico.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -24,91 +14,44 @@
 
 <header>
 
-    <div class="header-container">
+<h1>TECHNOVA GT</h1>
 
-        <h1>
-            📚 LIBRERÍA ESCOLAR GT
-        </h1>
-
-        <nav>
-
-            <button
-                onclick="window.location.href='index.html'"
-            >
-                Inicio
-            </button>
-
-            <button
-                onclick="window.location.href='login.html'"
-            >
-                Iniciar Sesión
-            </button>
-
-        </nav>
-
-    </div>
+<h3>Catálogo de Productos</h3>
 
 </header>
 
-<div class="container">
+<div class="filtros">
 
-    <div class="catalogo-header">
+    <input
+        type="text"
+        id="buscar"
+        placeholder="Buscar producto..."
+        onkeyup="filtrarProductos()"
+    >
 
-        <h1>
-            Catálogo Público
-        </h1>
+    <select
+        id="categoriaFiltro"
+        onchange="filtrarProductos()"
+    >
 
-        <p>
+        <option value="">
+            Todas las categorías
+        </option>
 
-            Consulta todos los productos
-            disponibles de la librería.
-
-        </p>
-
-    </div>
-
-    <!-- FILTROS -->
-
-    <div class="card">
-
-        <div class="filtros">
-
-            <input
-                type="text"
-                id="buscar"
-                placeholder="Buscar producto..."
-                onkeyup="filtrarProductos()"
-            >
-
-            <select
-                id="categoriaFiltro"
-                onchange="filtrarProductos()"
-            >
-
-                <option value="">
-                    Todas las categorías
-                </option>
-
-            </select>
-
-        </div>
-
-        <p id="contadorProductos"></p>
-
-    </div>
-
-    <!-- PRODUCTOS -->
-
-    <div id="catalogo"></div>
+    </select>
 
 </div>
 
-<!-- VISOR DE IMAGEN -->
+<p id="contadorProductos"></p>
+
+<div id="catalogo"></div>
 
 <div
-    id="visorImagen"
-    class="visor"
->
+    class="productos-grid"
+    id="catalogo">
+</div>
+
+<div id="visorImagen" class="visor">
 
     <span
         class="cerrar"
@@ -120,17 +63,12 @@
     <img
         id="imagenGrande"
         class="imagen-grande"
-        alt="Imagen Producto"
     >
 
 </div>
 
-<!-- MODAL DESCRIPCIÓN -->
-
-<div
-    id="modalDescripcion"
-    class="visor"
->
+<div id="modalDescripcion"
+     class="visor">
 
     <div class="descripcion-box">
 
@@ -141,9 +79,7 @@
             ×
         </span>
 
-        <h2>
-            Descripción Completa
-        </h2>
+        <h2>Descripción</h2>
 
         <p id="textoDescripcion"></p>
 
@@ -151,18 +87,7 @@
 
 </div>
 
-<footer>
-
-    <p>
-
-        © 2026 LIBRERÍA ESCOLAR GT
-
-    </p>
-
-</footer>
-
 <script src="js/catalogo-publico.js"></script>
 
 </body>
-
 </html>

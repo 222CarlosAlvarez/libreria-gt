@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Administración</title>
 
-    <title>
-        Administración de Usuarios
-    </title>
-
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
 <script src="js/auth.js"></script>
 
 <script>
 
-verificarLogin();
-verificarAdmin();
+    verificarLogin();
+    verificarAdmin();
 
 </script>
 
@@ -33,26 +23,31 @@ verificarAdmin();
 
     <div class="header-container">
 
-        <h1>
-            📚 LIBRERÍA ESCOLAR GT
-        </h1>
+        <h1>TECHNOVA GT</h1>
 
         <nav>
 
-            <button
-                onclick="
-                window.location.href=
-                'dashboard-admin.html'
-                "
-            >
-                Panel
-            </button>
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
 
-            <button onclick="logout()">
-                Cerrar Sesión
-            </button>
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
 
-        </nav>
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
+
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
+
+</nav>
 
     </div>
 
@@ -64,64 +59,45 @@ verificarAdmin();
 
     <div class="card">
 
-        <h2>
-            👤 Crear Usuario
-        </h2>
+        <h2>Crear Usuario</h2>
 
-        <input
-            type="text"
-            id="nuevoNombre"
-            placeholder="Nombre"
-        >
+        <input type="text" id="nuevoNombre" placeholder="Nombre">
 
-        <input
-            type="email"
-            id="nuevoEmail"
-            placeholder="Correo"
-        >
+        <input type="email" id="nuevoEmail" placeholder="Correo">
 
-        <input
-            type="password"
-            id="nuevoPassword"
-            placeholder="Contraseña"
-        >
+        <input type="password" id="nuevoPassword" placeholder="Contraseña">
 
         <select id="nuevoRol">
 
-            <option value="user">
-                Usuario
-            </option>
+            <option value="user">Usuario</option>
 
-            <option value="admin">
-                Administrador
-            </option>
+            <option value="admin">Administrador</option>
 
         </select>
 
         <button onclick="crearUsuario()">
-
             Crear Usuario
-
         </button>
 
     </div>
 
-    <!-- LISTADO -->
+    <!-- USUARIOS -->
 
     <div class="card">
 
-        <h2>
-            👥 Usuarios Registrados
-        </h2>
+        <h2>Usuarios Registrados</h2>
 
         <div id="usuarios"></div>
 
     </div>
+
+    <button onclick="window.location.href='dashboard-admin.html'">
+        Volver
+    </button>
 
 </div>
 
 <script src="js/admin.js"></script>
 
 </body>
-
 </html>

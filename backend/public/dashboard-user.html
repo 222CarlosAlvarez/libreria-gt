@@ -1,30 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Usuario</title>
 
-    <title>
-        Panel Usuario
-    </title>
-
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
 <script src="js/auth.js"></script>
 
 <script>
 
-verificarLogin();
+    verificarLogin();
 
 </script>
 
@@ -32,21 +22,31 @@ verificarLogin();
 
     <div class="header-container">
 
-        <h1>
-            📚 LIBRERÍA ESCOLAR GT
-        </h1>
+        <h1>TECHNOVA GT</h1>
 
         <nav>
 
-            <button onclick="window.location.href='perfil.html'">
-                Perfil
-            </button>
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
 
-            <button onclick="logout()">
-                Cerrar Sesión
-            </button>
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
 
-        </nav>
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
+
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
+
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
+
+</nav>
 
     </div>
 
@@ -56,95 +56,17 @@ verificarLogin();
 
     <div class="card">
 
-        <h2>
-            Bienvenido
-        </h2>
+        <h2>Bienvenido</h2>
 
         <p id="usuario"></p>
 
-    </div>
+        <button onclick="window.location.href='catalogo.html'">
+            Ver Catálogo
+        </button>
 
-    <div class="info">
-
-        <div class="card">
-
-            <h3>
-                📦 Inventario
-            </h3>
-
-            <p>
-                Consultar productos disponibles.
-            </p>
-
-            <button
-                onclick="
-                window.location.href='catalogo.html'
-                "
-            >
-                Abrir
-            </button>
-
-        </div>
-
-        <div class="card">
-
-            <h3>
-                🛍 Productos
-            </h3>
-
-            <p>
-                Ver listado de productos.
-            </p>
-
-            <button
-                onclick="
-                window.location.href='productos.html'
-                "
-            >
-                Abrir
-            </button>
-
-        </div>
-
-        <div class="card">
-
-            <h3>
-                🌐 Catálogo Público
-            </h3>
-
-            <p>
-                Vista para clientes.
-            </p>
-
-            <button
-                onclick="
-                window.location.href='catalogo-publico.html'
-                "
-            >
-                Ver
-            </button>
-
-        </div>
-
-        <div class="card">
-
-            <h3>
-                👤 Perfil
-            </h3>
-
-            <p>
-                Consultar datos personales.
-            </p>
-
-            <button
-                onclick="
-                window.location.href='perfil.html'
-                "
-            >
-                Abrir
-            </button>
-
-        </div>
+        <button onclick="logout()">
+            Cerrar Sesión
+        </button>
 
     </div>
 
@@ -153,11 +75,9 @@ verificarLogin();
 <script>
 
 document.getElementById('usuario').innerHTML =
-'Usuario: ' +
-localStorage.getItem('nombre');
+    'Usuario: ' + localStorage.getItem('nombre');
 
 </script>
 
 </body>
-
 </html>
