@@ -526,4 +526,5 @@ function cargarCategoriasFiltro(productos) {
     });
 }
 
+
 cargarProductos();

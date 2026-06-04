@@ -23,7 +23,6 @@ const multer = require('multer');
 
 const path = require('path');
 
-
 // ============================
 // MULTER
 // ============================
@@ -1343,7 +1342,5 @@ router.get(
         }
     }
 );
-
-
 
 module.exports = router;
