@@ -268,4 +268,17 @@ function cerrarDescripcion() {
     ).style.display = 'none';
 }
 
+window.onclick = function(event) {
+
+    const modal =
+        document.getElementById(
+            'modalDescripcion'
+        );
+
+    if (event.target === modal) {
+
+        modal.style.display = 'none';
+    }
+}
+
 cargarCatalogo();
