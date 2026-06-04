@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Catálogo TECHNOVA GT</title>
 
@@ -14,80 +17,107 @@
 
 <header>
 
+<div class="header-container">
+
 <h1>TECHNOVA GT</h1>
+
+<nav>
+
+<button onclick="window.location.href='index.html'">
+🏠 Inicio
+</button>
+
+<button onclick="window.location.href='login.html'">
+🔐 Iniciar Sesión
+</button>
+
+</nav>
+
+</div>
 
 <h3>Catálogo de Productos</h3>
 
 </header>
 
+<section class="catalogo-hero">
+
+<h2>📚 Catálogo Público</h2>
+
+<p>
+Explora todos los productos disponibles en TECHNOVA GT.
+</p>
+
+</section>
+
 <div class="filtros">
 
-    <input
-        type="text"
-        id="buscar"
-        placeholder="Buscar producto..."
-        onkeyup="filtrarProductos()"
-    >
+<input
+type="text"
+id="buscar"
+placeholder="🔎 Buscar producto..."
+onkeyup="filtrarProductos()"
+>
 
-    <select
-        id="categoriaFiltro"
-        onchange="filtrarProductos()"
-    >
+<select
+id="categoriaFiltro"
+onchange="filtrarProductos()"
+>
 
-        <option value="">
-            Todas las categorías
-        </option>
+<option value="">
+Todas las categorías
+</option>
 
-    </select>
+</select>
 
 </div>
 
 <p id="contadorProductos"></p>
 
-<div id="catalogo"></div>
-
 <div
-    class="productos-grid"
-    id="catalogo">
+class="productos-grid"
+id="catalogo">
 </div>
+
+<!-- VISOR IMAGEN -->
 
 <div id="visorImagen" class="visor">
 
-    <span
-        class="cerrar"
-        onclick="cerrarImagen()"
-    >
-        ×
-    </span>
+<span
+class="cerrar"
+onclick="cerrarImagen()">
+×
+</span>
 
-    <img
-        id="imagenGrande"
-        class="imagen-grande"
-    >
+<img
+id="imagenGrande"
+class="imagen-grande">
 
 </div>
 
-<div id="modalDescripcion"
-     class="visor">
+<!-- MODAL DESCRIPCIÓN -->
 
-    <div class="descripcion-box">
+<div
+id="modalDescripcion"
+class="visor">
 
-        <span
-            class="cerrar"
-            onclick="cerrarDescripcion()"
-        >
-            ×
-        </span>
+<div class="descripcion-box">
 
-        <h2>Descripción</h2>
+<span
+class="cerrar"
+onclick="cerrarDescripcion()">
+×
+</span>
 
-        <p id="textoDescripcion"></p>
+<h2>Descripción</h2>
 
-    </div>
+<p id="textoDescripcion"></p>
+
+</div>
 
 </div>
 
 <script src="js/catalogo-publico.js"></script>
 
 </body>
+
 </html>

@@ -1,88 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <title>Administrador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/style.css">
+<title>Administrador</title>
+
+<link rel="stylesheet" href="css/style.css">
 
 </head>
+
 <body>
+
 <script src="js/auth.js"></script>
 
 <script>
 
-    verificarLogin();
-    verificarAdmin();
+verificarLogin();
+verificarAdmin();
 
 </script>
 
 <header>
 
-    <div class="header-container">
+<div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+<h1>TECHNOVA GT</h1>
 
-        <nav>
+<nav>
 
-    <button class="panel" onclick="irPanel()">
-        Panel
-    </button>
+<button class="panel" onclick="irPanel()">
+🏠 Panel
+</button>
 
-    <button onclick="window.location.href='productos.html'">
-        Productos
-    </button>
+<button onclick="window.location.href='productos.html'">
+📦 Productos
+</button>
 
-    <button class="perfil" onclick="window.location.href='perfil.html'">
-        Perfil
-    </button>
+<button class="perfil" onclick="window.location.href='perfil.html'">
+👤 Perfil
+</button>
 
-    <button onclick="window.location.href='catalogo.html'">
-        Catálogo
-    </button>
+<button onclick="window.location.href='catalogo.html'">
+📚 Catálogo
+</button>
 
-    <button class="logout" onclick="logout()">
-        Cerrar Sesión
-    </button>
+<button class="logout" onclick="logout()">
+🚪 Cerrar Sesión
+</button>
 
 </nav>
 
-    </div>
+</div>
 
 </header>
 
-<div class="container">
+<div class="dashboard-admin">
 
-    <div class="card">
+<div class="card dashboard-card">
 
-        <h2>Bienvenido Admin</h2>
+<h2>Panel Administrativo</h2>
 
-        <p id="usuario"></p>
+<p id="usuario"></p>
 
-        <button onclick="window.location.href='catalogo.html'">
-            Inventario
-        </button>
+<div class="dashboard-grid">
 
-        <button onclick="window.location.href='admin.html'">
-            Usuarios
-        </button>
+<button onclick="window.location.href='catalogo.html'">
+📦 Administrar Inventario
+</button>
 
-        <button onclick="logout()">
-            Cerrar Sesión
-        </button>
+<button onclick="window.location.href='admin.html'">
+👥 Gestionar Usuarios
+</button>
 
-    </div>
+<button onclick="logout()">
+🚪 Cerrar Sesión
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
 document.getElementById('usuario').innerHTML =
-    'Usuario: ' + localStorage.getItem('nombre');
+'Administrador: ' + localStorage.getItem('nombre');
 
 </script>
 
 </body>
+
 </html>
