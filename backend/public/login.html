@@ -1,74 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 
-<title>Login - TECHNOVA GT</title>
-
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
-<div class="login-wrapper">
-
 <div class="container">
 
-<!-- LOGIN -->
+    <!-- LOGIN -->
 
-<div class="card login-card">
+    <div class="card">
 
-<h2>Iniciar Sesión</h2>
+        <h2>Iniciar Sesión</h2>
 
-<input type="email" id="loginEmail" placeholder="Correo">
+        <input type="email" id="loginEmail" placeholder="Correo">
 
-<input type="password" id="loginPassword" placeholder="Contraseña">
+        <input type="password" id="loginPassword" placeholder="Contraseña">
 
-<button
-type="button"
-onclick="window.location.href='catalogo-publico.html'">
-📦 Ver Catálogo Público
+        <button
+    type="button"
+    onclick="window.location.href='catalogo-publico.html'"
+>
+    Ver Catálogo Público
 </button>
 
-<button onclick="login()">
-🔐 Ingresar
-</button>
+        <button onclick="login()">
+            Ingresar
+        </button>
 
-</div>
+    </div>
 
-<!-- CREAR CUENTA -->
+    <!-- CREAR ADMIN -->
 
-<div class="card register-card">
+    <div class="card">
 
-<h2>Crear Cuenta</h2>
+        <h2>Crear cuenta</h2>
 
-<p>
-Para crear un administrador es necesaria la clave maestra.
-</p>
+        <p>
+            Para crear un administrador es necesaria la clave maestra.
+        </p>
 
-<input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="nombre" placeholder="Nombre">
 
-<input type="email" id="email" placeholder="Correo">
+        <input type="email" id="email" placeholder="Correo">
 
-<input type="password" id="password" placeholder="Contraseña">
+        <input type="password" id="password" placeholder="Contraseña">
 
-<input
-type="password"
-id="adminKey"
-placeholder="Clave Administrador">
+        <input
+            type="password"
+            id="adminKey"
+            placeholder="Clave Administrador"
+        >
 
-<button onclick="crearAdmin()">
-👤 Crear Cuenta
-</button>
+        <button onclick="crearAdmin()">
+            Crear
+        </button>
 
-</div>
-
-</div>
+    </div>
 
 </div>
 

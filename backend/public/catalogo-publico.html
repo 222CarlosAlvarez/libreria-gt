@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Catálogo TECHNOVA GT</title>
 
@@ -17,107 +14,80 @@
 
 <header>
 
-<div class="header-container">
-
 <h1>TECHNOVA GT</h1>
-
-<nav>
-
-<button onclick="window.location.href='index.html'">
-🏠 Inicio
-</button>
-
-<button onclick="window.location.href='login.html'">
-🔐 Iniciar Sesión
-</button>
-
-</nav>
-
-</div>
 
 <h3>Catálogo de Productos</h3>
 
 </header>
 
-<section class="catalogo-hero">
-
-<h2>📚 Catálogo Público</h2>
-
-<p>
-Explora todos los productos disponibles en TECHNOVA GT.
-</p>
-
-</section>
-
 <div class="filtros">
 
-<input
-type="text"
-id="buscar"
-placeholder="🔎 Buscar producto..."
-onkeyup="filtrarProductos()"
->
+    <input
+        type="text"
+        id="buscar"
+        placeholder="Buscar producto..."
+        onkeyup="filtrarProductos()"
+    >
 
-<select
-id="categoriaFiltro"
-onchange="filtrarProductos()"
->
+    <select
+        id="categoriaFiltro"
+        onchange="filtrarProductos()"
+    >
 
-<option value="">
-Todas las categorías
-</option>
+        <option value="">
+            Todas las categorías
+        </option>
 
-</select>
+    </select>
 
 </div>
 
 <p id="contadorProductos"></p>
 
-<div
-class="productos-grid"
-id="catalogo">
-</div>
+<div id="catalogo"></div>
 
-<!-- VISOR IMAGEN -->
+<div
+    class="productos-grid"
+    id="catalogo">
+</div>
 
 <div id="visorImagen" class="visor">
 
-<span
-class="cerrar"
-onclick="cerrarImagen()">
-×
-</span>
+    <span
+        class="cerrar"
+        onclick="cerrarImagen()"
+    >
+        ×
+    </span>
 
-<img
-id="imagenGrande"
-class="imagen-grande">
-
-</div>
-
-<!-- MODAL DESCRIPCIÓN -->
-
-<div
-id="modalDescripcion"
-class="visor">
-
-<div class="descripcion-box">
-
-<span
-class="cerrar"
-onclick="cerrarDescripcion()">
-×
-</span>
-
-<h2>Descripción</h2>
-
-<p id="textoDescripcion"></p>
+    <img
+        id="imagenGrande"
+        class="imagen-grande"
+    >
 
 </div>
+
+<div id="modalDescripcion"
+     class="visor">
+
+    <div class="descripcion-box">
+
+        <span
+            class="cerrar"
+            onclick="cerrarDescripcion()"
+        >
+            ×
+        </span>
+
+        <h2>Descripción</h2>
+
+        <p id="textoDescripcion"></p>
+
+    </div>
 
 </div>
 
 <script src="js/catalogo-publico.js"></script>
 
 </body>
-
 </html>

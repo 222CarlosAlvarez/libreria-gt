@@ -1,111 +1,1266 @@
-/* ========================================== TECHNOVA GT - ESTILOS PROFESIONALES ========================================== */
-*{ margin:0; padding:0; box-sizing:border-box; font-family:‘Segoe UI’,Tahoma,Geneva,Verdana,sans-serif; }
-body{ background:#f5f7fb; color:#333; min-height:100vh; }
-/* ========================================== HEADER ========================================== */
-header{ background:linear-gradient( 135deg, #ff6f00, #ff9800, #ffc107 ); color:white; padding:15px 30px; box-shadow:0 3px 10px rgba(0,0,0,.15); }
-.header-container{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; }
-header h1{ font-size:28px; }
-nav{ display:flex; flex-wrap:wrap; gap:10px; }
-nav button{ border:none; padding:10px 18px; border-radius:10px; cursor:pointer; font-weight:600; transition:.3s; }
-nav button:hover{ transform:translateY(-2px); }
-.panel{ background:#4caf50; color:white; }
-.perfil{ background:#2196f3; color:white; }
-.logout{ background:#d32f2f; color:white; }
-/* ========================================== CONTENEDOR GENERAL ========================================== */
-.container{ width:95%; max-width:1400px; margin:30px auto; }
-/* ========================================== TARJETAS ========================================== */
-.card{ background:white; border-radius:20px; padding:25px; margin-bottom:25px; box-shadow:0 5px 20px rgba(0,0,0,.08); }
-.card h2, .card h3{ color:#ff6f00; margin-bottom:15px; }
-/* ========================================== INPUTS ========================================== */
-input, textarea, select{ width:100%; padding:12px; margin-bottom:12px; border:2px solid #e0e0e0; border-radius:12px; font-size:15px; transition:.3s; }
-input:focus, textarea:focus, select:focus{ outline:none; border-color:#ff9800; }
-textarea{ resize:vertical; min-height:120px; }
-/* ========================================== BOTONES ========================================== */
-button{ background:linear-gradient( 135deg, #ff9800, #ffc107 ); color:white; border:none; padding:12px 20px; border-radius:12px; cursor:pointer; font-weight:600; transition:.3s; }
-button:hover{ transform:translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,.15); }
-/* ========================================== PRODUCTOS ========================================== */
-.productos-grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
-.producto-card, .producto{ background:white; border-radius:18px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.08); padding:20px; transition:.3s; }
-.producto-card:hover, .producto:hover{ transform:translateY(-5px); }
-.producto-card img, .producto img{ width:100%; height:220px; object-fit:cover; border-radius:12px; margin-bottom:15px; }
-.producto-card h3, .producto h3{ color:#ff6f00; margin-bottom:10px; }
-.producto-card p, .producto p{ margin-bottom:8px; }
-/* ========================================== INVENTARIO ========================================== */
-.layout-inventario{ display:grid; grid-template-columns:300px 1fr; gap:25px; }
-.panel-filtros{ position:sticky; top:20px; height:max-content; }
-.panel-inventario{ overflow:hidden; }
-.tabla-container{ overflow:auto; }
-table{ width:100%; min-width:1100px; border-collapse:collapse; }
-thead{ background:#ff9800; }
-thead th{ color:white; padding:14px; }
-tbody td{ padding:12px; text-align:center; border-bottom:1px solid #eee; }
-tbody tr:nth-child(even){ background:#fafafa; }
-tbody tr:hover{ background:#fff3e0; }
-/* ========================================== ESTADOS STOCK ========================================== */
-.stock-ok{ color:green; font-weight:bold; }
-.stock-bajo{ color:#ff9800; font-weight:bold; }
-.stock-agotado{ color:red; font-weight:bold; }
-/* ========================================== MODAL EDITAR ========================================== */
-.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); justify-content:center; align-items:center; z-index:9999; }
-.modal-content{ width:95%; max-width:700px; background:white; border-radius:20px; padding:25px; }
-.modal-buttons{ display:flex; gap:10px; margin-top:15px; }
-/* ========================================== VISOR IMAGEN ========================================== */
-.modal-img, .visor{ display:none; position:fixed; inset:0; background:rgba(0,0,0,.9); justify-content:center; align-items:center; z-index:99999; }
-.modal-img img, .imagen-grande{ max-width:90%; max-height:90%; cursor:grab; }
-.close-img, .cerrar{ position:absolute; top:20px; right:25px; font-size:40px; color:white; cursor:pointer; }
-.zoom-controls{ position:absolute; top:20px; left:20px; }
-/* ========================================== PERFIL ========================================== */
-#perfilNombre, #perfilRol, #correo{ color:#ff6f00; font-weight:bold; }
-/* ========================================== LOGIN ========================================== */
-.login-wrapper{ min-height:100vh; display:flex; justify-content:center; align-items:center; padding:30px; }
-.login-wrapper .container{ display:grid; grid-template-columns: repeat(auto-fit,minmax(350px,1fr)); gap:25px; }
-/* ========================================== DASHBOARDS ========================================== */
-.dashboard-grid, .user-actions{ display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
-.dashboard-grid button, .user-actions button{ padding:20px; font-size:16px; }
-/* ========================================== CONTADOR ========================================== */
-#contadorProductos{ text-align:center; font-size:18px; font-weight:bold; color:#ff6f00; margin-bottom:20px; }
-/* ========================================== RESPONSIVE ========================================== */
-@media(max-width:1024px){
-.layout-inventario{
-    grid-template-columns:1fr;
+/* ===== GOOGLE FONT ===== */
+@import url(‘https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap’);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: ‘Poppins’, sans-serif;
+}
+body {
+  background: linear-gradient(135deg, #fff8e1, #ffe0b2);
+  min-height: 100vh;
+  color: #333;
+}
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+  padding: 20px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.header-container h1 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+/* ===== NAV ===== */
+nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+nav button {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  background: white;
+  color: #ff6f00;
+}
+nav button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.logout {
+  background: #d32f2f !important;
+  color: white !important;
+}
+.perfil {
+  background: #ff9800 !important;
+  color: white !important;
+}
+.panel {
+  background: #ffc107 !important;
+  color: #333 !important;
+}
+/* ===== CONTENEDOR ===== */
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+}
+/* ===== TARJETAS ===== */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}
+.card h2 {
+  color: #ff6f00;
+  margin-bottom: 20px;
+}
+/* ===== INPUTS ===== */
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border: 2px solid #ffe0b2;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.3s;
+}
+input:focus,
+select:focus {
+  border-color: #ff9800;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
+/* ===== BOTONES ===== */
+.card button,
+.container > button {
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.card button:hover,
+.container > button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+}
+/* ===== LISTA USUARIOS ===== */
+#usuarios {
+  margin-top: 10px;
+}
+.usuario-item {
+  background: #fff8e1;
+  border-left: 5px solid #ff9800;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
 }
 
-.panel-filtros{
-    position:relative;
-    top:0;
+/* ================================================= / / CATÁLOGO TECHNOVA GT / / ================================================= */
+body {
+  background: linear-gradient(135deg, #fffdf5, #fff3e0);
 }
+/* TITULOS */
+header h3 {
+  color: white;
+  font-weight: 400;
+  margin-top: 5px;
 }
-@media(max-width:768px){
-.header-container{
-    flex-direction:column;
+/* FILTROS */
+.filtros {
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.filtros input,
+.filtros select {
+  flex: 1;
+  min-width: 250px;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid #ffd180;
+  background: white;
+  font-size: 15px;
+}
+.filtros input:focus,
+.filtros select:focus {
+  border-color: #ff9800;
+}
+/* CONTADOR */
+#contadorProductos {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff6f00;
+  margin-bottom: 25px;
+}
+/* GRID PRODUCTOS */
+.productos-grid {
+  width: 95%;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding-bottom: 40px;
+}
+/* TARJETAS */
+.producto-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: 0.35s;
+  animation: fadeIn 0.8s ease;
+}
+.producto-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 35px rgba(255, 152, 0, 0.25);
+}
+.producto-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: 0.4s;
+}
+.producto-card:hover img {
+  transform: scale(1.05);
+}
+.producto-info {
+  padding: 20px;
+}
+.producto-info h3 {
+  color: #ff6f00;
+  margin-bottom: 10px;
+}
+.producto-info p {
+  margin-bottom: 10px;
+}
+.precio {
+  color: #2e7d32;
+  font-size: 20px;
+  font-weight: bold;
+}
+.categoria {
+  display: inline-block;
+  background: #fff3cd;
+  color: #ff6f00;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+/* BOTONES PRODUCTOS */
+.producto-card button {
+  width: 100%;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+}
+.producto-card button:hover {
+  transform: scale(1.03);
+}
+/* MODAL IMAGEN */
+.visor {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.imagen-grande {
+  max-width: 85%;
+  max-height: 85%;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+}
+/* MODAL DESCRIPCIÓN */
+.descripcion-box {
+  background: white;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  animation: fadeIn 0.4s ease;
+}
+.descripcion-box h2 {
+  color: #ff6f00;
+  margin-bottom: 15px;
+}
+.descripcion-box p {
+  line-height: 1.8;
+  color: #555;
+}
+/* BOTÓN CERRAR */
+.cerrar {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 35px;
+  color: #ff6f00;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .filtros {
+    flex-direction: column;
+  }
+
+  .productos-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-nav{
-    justify-content:center;
+/* ===================================== / / INVENTARIO ADMINISTRADOR / / ===================================== */
+.layout-inventario {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 25px;
+  margin-top: 25px;
+}
+.panel-filtros {
+  position: sticky;
+  top: 120px;
+  height: max-content;
+}
+.panel-inventario {
+  width: 100%;
+}
+/* FORMULARIO INVENTARIO */
+.card textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid #ffe0b2;
+  margin-bottom: 15px;
+  outline: none;
+}
+.card textarea:focus {
+  border-color: #ff9800;
+}
+/* TABLA */
+.tabla-container {
+  overflow-x: auto;
+  border-radius: 15px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+thead {
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+}
+thead th {
+  color: white;
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+tbody tr {
+  background: white;
+  transition: 0.3s;
+}
+tbody tr:nth-child(even) {
+  background: #fff8e1;
+}
+tbody tr:hover {
+  background: #ffe0b2;
+}
+tbody td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+/* ESTADOS */
+.estado-stock {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.stock-alto {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.stock-medio {
+  background: #fff8e1;
+  color: #ff8f00;
+}
+.stock-bajo {
+  background: #ffebee;
+  color: #c62828;
+}
+/* BOTONES ACCIONES */
+.btn-editar {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 2px;
+}
+.btn-eliminar {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 2px;
+}
+.btn-editar:hover,
+.btn-eliminar:hover {
+  transform: scale(1.05);
+}
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.modal-content {
+  width: 95%;
+  max-width: 700px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  animation: fadeIn 0.4s ease;
+}
+.modal-content h2 {
+  color: #ff6f00;
+  margin-bottom: 20px;
+}
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.modal-buttons button {
+  flex: 1;
+}
+/* ZOOM IMAGEN */
+.modal-img {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+.modal-img img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+}
+.close-img {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  font-size: 45px;
+  color: white;
+  cursor: pointer;
+}
+.zoom-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.zoom-controls button {
+  background: #ffc107;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* BUSCADOR */
+#busqueda {
+  margin-bottom: 15px;
+}
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .layout-inventario {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-filtros {
+    position: static;
+  }
+}
+@media (max-width: 768px) {
+  .modal-buttons {
+    flex-direction: column;
+  }
+
+  .header-container {
+    text-align: center;
+  }
 }
 
-.modal-buttons{
-    flex-direction:column;
+/* ===================================== / / DASHBOARD ADMINISTRADOR / / ===================================== */
+.container .card {
+  position: relative;
+  overflow: hidden;
+}
+.container .card::before {
+  content: ““;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+}
+#usuario {
+  margin: 25px 0;
+  padding: 18px;
+  border-radius: 12px;
+  background: #fff8e1;
+  border-left: 5px solid #ff9800;
+  font-size: 18px;
+  font-weight: 600;
+  color: #444;
+}
+.container .card h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+.container .card button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+/* EFECTO TARJETAS */
+.container .card {
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+}
+/* BOTÓN INVENTARIO */
+.container .card button:nth-of-type(1) {
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+}
+/* BOTÓN USUARIOS */
+.container .card button:nth-of-type(2) {
+  background: linear-gradient(90deg, #ff6f00, #ff9800);
+}
+/* BOTÓN CERRAR */
+.container .card button:nth-of-type(3) {
+  background: linear-gradient(90deg, #c62828, #e53935);
+}
+.container .card button:hover {
+  transform: translateY(-4px);
+}
+/* ANIMACIÓN */
+.container .card {
+  animation: dashboardFade 0.8s ease;
+}
+@keyframes dashboardFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* FONDO DECORATIVO */
+body::before {
+  content: ““;
+  position: fixed;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 193, 7, 0.15);
+  border-radius: 50%;
+  z-index: -1;
+}
+body::after {
+  content: ““;
+  position: fixed;
+  bottom: -200px;
+  left: -200px;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 111, 0, 0.12);
+  border-radius: 50%;
+  z-index: -1;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container .card {
+    width: 95%;
+  }
+
+  .container .card h2 {
+    font-size: 1.6rem;
+  }
 }
 
-table{
-    min-width:900px;
+/* ===================================== / / DASHBOARD USUARIO / / ===================================== */
+.container {
+  animation: userFade 0.8s ease;
+}
+@keyframes userFade {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* TARJETA PRINCIPAL */
+.container .card {
+  max-width: 650px;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+/* BARRA SUPERIOR */
+.container .card::before {
+  content: ““;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #ffc107, #ff9800, #ff6f00);
+}
+/* TITULO */
+.container .card h2 {
+  font-size: 2rem;
+  color: #ff6f00;
+  margin-bottom: 20px;
+}
+/* NOMBRE USUARIO */
+#usuario {
+  background: #fff8e1;
+  border-left: 5px solid #ff9800;
+  padding: 18px;
+  border-radius: 12px;
+  margin: 20px 0 30px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #444;
+}
+/* BOTONES */
+.container .card button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+/* VER CATÁLOGO */
+.container .card button:nth-of-type(1) {
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+}
+/* CERRAR SESIÓN */
+.container .card button:nth-of-type(2) {
+  background: linear-gradient(90deg, #d32f2f, #f44336);
+  color: white;
+}
+.container .card button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+/* DECORACIÓN */
+.container .card::after {
+  content: “📚”;
+  position: absolute;
+  font-size: 90px;
+  right: -10px;
+  bottom: -20px;
+  opacity: 0.08;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container .card {
+    width: 95%;
+  }
+
+  .container .card h2 {
+    font-size: 1.7rem;
+  }
 }
 
-.productos-grid{
-    grid-template-columns:1fr;
+/* ===================================== / / LANDING PAGE TECHNOVA GT / / ===================================== */
+.hero {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
 }
+/* FONDO DECORATIVO */
+.hero::before {
+  content: ““;
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: rgba(255, 193, 7, 0.15);
+  border-radius: 50%;
+  top: -250px;
+  right: -200px;
 }
-@media(max-width:480px){
-header h1{
-    font-size:22px;
+.hero::after {
+  content: ““;
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 111, 0, 0.12);
+  border-radius: 50%;
+  bottom: -250px;
+  left: -200px;
+}
+/* TITULO */
+.hero h2 {
+  font-size: 3rem;
+  max-width: 900px;
+  color: #ff6f00;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 2;
+}
+/* DESCRIPCION */
+.hero p {
+  max-width: 850px;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 2;
+}
+/* BOTON PRINCIPAL */
+.hero button {
+  padding: 18px 40px;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+  transition: 0.3s;
+  position: relative;
+  z-index: 2;
+}
+.hero button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(255, 152, 0, 0.35);
+}
+/* SECCION INFO */
+.info {
+  width: 95%;
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding-bottom: 80px;
+}
+/* TARJETAS */
+.info .card {
+  text-align: center;
+  transition: 0.3s;
+}
+.info .card:hover {
+  transform: translateY(-10px);
+}
+.info .card h2 {
+  color: #ff6f00;
+  margin-bottom: 15px;
+}
+.info .card p,
+.info .card li {
+  color: #555;
+  line-height: 1.8;
+}
+.info .card ul {
+  list-style: none;
+}
+.info .card li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+/* FOOTER */
+footer {
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin-top: 50px;
+}
+/* ANIMACIONES */
+.hero h2 {
+  animation: slideUp 0.8s ease;
+}
+.hero p {
+  animation: slideUp 1s ease;
+}
+.hero button {
+  animation: slideUp 1.2s ease;
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
 }
 
-.card{
-    padding:18px;
+/* ===================================== / / LOGIN Y REGISTRO / / ===================================== */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff8e1, #ffe0b2);
+}
+/* CONTENEDOR */
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 50px auto;
+}
+/* DOS TARJETAS */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+}
+/* TARJETAS */
+.card {
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: ““;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+}
+/* TITULOS */
+.card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff6f00;
+  font-size: 2rem;
+}
+/* TEXTO */
+.card p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+/* INPUTS */
+.card input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+/* BOTONES */
+.card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+/* BOTÓN CATÁLOGO */
+.card button:nth-of-type(1) {
+  background: linear-gradient(90deg, #ffc107, #ff9800);
+  color: white;
+}
+/* BOTÓN LOGIN */
+.card button:nth-of-type(2) {
+  background: linear-gradient(90deg, #ff9800, #ff6f00);
+  color: white;
+}
+/* BOTÓN CREAR */
+.card:last-child button {
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+}
+/* HOVER */
+.card button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(255, 152, 0, 0.25);
+}
+/* EFECTOS */
+.card {
+  animation: loginFade 0.8s ease;
+}
+@keyframes loginFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ICONOS DECORATIVOS */
+.card:first-child::after {
+  content: “📚”;
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  font-size: 90px;
+  opacity: 0.08;
+}
+.card:last-child::after {
+  content: “👤”;
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  font-size: 90px;
+  opacity: 0.08;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .card h2 {
+    font-size: 1.7rem;
+  }
 }
 
-button{
-    width:100%;
+/* ===================================== / / PERFIL USUARIO / / ===================================== */
+.container .card {
+  max-width: 700px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
 }
+/* BARRA SUPERIOR */
+.container .card::before {
+  content: ““;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #ff6f00, #ff9800, #ffc107);
+}
+/* TITULO */
+.container .card h2 {
+  text-align: center;
+  color: #ff6f00;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+/* INFORMACIÓN */
+.container .card p {
+  background: #fff8e1;
+  border-left: 5px solid #ff9800;
+  padding: 18px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #444;
+  transition: 0.3s;
+}
+.container .card p:hover {
+  transform: translateX(5px);
+}
+/* VALORES */
+.container .card span {
+  color: #ff6f00;
+  font-weight: 600;
+}
+/* BOTÓN */
+.container .card button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff9800, #ffc107);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.container .card button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(255, 152, 0, 0.25);
+}
+/* ICONO DECORATIVO */
+.container .card::after {
+  content: “👤”;
+  position: absolute;
+  bottom: -15px;
+  right: -10px;
+  font-size: 100px;
+  opacity: 0.08;
+}
+/* ANIMACIÓN */
+.container .card {
+  animation: perfilFade 0.8s ease;
+}
+@keyframes perfilFade {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container .card {
+    width: 95%;
+  }
+
+  .container .card h2 {
+    font-size: 1.7rem;
+  }
+}
+
+/* ===================================== / / PRODUCTOS / / ===================================== */
+/* TARJETA CABECERA */
+.container .card:first-child {
+  text-align: center;
+}
+.container .card:first-child h2 {
+  color: #ff6f00;
+  font-size: 2rem;
+}
+.container .card:first-child p {
+  color: #666;
+  margin-top: 10px;
+}
+/* INVENTARIO AVANZADO */
+#inventarioCard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+}
+#inventarioCard h3 {
+  width: 100%;
+  margin-bottom: 20px;
+  color: #ff6f00;
+}
+#inventarioCard p {
+  background: #fff8e1;
+  padding: 20px;
+  border-radius: 15px;
+  min-width: 220px;
+  border-left: 5px solid #ff9800;
+}
+#totalProductos,
+#stockTotal {
+  display: block;
+  margin-top: 10px;
+  font-size: 32px !important;
+  color: #2e7d32 !important;
+}
+/* BUSCADOR */
+#busquedaProductos {
+  width: 100%;
+  margin-bottom: 15px;
+}
+#filtroCategoriaProductos {
+  width: 100%;
+}
+/* GRID PRODUCTOS */
+#productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+/* TARJETAS PRODUCTO */
+.producto-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+.producto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 35px rgba(255, 152, 0, 0.2);
+}
+.producto-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+.producto-info {
+  padding: 20px;
+}
+.producto-info h3 {
+  color: #ff6f00;
+  margin-bottom: 10px;
+}
+.producto-info p {
+  color: #666;
+  margin-bottom: 10px;
+}
+/* PRECIO */
+.precio {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+/* CATEGORIA */
+.categoria {
+  display: inline-block;
+  background: #fff3cd;
+  color: #ff6f00;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+/* BOTONES EXPORTAR */
+nav button {
+  margin: 3px;
+}
+/* INPUT EXCEL */
+#excelFile {
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+/* MODAL IMAGEN */
+.modal-img {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+.modal-img img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+}
+.close-img {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 45px;
+  color: white;
+  cursor: pointer;
+}
+.zoom-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.zoom-controls button {
+  background: #ffc107;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* ANIMACIONES */
+.producto-card {
+  animation: productoFade 0.7s ease;
+}
+@keyframes productoFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  #inventarioCard {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #productos {
+    grid-template-columns: 1fr;
+  }
 }

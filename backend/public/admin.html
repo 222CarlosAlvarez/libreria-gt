@@ -1,117 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración</title>
 
-<title>Administración</title>
-
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
 <script src="js/auth.js"></script>
 
 <script>
 
-verificarLogin();
-verificarAdmin();
+    verificarLogin();
+    verificarAdmin();
 
 </script>
 
 <header>
 
-<div class="header-container">
+    <div class="header-container">
 
-<h1>TECHNOVA GT</h1>
+        <h1>TECHNOVA GT</h1>
 
-<nav>
+        <nav>
 
-<button class="panel" onclick="irPanel()">
-🏠 Panel
-</button>
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
 
-<button onclick="window.location.href='productos.html'">
-📦 Productos
-</button>
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
 
-<button class="perfil" onclick="window.location.href='perfil.html'">
-👤 Perfil
-</button>
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
 
-<button onclick="window.location.href='catalogo.html'">
-📚 Catálogo
-</button>
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
 
-<button class="logout" onclick="logout()">
-🚪 Cerrar Sesión
-</button>
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
 
 </nav>
 
-</div>
+    </div>
 
 </header>
 
-<div class="admin-container">
+<div class="container">
 
-<!-- CREAR USUARIO -->
+    <!-- CREAR USUARIO -->
 
-<div class="card admin-card">
+    <div class="card">
 
-<h2>➕ Crear Usuario</h2>
+        <h2>Crear Usuario</h2>
 
-<input type="text" id="nuevoNombre" placeholder="Nombre">
+        <input type="text" id="nuevoNombre" placeholder="Nombre">
 
-<input type="email" id="nuevoEmail" placeholder="Correo Electrónico">
+        <input type="email" id="nuevoEmail" placeholder="Correo">
 
-<input type="password" id="nuevoPassword" placeholder="Contraseña">
+        <input type="password" id="nuevoPassword" placeholder="Contraseña">
 
-<select id="nuevoRol">
+        <select id="nuevoRol">
 
-<option value="user">
-Usuario
-</option>
+            <option value="user">Usuario</option>
 
-<option value="admin">
-Administrador
-</option>
+            <option value="admin">Administrador</option>
 
-</select>
+        </select>
 
-<button onclick="crearUsuario()">
-Crear Usuario
-</button>
+        <button onclick="crearUsuario()">
+            Crear Usuario
+        </button>
 
-</div>
+    </div>
 
-<!-- LISTADO -->
+    <!-- USUARIOS -->
 
-<div class="card admin-card">
+    <div class="card">
 
-<h2>👥 Usuarios Registrados</h2>
+        <h2>Usuarios Registrados</h2>
 
-<div id="usuarios"></div>
+        <div id="usuarios"></div>
 
-</div>
+    </div>
 
-</div>
-
-<div class="admin-footer">
-
-<button onclick="window.location.href='dashboard-admin.html'">
-⬅ Volver al Panel
-</button>
+    <button onclick="window.location.href='dashboard-admin.html'">
+        Volver
+    </button>
 
 </div>
 
 <script src="js/admin.js"></script>
 
 </body>
-
 </html>

@@ -1,94 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
 
-<title>Usuario</title>
-
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
 <script src="js/auth.js"></script>
 
 <script>
 
-verificarLogin();
+    verificarLogin();
 
 </script>
 
 <header>
 
-<div class="header-container">
+    <div class="header-container">
 
-<h1>TECHNOVA GT</h1>
+        <h1>TECHNOVA GT</h1>
 
-<nav>
+        <nav>
 
-<button class="panel" onclick="irPanel()">
-🏠 Panel
-</button>
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
 
-<button onclick="window.location.href='productos.html'">
-📦 Productos
-</button>
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
 
-<button class="perfil" onclick="window.location.href='perfil.html'">
-👤 Perfil
-</button>
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
 
-<button onclick="window.location.href='catalogo.html'">
-📚 Catálogo
-</button>
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
 
-<button class="logout" onclick="logout()">
-🚪 Cerrar Sesión
-</button>
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
 
 </nav>
 
-</div>
+    </div>
 
 </header>
 
-<div class="dashboard-user">
+<div class="container">
 
-<div class="card user-card">
+    <div class="card">
 
-<h2>Bienvenido</h2>
+        <h2>Bienvenido</h2>
 
-<p id="usuario"></p>
+        <p id="usuario"></p>
 
-<div class="user-actions">
+        <button onclick="window.location.href='catalogo.html'">
+            Ver Catálogo
+        </button>
 
-<button onclick="window.location.href='catalogo.html'">
-📚 Ver Catálogo
-</button>
+        <button onclick="logout()">
+            Cerrar Sesión
+        </button>
 
-<button onclick="window.location.href='perfil.html'">
-👤 Mi Perfil
-</button>
-
-<button onclick="logout()">
-🚪 Cerrar Sesión
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 <script>
 
 document.getElementById('usuario').innerHTML =
-'Usuario: ' + localStorage.getItem('nombre');
+    'Usuario: ' + localStorage.getItem('nombre');
 
 </script>
 

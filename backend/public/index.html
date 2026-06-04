@@ -3,48 +3,47 @@
   <head>
     <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>TECHNOVA GT</title>
 
     <link rel="stylesheet" href="css/style.css" />
   </head>
-
   <body>
     <header>
       <div class="header-container">
-        <div class="logo-section">
-          <h1>TECHNOVA GT</h1>
+        <h1>TECHNOVA GT</h1>
 
-          <span class="subtitulo"> Tecnología e Innovación </span>
-        </div>
+        <nav>
 
-        <nav id="navbar">
-          <button onclick="window.location.href = 'login.html'">
-            Crear cuenta / Iniciar sesión
-          </button>
+    <button onclick="window.location.href='login.html'">
+        Crear cuenta / Iniciar sesión
+    </button>
 
-          <button onclick="window.location.href = 'catalogo-publico.html'">
-            📦 Ver Catálogo Público
-          </button>
-        </nav>
+    <div style="text-align:center; margin-top:15px;">
+
+    <button
+        onclick="window.location.href='catalogo-publico.html'"
+    >
+        📦 Ver Catálogo Público
+    </button>
+
+</div>
+
+</nav>
       </div>
     </header>
 
     <section class="hero">
-      <div class="hero-content">
-        <h2>Innovación y Tecnología para el Futuro</h2>
+      <h2>Innovación y Tecnología para el Futuro</h2>
 
-        <p>
-          TECHNOVA GT es una empresa especializada en la gestión y distribución
-          de productos tecnológicos, ofreciendo soluciones modernas para
-          inventarios, equipos electrónicos y administración empresarial.
-        </p>
+      <p>
+        TECHNOVA GT es una empresa especializada en la gestión y distribución de
+        productos tecnológicos, ofreciendo soluciones modernas para inventarios,
+        equipos electrónicos y administración empresarial.
+      </p>
 
-        <a href="login.html">
-          <button class="hero-btn">Ingresar al Sistema</button>
-        </a>
-      </div>
+      <a href="login.html">
+        <button>Ingresar al Sistema</button>
+      </a>
     </section>
 
     <section class="info">
@@ -86,7 +85,6 @@
     <footer>
       <p>TECHNOVA GT © 2026</p>
     </footer>
-
     <script>
       const token = localStorage.getItem("token");
 
@@ -97,23 +95,25 @@
 
         navbar.innerHTML = `
 
-<button onclick="window.location.href='perfil.html'">
-Perfil
-</button>
+            <button onclick="window.location.href='perfil.html'">
+                Perfil
+            </button>
 
-<button onclick="${
-          role === "admin"
-            ? "window.location.href='dashboard-admin.html'"
-            : "window.location.href='dashboard-user.html'"
-        }">
-Mi Panel
-</button>
+            <button onclick="
+            
+                ${
+                  role === "admin"
+                    ? "window.location.href='dashboard-admin.html'"
+                    : "window.location.href='dashboard-user.html'"
+                }
+            ">
+                Mi Panel
+            </button>
 
-<button onclick="logout()">
-Cerrar Sesión
-</button>
-
-`;
+            <button onclick="logout()">
+                Cerrar Sesión
+            </button>
+        `;
       }
     </script>
 

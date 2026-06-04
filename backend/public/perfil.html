@@ -1,112 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
 
-<title>Perfil</title>
-
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
-
 <body>
-
 <script src="js/auth.js"></script>
 
 <script>
 
-verificarLogin();
+    verificarLogin();
 
 </script>
 
 <header>
 
-<div class="header-container">
+    <div class="header-container">
 
-<h1>TECHNOVA GT</h1>
+        <h1>TECHNOVA GT</h1>
 
-<nav>
+        <nav>
 
-<button class="panel" onclick="irPanel()">
-🏠 Panel
-</button>
+    <button class="panel" onclick="irPanel()">
+        Panel
+    </button>
 
-<button onclick="window.location.href='productos.html'">
-📦 Productos
-</button>
+    <button onclick="window.location.href='productos.html'">
+        Productos
+    </button>
 
-<button class="perfil" onclick="window.location.href='perfil.html'">
-👤 Perfil
-</button>
+    <button class="perfil" onclick="window.location.href='perfil.html'">
+        Perfil
+    </button>
 
-<button onclick="window.location.href='catalogo.html'">
-📚 Catálogo
-</button>
+    <button onclick="window.location.href='catalogo.html'">
+        Catálogo
+    </button>
 
-<button class="logout" onclick="logout()">
-🚪 Cerrar Sesión
-</button>
+    <button class="logout" onclick="logout()">
+        Cerrar Sesión
+    </button>
 
 </nav>
 
-</div>
+    </div>
 
 </header>
 
-<div class="perfil-container">
+<div class="container">
 
-<div class="card perfil-card">
+    <div class="card">
 
-<div class="perfil-avatar">
-👤
-</div>
+        <h2>Perfil Usuario</h2>
 
-<h2>Perfil Usuario</h2>
+        <p>
+            <strong>Nombre:</strong>
+            <span id="perfilNombre"></span>
+        </p>
 
-<div class="perfil-info">
+        <p>
+            <strong>Correo:</strong>
+            <span id="correo"></span>
+        </p>
 
-<p>
-<strong>Nombre:</strong>
-<span id="perfilNombre"></span>
-</p>
+        <p>
+            <strong>Rol:</strong>
+            <span id="perfilRol"></span>
+        </p>
 
-<p>
-<strong>Correo:</strong>
-<span id="correo"></span>
-</p>
+        <button onclick="volverPanel()">
+            Volver al Panel
+        </button>
 
-<p>
-<strong>Rol:</strong>
-<span id="perfilRol"></span>
-</p>
-
-</div>
-
-<button onclick="volverPanel()">
-⬅ Volver al Panel
-</button>
-
-</div>
+    </div>
 
 </div>
 
 <script>
 
-document.getElementById('perfilNombre').innerHTML =
-localStorage.getItem('nombre');
+    document.getElementById('perfilNombre')
+        .innerHTML =
+        localStorage.getItem('nombre');
 
-document.getElementById('correo').innerHTML =
-localStorage.getItem('email');
+    document.getElementById('correo').innerHTML =
+        localStorage.getItem('email');
 
-document.getElementById('perfilRol').innerHTML =
-localStorage.getItem('role');
+    document.getElementById('perfilRol')
+        .innerHTML =
+        localStorage.getItem('role');
+
+
 
 </script>
 
 </body>
-
 </html>
