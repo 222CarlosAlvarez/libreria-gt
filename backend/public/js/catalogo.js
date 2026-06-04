@@ -104,17 +104,15 @@ function mostrarProductos(productos) {
 
     const div = document.getElementById('productos');
 
-    div.innerHTML = '';
+if (productos.length === 0) {
 
-    if (productos.length === 0) {
-
-        div.innerHTML = `
-            <div class="card">
-                <h3>No se encontraron productos</h3>
-            </div>
-        `;
-        return;
-    }
+    div.innerHTML = `
+        <div class="card">
+            <h3>No se encontraron productos</h3>
+        </div>
+    `;
+    return;
+}
 
     productos.forEach(producto => {
 
@@ -182,8 +180,9 @@ function formatearFecha(fecha) {
 
 function mostrarTablaInventario(productos) {
 
-    const tbody =
-        document.getElementById('tablaBody');
+    const tbody = document.getElementById('tablaBody');
+
+if (!tbody) return;
 
     tbody.innerHTML = '';
 
