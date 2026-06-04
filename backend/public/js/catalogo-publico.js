@@ -56,8 +56,10 @@ function mostrarCatalogo(productos) {
         <div class="producto-card">
 
             <img
-                src="${producto.imagen || 'https://via.placeholder.com/250'}"
-            >
+    src="${producto.imagen || 'https://via.placeholder.com/250'}"
+    onclick="abrirImagen(this.src)"
+    style="cursor:pointer;"
+>
 
             <h3>${producto.nombre}</h3>
 
@@ -158,5 +160,73 @@ function filtrarProductos() {
 
     mostrarCatalogo(filtrados);
 }
+
+let zoom = 1;
+
+function abrirImagen(src) {
+
+    document.getElementById(
+        'visorImagen'
+    ).style.display = 'flex';
+
+    document.getElementById(
+        'imagenGrande'
+    ).src = src;
+
+    zoom = 1;
+
+    document.getElementById(
+        'imagenGrande'
+    ).style.transform =
+        `scale(${zoom})`;
+}
+
+function cerrarImagen() {
+
+    document.getElementById(
+        'visorImagen'
+    ).style.display = 'none';
+}
+
+document.addEventListener(
+    'wheel',
+    function(e) {
+
+        const visor =
+
+            document.getElementById(
+                'visorImagen'
+            );
+
+        if (
+            visor.style.display !== 'flex'
+        ) return;
+
+        e.preventDefault();
+
+        if (e.deltaY < 0) {
+
+            zoom += 0.1;
+
+        } else {
+
+            zoom -= 0.1;
+        }
+
+        if (zoom < 0.5)
+            zoom = 0.5;
+
+        if (zoom > 5)
+            zoom = 5;
+
+        document.getElementById(
+            'imagenGrande'
+        ).style.transform =
+
+            `scale(${zoom})`;
+
+    },
+    { passive: false }
+);
 
 cargarCatalogo();
