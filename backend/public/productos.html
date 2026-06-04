@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
     <meta charset="UTF-8">
 
-    <title>Productos</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Productos | Librería Escolar GT</title>
+
     <link rel="stylesheet" href="css/base.css">
 
     <link rel="stylesheet" href="css/styles.css">
 
 </head>
+
 <body>
+
 <script src="js/auth.js"></script>
 
 <script>
-
     verificarLogin();
-
 </script>
 
 <header>
 
     <div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+        <h1>📚 Librería Escolar GT</h1>
 
         <nav>
 
-            <!-- IMPORTAR EXCEL -->
             <input
-    type="file"
-    id="excelFile"
-    accept=".xlsx,.xls"
->
-        
+                type="file"
+                id="excelFile"
+                accept=".xlsx,.xls"
+            >
 
             <button onclick="importarExcel()">
-    Importar Excel
-</button>
+                Importar Excel
+            </button>
 
             <button onclick="exportarExcel()">
                 Exportar Excel
@@ -46,8 +47,7 @@
 
             <button onclick="exportarPDF()">
                 Exportar PDF
-            </button> <br><br>
-
+            </button>
 
             <button class="panel" onclick="irPanel()">
                 Panel
@@ -62,7 +62,7 @@
             </button>
 
             <button onclick="window.location.href='catalogo.html'">
-                Catálogo
+                Inventario
             </button>
 
             <button class="logout" onclick="logout()">
@@ -79,69 +79,73 @@
 
     <div class="card">
 
-        <h2>Productos Tecnológicos</h2>
+        <h2>📚 Catálogo de Material Escolar y Tecnología</h2>
 
         <p>
-            Explora nuestro catálogo de productos disponibles.
+            Consulta todos los productos registrados en el inventario.
         </p>
 
     </div>
 
-<div class="card" id="inventarioCard">
+    <div class="card" id="inventarioCard">
 
-    <h3>Inventario Avanzado</h3>
+        <h3>📊 Resumen de Inventario</h3>
 
-    <p>
-        Total de productos:
-        <span style="font-size: 24px; color: green;">
+        <p>
+            Total de productos:
             <strong id="totalProductos">0</strong>
-        </span>
-    </p>
+        </p>
 
-    <p>
-        Stock total:
-        <span style="font-size: 24px; color: green;">
+        <p>
+            Stock total:
             <strong id="stockTotal">0</strong>
-        </span>
-    </p>
+        </p>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-    <h2>📚 Buscar Materiales</h2>
+        <h2>🔎 Buscar Productos</h2>
 
-    <input
-        type="text"
-        id="busquedaProductos"
-        placeholder="Buscar por nombre, SKU, marca o categoría..."
-        onkeyup="filtrarProductos()"
+        <input
+            type="text"
+            id="busquedaProductos"
+            placeholder="Buscar por nombre, SKU o categoría..."
+            onkeyup="filtrarProductos()"
+        >
+
+        <select
+            id="filtroCategoriaProductos"
+            onchange="filtrarProductos()"
+        >
+
+            <option value="todas">
+                Todas las categorías
+            </option>
+
+        </select>
+
+    </div>
+
+    <div
+        id="productos"
+        class="productos-grid"
     >
-
-    <select
-        id="filtroCategoriaProductos"
-        onchange="filtrarProductos()"
-    >
-
-        <option value="todas">
-            Todas las categorías
-        </option>
-
-    </select>
-
-</div>
-
-    <div id="productos" class="productos-grid">
-
     </div>
 
 </div>
 
+<!-- MODAL IMAGEN -->
 
+<div
+    id="modalImagen"
+    class="modal-img"
+>
 
-<div id="modalImagen" class="modal-img">
-
-    <span class="close-img" onclick="cerrarImagen()">
+    <span
+        class="close-img"
+        onclick="cerrarImagen()"
+    >
         &times;
     </span>
 
@@ -153,31 +157,16 @@
 
     </div>
 
-    <img id="imgZoom" src="">
+    <img
+        id="imgZoom"
+        src=""
+        alt="Imagen Producto"
+    >
 
 </div>
 
-<div id="modalImagen" class="modal-img">
-
-    <div class="zoom-controls">
-
-        <button onclick="resetZoom(event)">
-            🔄 Reset
-        </button>
-
-    </div>
-
-    <img id="imgZoom" src="">
-
-</div>
-
-<!-- MODAL ZOOM IMAGEN -->
-<div id="modalImagen" class="modal-img" onclick="cerrarImagen()">
-
-    <img id="imgZoom" src="">
-
-</div>
 <script src="js/productos.js"></script>
 
 </body>
+
 </html>
