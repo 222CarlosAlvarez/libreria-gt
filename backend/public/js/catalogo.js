@@ -103,59 +103,38 @@ if (!Array.isArray(productos)) {
 function mostrarProductos(productos) {
 
     const div = document.getElementById('productos');
+    div.innerHTML = '';
 
-if (productos.length === 0) {
-
-    div.innerHTML = `
-        <div class="card">
-            <h3>No se encontraron productos</h3>
-        </div>
-    `;
-    return;
-}
+    if (!productos.length) {
+        div.innerHTML = `
+            <div class="card">
+                <h3>No se encontraron productos</h3>
+            </div>
+        `;
+        return;
+    }
 
     productos.forEach(producto => {
 
         div.innerHTML += `
-        
         <div class="producto">
-
             <h3>${producto.nombre}</h3>
 
-            <img
-                src="${
-                    producto.imagen
-                    ? producto.imagen
-                    : 'https://via.placeholder.com/250'
-                }"
-                onclick="verImagen(this.src)"
-                style="cursor:pointer;"
-            >
+            <img src="${producto.imagen || 'https://via.placeholder.com/250'}"
+                onclick="verImagen(this.src)">
 
             <p><strong>SKU:</strong> ${producto.sku}</p>
-
             <p>Categoría: ${producto.categoria}</p>
-
             <p>${producto.descripcion}</p>
-
             <p>Precio: Q${producto.precio}</p>
-
             <p>Stock: ${producto.cantidad}</p>
 
-            <button onclick="editarProducto(${producto.id})">
-                Editar
-            </button>
+            <button onclick="editarProducto(${producto.id})">Editar</button>
 
             ${role === 'admin' ? `
-            
-            <button onclick="eliminarProducto(${producto.id})">
-                Eliminar
-            </button>
-
+                <button onclick="eliminarProducto(${producto.id})">Eliminar</button>
             ` : ''}
-
-        </div>
-        `;
+        </div>`;
     });
 }
 
