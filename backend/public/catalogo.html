@@ -1,47 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Catálogo</title>
-    <link rel="stylesheet" href="css/style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Inventario | Librería Escolar GT
+    </title>
+
+    <link rel="stylesheet" href="css/base.css">
+
 </head>
+
+<body>
+
 <script src="js/auth.js"></script>
 
 <script>
 
-    verificarLogin();
+verificarLogin();
 
 </script>
-<body>
+
 <header>
 
     <div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+        <h1>
+            📚 LIBRERÍA ESCOLAR GT
+        </h1>
 
         <nav>
 
-    <button class="panel" onclick="irPanel()">
-        Panel
-    </button>
+            <button
+                onclick="
+                window.location.href=
+                'dashboard-admin.html'
+                "
+            >
+                Panel
+            </button>
 
-    <button onclick="window.location.href='productos.html'">
-        Productos
-    </button>
+            <button onclick="logout()">
+                Cerrar Sesión
+            </button>
 
-    <button class="perfil" onclick="window.location.href='perfil.html'">
-        Perfil
-    </button>
-
-    <button onclick="window.location.href='catalogo.html'">
-        Catálogo
-    </button>
-
-    <button class="logout" onclick="logout()">
-        Cerrar Sesión
-    </button>
-
-</nav>
+        </nav>
 
     </div>
 
@@ -49,233 +59,105 @@
 
 <div class="container">
 
+    <!-- FORMULARIO -->
+
     <div class="card">
 
-    <h2>Inventario</h2>
-    
-    <input type="text" id="nombre" placeholder="Nombre Producto">
+        <h2>
+            📦 Registrar Producto
+        </h2>
 
-    <input type="text" id="marca" placeholder="Marca">
+        <input id="nombre" placeholder="Nombre">
 
-    <!-- CATEGORIA EXISTENTE -->
+        <input id="marca" placeholder="Marca">
 
-<select id="categoriaExistente">
+        <input id="sku" placeholder="SKU">
 
-    <option value="">
-        Seleccionar categoría
-    </option>
+        <input id="precio" type="number" placeholder="Precio">
 
-</select>
+        <input id="cantidad" type="number" placeholder="Cantidad">
 
-<!-- NUEVA CATEGORIA -->
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
 
-<input
-    type="text"
-    id="nuevaCategoria"
-    placeholder="Nueva categoría (opcional)"
->
+        <input id="imagen" placeholder="URL Imagen">
 
-    <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <button onclick="agregarProducto()">
 
-    <input type="number" id="precio" placeholder="Precio">
+            Guardar Producto
 
-    <input
-    type="text"
-    id="sku"
-    placeholder="SKU (opcional)"
-      >
-
-    <input type="number" id="cantidad" placeholder="Cantidad">
-
-    <input type="text" id="imagen" placeholder="URL Imagen">
-
-    <label>O subir imagen:</label>
-
-<input
-    type="file"
-    id="archivoImagen"
-    accept="image/*"
->
-
-    <select id="tipoMovimiento">
-
-        <option value="entrada">
-            Entrada de Inventario
-        </option>
-
-        <option value="salida">
-            Salida de Inventario
-        </option>
-
-    </select>
-
-    <button onclick="agregarProducto()">
-        Guardar Producto
-    </button>
-
-</div>
-
-<div class="layout-inventario">
-
-    <!-- LADO IZQUIERDO -->
-    <div class="panel-filtros">
-
-        <div class="card">
-
-            <h2>Buscar Producto</h2>
-
-            <input
-                type="text"
-                id="busqueda"
-                placeholder="Buscar producto..."
-                onkeyup="filtrarProductos()"
-            >
-
-            <select
-                id="filtroCategoria"
-                onchange="filtrarProductos()"
-            >
-                <option value="todas">
-                    Todas las categorías
-                </option>
-            </select>
-
-        </div>
-
-    </div>
-
-    <!-- LADO DERECHO -->
-    <div class="panel-inventario">
-
-        <div class="card">
-
-            <h2>Inventario Completo</h2>
-
-            <div class="tabla-container">
-
-                <table>
-
-                    <thead>
-    <tr>
-        <th>#</th>
-
-        <th>Producto</th>
-
-        <th>SKU</th>
-
-        <th>Categoría</th>
-
-        <th>Marca</th>
-
-        <th>Precio</th>
-
-        <th>Stock</th>
-
-        <th>Estado</th>
-
-        <th>Creado</th>
-
-        <th>Actualizado</th>
-
-        <th>Acciones</th>
-    </tr>
-</thead>
-
-                    <tbody id="tablaBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-    <div id="productos"></div>
-
-</div>
-<!-- MODAL EDITAR -->
-
-<div id="modalEditar" class="modal">
-
-    <div class="modal-content">
-
-        <h2>Editar Producto</h2>
-
-        <input type="hidden" id="editId">
-
-        <input type="text" id="editNombre">
-
-        <input type="text" id="editMarca">
-
-        <input type="text" id="editCategoria">
-
-        <textarea id="editDescripcion"></textarea>
-
-        <input type="number" id="editPrecio">
-
-        <input type="number" id="editCantidad">
-
-        <input type="text" id="editImagen">
-
-        <div class="modal-buttons">
-
-            <button onclick="guardarEdicion()">
-                Guardar Cambios
-            </button>
-
-            <button onclick="cerrarModal()">
-                Cancelar
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div id="modalImagen" class="modal-img">
-
-    <span class="close-img" onclick="cerrarImagen()">
-        &times;
-    </span>
-
-    <div class="zoom-controls">
-
-        <button onclick="resetZoom(event)">
-            🔄 Reset
         </button>
 
     </div>
 
-    <img id="imgZoom" src="">
+    <!-- BUSCADOR -->
 
-</div>
+    <div class="card">
 
-<div id="modalImagen" class="modal-img">
+        <h2>
+            🔍 Buscar Productos
+        </h2>
 
-    <div class="zoom-controls">
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar..."
+            onkeyup="filtrarProductos()"
+        >
 
-        <button onclick="resetZoom(event)">
-            🔄 Reset
-        </button>
+        <select
+            id="filtroCategoria"
+            onchange="filtrarProductos()"
+        >
+
+            <option value="todas">
+                Todas las categorías
+            </option>
+
+        </select>
 
     </div>
 
-    <img id="imgZoom" src="">
+    <!-- TABLA INVENTARIO -->
+
+    <div class="card">
+
+        <h2>
+            📋 Inventario
+        </h2>
+
+        <div class="tabla-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Producto</th>
+                        <th>SKU</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-<!-- MODAL ZOOM IMAGEN -->
-<div id="modalImagen" class="modal-img" onclick="cerrarImagen()">
-
-    <img id="imgZoom" src="">
-
-</div>
 <script src="js/catalogo.js"></script>
+
 </body>
+
 </html>

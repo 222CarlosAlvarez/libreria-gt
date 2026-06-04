@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
     <meta charset="UTF-8">
 
-    <title>Productos</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>
+        Productos | Librería Escolar GT
+    </title>
+
+    <link rel="stylesheet" href="css/base.css">
 
 </head>
+
 <body>
+
 <script src="js/auth.js"></script>
 
 <script>
 
-    verificarLogin();
+verificarLogin();
 
 </script>
 
@@ -22,48 +32,22 @@
 
     <div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+        <h1>
+            📚 LIBRERÍA ESCOLAR GT
+        </h1>
 
         <nav>
 
-            <!-- IMPORTAR EXCEL -->
-            <input
-    type="file"
-    id="excelFile"
-    accept=".xlsx,.xls"
->
-        
-
-            <button onclick="importarExcel()">
-    Importar Excel
-</button>
-
-            <button onclick="exportarExcel()">
-                Exportar Excel
-            </button>
-
-            <button onclick="exportarPDF()">
-                Exportar PDF
-            </button> <br><br>
-
-
-            <button class="panel" onclick="irPanel()">
+            <button
+                onclick="
+                window.location.href=
+                'dashboard-user.html'
+                "
+            >
                 Panel
             </button>
 
-            <button onclick="window.location.href='productos.html'">
-                Productos
-            </button>
-
-            <button class="perfil" onclick="window.location.href='perfil.html'">
-                Perfil
-            </button>
-
-            <button onclick="window.location.href='catalogo.html'">
-                Catálogo
-            </button>
-
-            <button class="logout" onclick="logout()">
+            <button onclick="logout()">
                 Cerrar Sesión
             </button>
 
@@ -77,104 +61,48 @@
 
     <div class="card">
 
-        <h2>Productos Tecnológicos</h2>
+        <h2>
+            🛍 Productos Disponibles
+        </h2>
 
         <p>
-            Explora nuestro catálogo de productos disponibles.
+            Consulta el inventario de la librería.
         </p>
 
     </div>
 
-<div class="card" id="inventarioCard">
+    <!-- BUSCADOR -->
 
-    <h3>Inventario Avanzado</h3>
+    <div class="card">
 
-    <p>
-        Total de productos:
-        <span style="font-size: 24px; color: green;">
-            <strong id="totalProductos">0</strong>
-        </span>
-    </p>
+        <input
+            type="text"
+            id="busquedaProductos"
+            placeholder="Buscar productos..."
+            onkeyup="filtrarProductos()"
+        >
 
-    <p>
-        Stock total:
-        <span style="font-size: 24px; color: green;">
-            <strong id="stockTotal">0</strong>
-        </span>
-    </p>
+        <select
+            id="filtroCategoriaProductos"
+            onchange="filtrarProductos()"
+        >
 
-</div>
+            <option value="todas">
+                Todas las categorías
+            </option>
 
-<div class="card">
-
-    <h2>Buscar Productos</h2>
-
-    <input
-        type="text"
-        id="busquedaProductos"
-        placeholder="Buscar por nombre, SKU o categoría..."
-        onkeyup="filtrarProductos()"
-    >
-    <select
-    id="filtroCategoriaProductos"
-    onchange="filtrarProductos()"
->
-
-    <option value="todas">
-        Todas las categorías
-    </option>
-
-    </select>
-    
-</div>
-
-    <div id="productos" class="productos-grid">
+        </select>
 
     </div>
 
-</div>
+    <!-- GRID PRODUCTOS -->
 
-
-
-<div id="modalImagen" class="modal-img">
-
-    <span class="close-img" onclick="cerrarImagen()">
-        &times;
-    </span>
-
-    <div class="zoom-controls">
-
-        <button onclick="resetZoom(event)">
-            🔄 Reset
-        </button>
-
-    </div>
-
-    <img id="imgZoom" src="">
+    <div id="productos" class="productos-grid"></div>
 
 </div>
 
-<div id="modalImagen" class="modal-img">
-
-    <div class="zoom-controls">
-
-        <button onclick="resetZoom(event)">
-            🔄 Reset
-        </button>
-
-    </div>
-
-    <img id="imgZoom" src="">
-
-</div>
-
-<!-- MODAL ZOOM IMAGEN -->
-<div id="modalImagen" class="modal-img" onclick="cerrarImagen()">
-
-    <img id="imgZoom" src="">
-
-</div>
 <script src="js/productos.js"></script>
 
 </body>
+
 </html>
