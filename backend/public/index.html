@@ -1,122 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
 
-    <title>TECHNOVA GT</title>
+<head>
 
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header>
-      <div class="header-container">
-        <h1>TECHNOVA GT</h1>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Librería</title>
+
+    <link rel="stylesheet" href="css/index.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-container">
+
+        <h1>📚 Librería</h1>
 
         <nav>
 
-    <button onclick="window.location.href='login.html'">
-        Crear cuenta / Iniciar sesión
-    </button>
+            <button
+                onclick="window.location.href='catalogo-publico.html'"
+            >
+                Ver Catálogo
+            </button>
 
-    <div style="text-align:center; margin-top:15px;">
+            <button
+                onclick="window.location.href='login.html'"
+            >
+                Iniciar Sesión
+            </button>
 
-    <button
-        onclick="window.location.href='catalogo-publico.html'"
-    >
-        📦 Ver Catálogo Público
-    </button>
+        </nav>
 
-</div>
+    </div>
 
-</nav>
-      </div>
-    </header>
+</header>
 
-    <section class="hero">
-      <h2>Innovación y Tecnología para el Futuro</h2>
+<section class="hero">
 
-      <p>
-        TECHNOVA GT es una empresa especializada en la gestión y distribución de
-        productos tecnológicos, ofreciendo soluciones modernas para inventarios,
-        equipos electrónicos y administración empresarial.
-      </p>
+    <div class="hero-content">
 
-      <a href="login.html">
-        <button>Ingresar al Sistema</button>
-      </a>
-    </section>
-
-    <section class="info">
-      <div class="card">
-        <h2>Misión</h2>
+        <h2>
+            Descubre tu próxima lectura favorita
+        </h2>
 
         <p>
-          Brindar soluciones tecnológicas innovadoras mediante una plataforma
-          moderna y eficiente para el control de inventarios y productos.
-        </p>
-      </div>
 
-      <div class="card">
-        <h2>Visión</h2>
+            Explora nuestro catálogo de libros,
+            novedades editoriales y material educativo.
+
+        </p>
+
+        <button
+            onclick="window.location.href='catalogo-publico.html'"
+        >
+            Explorar Catálogo
+        </button>
+
+    </div>
+
+</section>
+
+<section class="info">
+
+    <div class="card">
+
+        <h3>📖 Amplio Catálogo</h3>
 
         <p>
-          Ser una empresa líder en tecnología y administración digital en
-          Guatemala, ofreciendo herramientas eficientes para negocios modernos.
+
+            Libros académicos, novelas,
+            infantiles y mucho más.
+
         </p>
-      </div>
 
-      <div class="card">
-        <h2>Servicios</h2>
+    </div>
 
-        <ul>
-          <li>Gestión de Inventarios</li>
+    <div class="card">
 
-          <li>Control de Productos</li>
+        <h3>🚚 Disponibilidad</h3>
 
-          <li>Administración de Usuarios</li>
+        <p>
 
-          <li>Catálogo Tecnológico</li>
+            Consulta fácilmente los libros
+            disponibles y agotados.
 
-          <li>Control de Stock</li>
-        </ul>
-      </div>
-    </section>
+        </p>
 
-    <footer>
-      <p>TECHNOVA GT © 2026</p>
-    </footer>
-    <script>
-      const token = localStorage.getItem("token");
+    </div>
 
-      const role = localStorage.getItem("role");
+    <div class="card">
 
-      if (token) {
-        const navbar = document.getElementById("navbar");
+        <h3>⭐ Calidad</h3>
 
-        navbar.innerHTML = `
+        <p>
 
-            <button onclick="window.location.href='perfil.html'">
-                Perfil
-            </button>
+            Trabajamos con editoriales y
+            proveedores confiables.
 
-            <button onclick="
-            
-                ${
-                  role === "admin"
-                    ? "window.location.href='dashboard-admin.html'"
-                    : "window.location.href='dashboard-user.html'"
-                }
-            ">
-                Mi Panel
-            </button>
+        </p>
 
-            <button onclick="logout()">
-                Cerrar Sesión
-            </button>
-        `;
-      }
-    </script>
+    </div>
 
-    <script src="js/auth.js"></script>
-  </body>
+</section>
+
+<footer>
+
+    <p>
+
+        © 2026 Librería
+
+    </p>
+
+</footer>
+
+</body>
+
 </html>

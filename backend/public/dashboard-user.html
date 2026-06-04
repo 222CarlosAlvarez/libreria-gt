@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
     <meta charset="UTF-8">
 
-    <title>Usuario</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>Panel Usuario</title>
+
+    <link
+        rel="stylesheet"
+        href="css/dashboard-user.css"
+    >
 
 </head>
+
 <body>
+
 <script src="js/auth.js"></script>
 
 <script>
@@ -22,62 +33,128 @@
 
     <div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+        <div>
+
+            <h1>📚 Librería</h1>
+
+            <p>
+                Panel de Usuario
+            </p>
+
+        </div>
 
         <nav>
 
-    <button class="panel" onclick="irPanel()">
-        Panel
-    </button>
+            <button
+                onclick="window.location.href='catalogo.html'"
+            >
+                Inventario
+            </button>
 
-    <button onclick="window.location.href='productos.html'">
-        Productos
-    </button>
+            <button
+                onclick="window.location.href='productos.html'"
+            >
+                Productos
+            </button>
 
-    <button class="perfil" onclick="window.location.href='perfil.html'">
-        Perfil
-    </button>
+            <button
+                onclick="window.location.href='perfil.html'"
+            >
+                Perfil
+            </button>
 
-    <button onclick="window.location.href='catalogo.html'">
-        Catálogo
-    </button>
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Cerrar Sesión
+            </button>
 
-    <button class="logout" onclick="logout()">
-        Cerrar Sesión
-    </button>
-
-</nav>
+        </nav>
 
     </div>
 
 </header>
 
-<div class="container">
+<main>
 
-    <div class="card">
+    <section class="bienvenida">
 
-        <h2>Bienvenido</h2>
+        <h2>
+            Bienvenido
+        </h2>
 
         <p id="usuario"></p>
 
-        <button onclick="window.location.href='catalogo.html'">
-            Ver Catálogo
-        </button>
+    </section>
 
-        <button onclick="logout()">
-            Cerrar Sesión
-        </button>
+    <section class="dashboard-grid">
 
-    </div>
+        <div class="dashboard-card">
 
-</div>
+            <h3>📦 Inventario</h3>
+
+            <p>
+                Consultar productos registrados.
+            </p>
+
+            <button
+                onclick="window.location.href='catalogo.html'"
+            >
+                Abrir
+            </button>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>➕ Productos</h3>
+
+            <p>
+                Agregar nuevos productos.
+            </p>
+
+            <button
+                onclick="window.location.href='productos.html'"
+            >
+                Abrir
+            </button>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h3>👤 Mi Perfil</h3>
+
+            <p>
+                Actualizar información personal.
+            </p>
+
+            <button
+                onclick="window.location.href='perfil.html'"
+            >
+                Abrir
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    © 2026 Librería
+
+</footer>
 
 <script>
 
 document.getElementById('usuario').innerHTML =
-    'Usuario: ' + localStorage.getItem('nombre');
+    localStorage.getItem('nombre') || '';
 
 </script>
 
 </body>
+
 </html>

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title>Catálogo TECHNOVA GT</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="css/style.css">
+    <title>Catálogo de Libros</title>
+
+    <link
+        rel="stylesheet"
+        href="css/catalogo-publico.css"
+    >
 
 </head>
 
@@ -14,44 +23,82 @@
 
 <header>
 
-<h1>TECHNOVA GT</h1>
+    <div class="header-container">
 
-<h3>Catálogo de Productos</h3>
+        <div>
+
+            <h1>📚 Librería</h1>
+
+            <p>
+                Catálogo público de productos
+            </p>
+
+        </div>
+
+        <div>
+
+            <button
+                onclick="window.location.href='index.html'"
+            >
+                Inicio
+            </button>
+
+            <button
+                onclick="window.location.href='login.html'"
+            >
+                Iniciar Sesión
+            </button>
+
+        </div>
+
+    </div>
 
 </header>
 
-<div class="filtros">
+<section class="buscador-section">
 
-    <input
-        type="text"
-        id="buscar"
-        placeholder="Buscar producto..."
-        onkeyup="filtrarProductos()"
-    >
+    <h2>
+        Explora nuestro catálogo
+    </h2>
 
-    <select
-        id="categoriaFiltro"
-        onchange="filtrarProductos()"
-    >
+    <div class="filtros">
 
-        <option value="">
-            Todas las categorías
-        </option>
+        <input
+            type="text"
+            id="buscar"
+            placeholder="Buscar producto..."
+            onkeyup="filtrarProductos()"
+        >
 
-    </select>
+        <select
+            id="categoriaFiltro"
+            onchange="filtrarProductos()"
+        >
 
-</div>
+            <option value="">
+                Todas las categorías
+            </option>
 
-<p id="contadorProductos"></p>
+        </select>
 
-<div id="catalogo"></div>
+    </div>
+
+    <p id="contadorProductos"></p>
+
+</section>
+
+<section>
+
+    <div id="catalogo"></div>
+
+</section>
+
+<!-- VISOR IMAGEN -->
 
 <div
-    class="productos-grid"
-    id="catalogo">
-</div>
-
-<div id="visorImagen" class="visor">
+    id="visorImagen"
+    class="visor"
+>
 
     <span
         class="cerrar"
@@ -67,8 +114,12 @@
 
 </div>
 
-<div id="modalDescripcion"
-     class="visor">
+<!-- DESCRIPCIÓN -->
+
+<div
+    id="modalDescripcion"
+    class="visor"
+>
 
     <div class="descripcion-box">
 
@@ -79,7 +130,9 @@
             ×
         </span>
 
-        <h2>Descripción</h2>
+        <h2>
+            Descripción completa
+        </h2>
 
         <p id="textoDescripcion"></p>
 
@@ -87,7 +140,18 @@
 
 </div>
 
+<footer>
+
+    <p>
+
+        © 2026 Librería
+
+    </p>
+
+</footer>
+
 <script src="js/catalogo-publico.js"></script>
 
 </body>
+
 </html>

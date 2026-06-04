@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
     <meta charset="UTF-8">
 
-    <title>Perfil</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="css/style.css">
+    <title>Mi Perfil</title>
+
+    <link
+        rel="stylesheet"
+        href="css/perfil.css"
+    >
 
 </head>
+
 <body>
+
 <script src="js/auth.js"></script>
 
 <script>
@@ -22,81 +33,111 @@
 
     <div class="header-container">
 
-        <h1>TECHNOVA GT</h1>
+        <div>
+
+            <h1>📚 Librería</h1>
+
+            <p>Perfil de Usuario</p>
+
+        </div>
 
         <nav>
 
-    <button class="panel" onclick="irPanel()">
-        Panel
-    </button>
+            <button onclick="irPanel()">
+                Panel
+            </button>
 
-    <button onclick="window.location.href='productos.html'">
-        Productos
-    </button>
+            <button
+                onclick="window.location.href='catalogo.html'"
+            >
+                Inventario
+            </button>
 
-    <button class="perfil" onclick="window.location.href='perfil.html'">
-        Perfil
-    </button>
+            <button
+                onclick="window.location.href='productos.html'"
+            >
+                Productos
+            </button>
 
-    <button onclick="window.location.href='catalogo.html'">
-        Catálogo
-    </button>
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Cerrar Sesión
+            </button>
 
-    <button class="logout" onclick="logout()">
-        Cerrar Sesión
-    </button>
-
-</nav>
+        </nav>
 
     </div>
 
 </header>
 
-<div class="container">
+<main>
 
-    <div class="card">
+    <div class="perfil-card">
 
-        <h2>Perfil Usuario</h2>
+        <div class="avatar">
 
-        <p>
-            <strong>Nombre:</strong>
-            <span id="perfilNombre"></span>
-        </p>
+            👤
 
-        <p>
-            <strong>Correo:</strong>
-            <span id="correo"></span>
-        </p>
+        </div>
 
-        <p>
-            <strong>Rol:</strong>
-            <span id="perfilRol"></span>
-        </p>
+        <h2 id="perfilNombre"></h2>
 
-        <button onclick="volverPanel()">
+        <div class="info">
+
+            <div class="dato">
+
+                <span class="titulo">
+                    Correo
+                </span>
+
+                <span id="correo"></span>
+
+            </div>
+
+            <div class="dato">
+
+                <span class="titulo">
+                    Rol
+                </span>
+
+                <span id="perfilRol"></span>
+
+            </div>
+
+        </div>
+
+        <button
+            class="btn-panel"
+            onclick="volverPanel()"
+        >
             Volver al Panel
         </button>
 
     </div>
 
-</div>
+</main>
+
+<footer>
+
+    © 2026 Librería
+
+</footer>
 
 <script>
 
-    document.getElementById('perfilNombre')
-        .innerHTML =
-        localStorage.getItem('nombre');
+document.getElementById('perfilNombre').innerHTML =
+    localStorage.getItem('nombre');
 
-    document.getElementById('correo').innerHTML =
-        localStorage.getItem('email');
+document.getElementById('correo').innerHTML =
+    localStorage.getItem('email');
 
-    document.getElementById('perfilRol')
-        .innerHTML =
-        localStorage.getItem('role');
-
-
+document.getElementById('perfilRol').innerHTML =
+    localStorage.getItem('role');
 
 </script>
 
 </body>
+
 </html>
