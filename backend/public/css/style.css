@@ -1586,3 +1586,68 @@ button {
         width:95%;
     }
 }
+
+.producto-card{
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:100%;
+}
+
+.producto-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:contain;
+
+    background:#f8fafc;
+}
+
+.producto-info{
+
+    padding:15px;
+}
+
+.producto-info h3{
+
+    color:#1e293b;
+
+    margin-bottom:10px;
+}
+
+.producto-info p{
+
+    color:#475569;
+
+    margin:6px 0;
+}
+
+.estado{
+
+    font-weight:bold;
+}
+
+.sin-productos{
+
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:40px;
+
+    background:#fff;
+
+    border-radius:15px;
+}

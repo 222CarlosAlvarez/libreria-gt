@@ -60,49 +60,126 @@ function mostrarProductos(productos) {
 
     contenedor.innerHTML = '';
 
+    productos.sort((a,b)=>
+        a.nombre.localeCompare(b.nombre)
+    );
+
+    if(productos.length === 0){
+
+        contenedor.innerHTML = `
+
+        <div class="sin-productos">
+
+            No se encontraron productos.
+
+        </div>
+
+        `;
+
+        return;
+    }
+
     productos.forEach(producto => {
+
+        let estado = '';
+
+        if(producto.cantidad <= 0){
+
+            estado =
+            '<span class="estado agotado">🔴 Agotado</span>';
+
+        }else if(producto.cantidad <= 5){
+
+            estado =
+            '<span class="estado bajo">🟡 Bajo Stock</span>';
+
+        }else{
+
+            estado =
+            '<span class="estado disponible">🟢 Disponible</span>';
+
+        }
+
+        const descripcionCorta =
+
+            producto.descripcion &&
+            producto.descripcion.length > 90
+
+            ?
+
+            producto.descripcion.substring(0,90)
+            + '...'
+
+            :
+
+            producto.descripcion || '';
 
         contenedor.innerHTML += `
 
-            <div class="producto-card">
+        <div class="producto-card">
 
-                <img
-    src="${producto.imagen || 'https://via.placeholder.com/250'}"
-    onclick="verImagen(this.src)"
-    style="cursor:pointer;"
->
+            <img
+                src="${
+                    producto.imagen
+                    ||
+                    'https://via.placeholder.com/250'
+                }"
+                onclick="verImagen(this.src)"
+                style="cursor:pointer;"
+            >
+
+            <div class="producto-info">
 
                 <h3>${producto.nombre}</h3>
 
-                <p><strong>SKU:</strong> ${producto.sku}</p>
-
                 <p>
-                    <strong>Categoría:</strong>
-                    ${producto.categoria}
+                    <strong>SKU:</strong>
+                    ${producto.sku || '-'}
                 </p>
 
                 <p>
                     <strong>Marca:</strong>
-                    ${producto.marca}
+                    ${producto.marca || '-'}
                 </p>
 
-                <p>${producto.descripcion}</p>
+                <p>
+                    <strong>Categoría:</strong>
+                    ${producto.categoria || '-'}
+                </p>
 
                 <p>
+                    ${descripcionCorta}
+                </p>
+
+                <p>
+
                     <strong>Precio:</strong>
+
                     Q${producto.precio}
+
                 </p>
 
                 <p>
+
                     <strong>Stock:</strong>
+
                     ${producto.cantidad}
+
+                </p>
+
+                <p>
+
+                    ${estado}
+
                 </p>
 
             </div>
+
+        </div>
+
         `;
     });
 }
-
 // ABRIR IMAGEN EN GRANDE
 
 let zoom = 1;
@@ -454,6 +531,12 @@ function filtrarProductos() {
             (producto.categoria || '')
             .toLowerCase()
             .includes(texto);
+        
+        const coincideMarca =
+
+    (producto.marca || '')
+    .toLowerCase()
+    .includes(texto);
 
         // FILTRO SELECT
         const coincideCategoriaSelect =
@@ -468,10 +551,11 @@ function filtrarProductos() {
         return (
 
             (
-                coincideNombre ||
-                coincideSKU ||
-                coincideCategoriaTexto
-            )
+    coincideNombre ||
+    coincideSKU ||
+    coincideCategoriaTexto ||
+    coincideMarca
+)
 
             &&
 

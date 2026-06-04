@@ -107,25 +107,26 @@
 
 <div class="card">
 
-    <h2>Buscar Productos</h2>
+    <h2>📚 Buscar Materiales</h2>
 
     <input
         type="text"
         id="busquedaProductos"
-        placeholder="Buscar por nombre, SKU o categoría..."
+        placeholder="Buscar por nombre, SKU, marca o categoría..."
         onkeyup="filtrarProductos()"
     >
-    <select
-    id="filtroCategoriaProductos"
-    onchange="filtrarProductos()"
->
 
-    <option value="todas">
-        Todas las categorías
-    </option>
+    <select
+        id="filtroCategoriaProductos"
+        onchange="filtrarProductos()"
+    >
+
+        <option value="todas">
+            Todas las categorías
+        </option>
 
     </select>
-    
+
 </div>
 
     <div id="productos" class="productos-grid">
