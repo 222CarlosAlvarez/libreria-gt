@@ -86,6 +86,8 @@ function mostrarProductos(productos) {
                     ${producto.marca}
                 </p>
 
+                <p>${producto.descripcion}</p>
+
                 <p>
                     <strong>Precio:</strong>
                     Q${producto.precio}
