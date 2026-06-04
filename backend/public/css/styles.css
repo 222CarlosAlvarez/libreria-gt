@@ -1,0 +1,446 @@
+/* ==================================================
+   CATALOGO - LIBRERIA ESCOLAR GT
+================================================== */
+
+.inventario-layout{
+
+    display:flex;
+    gap:25px;
+
+    width:95%;
+    max-width:1600px;
+
+    margin:25px auto;
+
+    align-items:flex-start;
+}
+
+/* SIDEBAR */
+
+.inventario-sidebar{
+
+    width:340px;
+    flex-shrink:0;
+}
+
+.inventario-sidebar .card{
+
+    position:sticky;
+    top:20px;
+}
+
+/* CONTENIDO */
+
+.inventario-content{
+
+    flex:1;
+    min-width:0;
+}
+
+/* TARJETAS */
+
+.inventario-sidebar .card,
+.inventario-content .card{
+
+    background:#ffffff;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    border:1px solid #dbeafe;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+/* TITULOS */
+
+.inventario-sidebar h2,
+.inventario-content h2{
+
+    margin-top:0;
+
+    color:#1e3a8a;
+
+    font-size:22px;
+
+    margin-bottom:20px;
+}
+
+/* INPUTS */
+
+.inventario-sidebar input,
+.inventario-sidebar textarea,
+.inventario-sidebar select,
+.inventario-content input,
+.inventario-content select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:10px;
+
+    margin-bottom:12px;
+
+    font-size:14px;
+
+    background:#fff;
+}
+
+.inventario-sidebar textarea{
+
+    min-height:100px;
+
+    resize:vertical;
+}
+
+/* LABEL */
+
+.label-upload{
+
+    display:block;
+
+    margin-top:10px;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#334155;
+}
+
+/* BOTON GUARDAR */
+
+.inventario-sidebar button{
+
+    width:100%;
+}
+
+/* TABLA */
+
+.tabla-container{
+
+    overflow:auto;
+
+    border-radius:12px;
+}
+
+.tabla-container table{
+
+    width:100%;
+
+    min-width:1000px;
+
+    border-collapse:collapse;
+
+    background:white;
+}
+
+.tabla-container thead{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+}
+
+.tabla-container th{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:14px;
+
+    text-align:left;
+
+    font-size:14px;
+}
+
+.tabla-container td{
+
+    padding:12px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    font-size:14px;
+}
+
+.tabla-container tr:hover{
+
+    background:#eff6ff;
+}
+
+/* ESTADOS */
+
+.stock-ok{
+
+    color:#16a34a;
+    font-weight:bold;
+}
+
+.stock-bajo{
+
+    color:#f59e0b;
+    font-weight:bold;
+}
+
+.stock-agotado{
+
+    color:#dc2626;
+    font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.6);
+
+    z-index:9999;
+}
+
+.modal-content{
+
+    width:90%;
+    max-width:700px;
+
+    background:white;
+
+    margin:40px auto;
+
+    padding:25px;
+
+    border-radius:16px;
+}
+
+.modal-content h2{
+
+    color:#1e3a8a;
+
+    margin-top:0;
+}
+
+.modal-content input,
+.modal-content textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:12px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:10px;
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+/* IMAGEN ZOOM */
+
+.modal-img{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.92);
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+}
+
+.modal-img img{
+
+    max-width:none;
+
+    max-height:none;
+
+    cursor:grab;
+
+    user-select:none;
+}
+
+.close-img{
+
+    position:absolute;
+
+    top:20px;
+    left:25px;
+
+    color:white;
+
+    font-size:40px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}
+
+.close-img:hover{
+
+    color:#ef4444;
+}
+
+.zoom-controls{
+
+    position:absolute;
+
+    top:20px;
+    right:20px;
+}
+
+/* RESPONSIVE TABLET */
+
+@media(max-width:1100px){
+
+    .inventario-layout{
+
+        flex-direction:column;
+    }
+
+    .inventario-sidebar{
+
+        width:100%;
+    }
+
+    .inventario-sidebar .card{
+
+        position:relative;
+        top:auto;
+    }
+}
+
+/* RESPONSIVE MOVIL */
+
+@media(max-width:768px){
+
+    .inventario-layout{
+
+        width:100%;
+        padding:10px;
+    }
+
+    .inventario-sidebar .card,
+    .inventario-content .card{
+
+        padding:15px;
+    }
+
+    .inventario-sidebar h2,
+    .inventario-content h2{
+
+        font-size:18px;
+    }
+
+    .tabla-container th,
+    .tabla-container td{
+
+        font-size:13px;
+        padding:10px;
+    }
+
+    .modal-content{
+
+        width:95%;
+    }
+}
+
+/* productos.html*/
+
+
+.producto-card{
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:100%;
+}
+
+.producto-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:contain;
+
+    background:#f8fafc;
+}
+
+.producto-info{
+
+    padding:15px;
+}
+
+.producto-info h3{
+
+    color:#1e293b;
+
+    margin-bottom:10px;
+}
+
+.producto-info p{
+
+    color:#475569;
+
+    margin:6px 0;
+}
+
+.estado{
+
+    font-weight:bold;
+}
+
+.sin-productos{
+
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:40px;
+
+    background:#fff;
+
+    border-radius:15px;
+}
