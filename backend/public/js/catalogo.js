@@ -78,6 +78,11 @@ async function cargarProductos() {
 
         const productos = await response.json();
 
+if (!Array.isArray(productos)) {
+    console.log("Respuesta inválida:", productos);
+    return;
+}
+
         productosGlobal = productos;
 
         mostrarProductos(productos);
@@ -91,31 +96,25 @@ async function cargarProductos() {
         console.log(error);
 
     }
+    console.log("PRODUCTOS:", productos);
 }
 
 // MOSTRAR PRODUCTOS
 function mostrarProductos(productos) {
 
-    if (productos.length === 0) {
-
-    div.innerHTML = `
-
-        <div class="card">
-
-            <h3>
-                No se encontraron productos
-            </h3>
-
-        </div>
-
-    `;
-
-    return;
-}
-
     const div = document.getElementById('productos');
 
     div.innerHTML = '';
+
+    if (productos.length === 0) {
+
+        div.innerHTML = `
+            <div class="card">
+                <h3>No se encontraron productos</h3>
+            </div>
+        `;
+        return;
+    }
 
     productos.forEach(producto => {
 
@@ -126,18 +125,14 @@ function mostrarProductos(productos) {
             <h3>${producto.nombre}</h3>
 
             <img
-    src="${
-        producto.imagen
-        ?
-        producto.imagen
-        :
-        'https://via.placeholder.com/250'
-    }"
-
-    onclick="verImagen(this.src)"
-
-    style="cursor:pointer;"
->
+                src="${
+                    producto.imagen
+                    ? producto.imagen
+                    : 'https://via.placeholder.com/250'
+                }"
+                onclick="verImagen(this.src)"
+                style="cursor:pointer;"
+            >
 
             <p><strong>SKU:</strong> ${producto.sku}</p>
 
