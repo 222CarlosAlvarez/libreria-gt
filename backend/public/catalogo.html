@@ -156,6 +156,83 @@ verificarLogin();
 
 </div>
 
+<div id="modalEditar" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Editar Producto</h2>
+
+        <input type="hidden" id="editId">
+
+        <input type="text" id="editNombre">
+
+        <input type="text" id="editMarca">
+
+        <input type="text" id="editCategoria">
+
+        <textarea id="editDescripcion"></textarea>
+
+        <input type="number" id="editPrecio">
+
+        <input type="number" id="editCantidad">
+
+        <input type="text" id="editImagen">
+
+        <div class="modal-buttons">
+
+            <button onclick="guardarEdicion()">
+                Guardar Cambios
+            </button>
+
+            <button onclick="cerrarModal()">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="modalImagen" class="modal-img">
+
+    <span class="close-img" onclick="cerrarImagen()">
+        &times;
+    </span>
+
+    <div class="zoom-controls">
+
+        <button onclick="resetZoom(event)">
+            🔄 Reset
+        </button>
+
+    </div>
+
+    <img id="imgZoom" src="">
+
+</div>
+
+<div id="modalImagen" class="modal-img">
+
+    <div class="zoom-controls">
+
+        <button onclick="resetZoom(event)">
+            🔄 Reset
+        </button>
+
+    </div>
+
+    <img id="imgZoom" src="">
+
+</div>
+
+<!-- MODAL ZOOM IMAGEN -->
+<div id="modalImagen" class="modal-img" onclick="cerrarImagen()">
+
+    <img id="imgZoom" src="">
+
+</div>
+
 <script src="js/catalogo.js"></script>
 
 </body>
