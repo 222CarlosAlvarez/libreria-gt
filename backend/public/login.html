@@ -1,111 +1,127 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Librería - Inicio de Sesión</title>
+    <title>
+        Iniciar Sesión | Librería Escolar GT
+    </title>
 
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/base.css">
+
+    <link rel="stylesheet" href="css/publico.css">
 
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="overlay">
+<div class="login-wrapper">
 
-    <div class="login-container">
+    <!-- LOGIN -->
 
-        <div class="logo-area">
+    <div class="login-card">
 
-            <h1>📚 Librería</h1>
+        <h2>
+            📚 LIBRERÍA ESCOLAR GT
+        </h2>
 
-            <p>
-                Bienvenido al sistema de inventario
-            </p>
+        <p>
 
-        </div>
+            Ingresa con tu cuenta para acceder
+            al sistema de inventario y gestión.
 
-        <!-- LOGIN -->
+        </p>
 
-        <div class="card">
+        <input
+            type="email"
+            id="loginEmail"
+            placeholder="Correo electrónico"
+        >
 
-            <h2>Iniciar Sesión</h2>
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Contraseña"
+        >
 
-            <input
-                type="email"
-                id="loginEmail"
-                placeholder="Correo electrónico"
-            >
+        <button onclick="login()">
+            Iniciar Sesión
+        </button>
 
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Contraseña"
-            >
+        <br><br>
 
-            <button
-                class="btn-primary"
-                onclick="login()"
-            >
-                Ingresar
-            </button>
+        <button
+            type="button"
+            onclick="
+            window.location.href=
+            'catalogo-publico.html'
+            "
+        >
+            📦 Ver Catálogo Público
+        </button>
 
-            <button
-                class="btn-secondary"
-                onclick="window.location.href='catalogo-publico.html'"
-            >
-                Ver Catálogo Público
-            </button>
+        <br><br>
 
-        </div>
+        <button
+            type="button"
+            onclick="
+            window.location.href=
+            'index.html'
+            "
+        >
+            ⬅ Volver al Inicio
+        </button>
 
-        <!-- REGISTRO ADMIN -->
+    </div>
 
-        <div class="card">
+    <!-- CREAR ADMIN -->
 
-            <h2>Crear Administrador</h2>
+    <div class="login-card">
 
-            <p class="info">
-                Se requiere clave maestra.
-            </p>
+        <h2>
+            Crear Cuenta Administrador
+        </h2>
 
-            <input
-                type="text"
-                id="nombre"
-                placeholder="Nombre completo"
-            >
+        <p>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="Correo"
-            >
+            Para registrar un administrador
+            es necesaria la clave maestra.
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Contraseña"
-            >
+        </p>
 
-            <input
-                type="password"
-                id="adminKey"
-                placeholder="Clave maestra"
-            >
+        <input
+            type="text"
+            id="nombre"
+            placeholder="Nombre completo"
+        >
 
-            <button
-                class="btn-success"
-                onclick="crearAdmin()"
-            >
-                Crear Cuenta
-            </button>
+        <input
+            type="email"
+            id="email"
+            placeholder="Correo electrónico"
+        >
 
-        </div>
+        <input
+            type="password"
+            id="password"
+            placeholder="Contraseña"
+        >
+
+        <input
+            type="password"
+            id="adminKey"
+            placeholder="Clave maestra"
+        >
+
+        <button onclick="crearAdmin()">
+            Crear Administrador
+        </button>
 
     </div>
 

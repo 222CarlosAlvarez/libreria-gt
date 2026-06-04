@@ -34,18 +34,15 @@ function cargarCategorias(productos) {
     `;
 
     // CATEGORIAS UNICAS
-    const categorias = [];
+    const categorias = [
+    ...new Set(
+        productos
+        .map(p => p.categoria)
+        .filter(Boolean)
+    )
+];
 
-    productos.forEach(producto => {
-
-        if (
-            producto.categoria &&
-            !categorias.includes(producto.categoria)
-        ) {
-
-            categorias.push(producto.categoria);
-        }
-    });
+categorias.sort();
 
     // CREAR OPCIONES
     categorias.forEach(categoria => {
@@ -98,6 +95,23 @@ async function cargarProductos() {
 
 // MOSTRAR PRODUCTOS
 function mostrarProductos(productos) {
+
+    if (productos.length === 0) {
+
+    div.innerHTML = `
+
+        <div class="card">
+
+            <h3>
+                No se encontraron productos
+            </h3>
+
+        </div>
+
+    `;
+
+    return;
+}
 
     const div = document.getElementById('productos');
 
@@ -279,24 +293,40 @@ function filtrarProductos() {
         .getElementById('filtroCategoria')
         .value;
 
-    // FILTRAR
     const filtrados = productosGlobal.filter(producto => {
 
-        // BUSCAR POR NOMBRE
-        const coincideNombre =
-
+        const nombre =
             (producto.nombre || '')
-            .toLowerCase()
-            .includes(texto);
+            .toLowerCase();
 
-        // BUSCAR POR SKU
-        const coincideSKU =
-
+        const sku =
             (producto.sku || '')
-            .toLowerCase()
-            .includes(texto);
+            .toLowerCase();
 
-        // BUSCAR POR CATEGORIA
+        const marca =
+            (producto.marca || '')
+            .toLowerCase();
+
+        const descripcion =
+            (producto.descripcion || '')
+            .toLowerCase();
+
+        const coincideTexto =
+
+            nombre.includes(texto)
+
+            ||
+
+            sku.includes(texto)
+
+            ||
+
+            marca.includes(texto)
+
+            ||
+
+            descripcion.includes(texto);
+
         const coincideCategoria =
 
             categoria === 'todas'
@@ -306,15 +336,13 @@ function filtrarProductos() {
             producto.categoria === categoria;
 
         return (
-            coincideNombre ||
-            coincideSKU
-        ) && coincideCategoria;
+            coincideTexto &&
+            coincideCategoria
+        );
     });
 
-    // ACTUALIZAR CATALOGO
     mostrarProductos(filtrados);
 
-    // ACTUALIZAR TABLA
     mostrarTablaInventario(filtrados);
 }
 
@@ -358,6 +386,30 @@ async function agregarProducto() {
     // CATEGORIA FINAL
     const categoria =
         nuevaCategoria || categoriaExistente;
+
+    if (!nombre.trim()) {
+
+    alert('Ingrese el nombre del producto');
+    return;
+}
+
+if (!categoria.trim()) {
+
+    alert('Seleccione o cree una categoría');
+    return;
+}
+
+if (!precio || precio <= 0) {
+
+    alert('Ingrese un precio válido');
+    return;
+}
+
+if (!cantidad || cantidad < 0) {
+
+    alert('Ingrese una cantidad válida');
+    return;
+}
 
     // FORM DATA
     const formData = new FormData();
@@ -412,7 +464,9 @@ async function agregarProducto() {
 
     alert(data.mensaje);
 
-    cargarProductos();
+limpiarFormulario();
+
+cargarProductos();
 }
 
 // EDITAR
@@ -529,20 +583,43 @@ function cerrarModal() {
 // ELIMINAR
 async function eliminarProducto(id) {
 
-    const response = await fetch(`${API}/api/productos/${id}`, {
+    const confirmar = confirm(
+        '¿Desea eliminar este producto?'
+    );
 
-        method: 'DELETE',
+    if (!confirmar) return;
 
-        headers: {
-            Authorization: token
-        }
-    });
+    try {
 
-    const result = await response.json();
+        const response = await fetch(
 
-    alert(result.message);
+            `${API}/api/productos/${id}`,
 
-    cargarProductos();
+            {
+
+                method: 'DELETE',
+
+                headers: {
+                    Authorization: token
+                }
+            }
+        );
+
+        const result =
+            await response.json();
+
+        alert(result.message);
+
+        cargarProductos();
+
+    } catch(error) {
+
+        console.log(error);
+
+        alert(
+            'Error al eliminar producto'
+        );
+    }
 }
 
 // ABRIR IMAGEN EN GRANDE
@@ -681,6 +758,32 @@ function resetZoom(e) {
 
     img.style.transform =
         `translate(0px, 0px) scale(1)`;
+}
+
+function limpiarFormulario() {
+
+    document.getElementById('nombre').value = '';
+
+    document.getElementById('marca').value = '';
+
+    document.getElementById('categoriaExistente').value = '';
+
+    document.getElementById('nuevaCategoria').value = '';
+
+    document.getElementById('descripcion').value = '';
+
+    document.getElementById('precio').value = '';
+
+    document.getElementById('sku').value = '';
+
+    document.getElementById('cantidad').value = '';
+
+    document.getElementById('imagen').value = '';
+
+    document.getElementById('archivoImagen').value = '';
+
+    document.getElementById('tipoMovimiento').value =
+        'entrada';
 }
 
 cargarProductos();

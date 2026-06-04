@@ -10,12 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Panel Usuario</title>
+    <title>
+        Panel Usuario
+    </title>
 
-    <link
-        rel="stylesheet"
-        href="css/dashboard-user.css"
-    >
+    <link rel="stylesheet" href="css/base.css">
 
 </head>
 
@@ -25,7 +24,7 @@
 
 <script>
 
-    verificarLogin();
+verificarLogin();
 
 </script>
 
@@ -33,40 +32,17 @@
 
     <div class="header-container">
 
-        <div>
-
-            <h1>📚 Librería</h1>
-
-            <p>
-                Panel de Usuario
-            </p>
-
-        </div>
+        <h1>
+            📚 LIBRERÍA ESCOLAR GT
+        </h1>
 
         <nav>
 
-            <button
-                onclick="window.location.href='catalogo.html'"
-            >
-                Inventario
-            </button>
-
-            <button
-                onclick="window.location.href='productos.html'"
-            >
-                Productos
-            </button>
-
-            <button
-                onclick="window.location.href='perfil.html'"
-            >
+            <button onclick="window.location.href='perfil.html'">
                 Perfil
             </button>
 
-            <button
-                class="logout"
-                onclick="logout()"
-            >
+            <button onclick="logout()">
                 Cerrar Sesión
             </button>
 
@@ -76,9 +52,9 @@
 
 </header>
 
-<main>
+<div class="container">
 
-    <section class="bienvenida">
+    <div class="card">
 
         <h2>
             Bienvenido
@@ -86,72 +62,99 @@
 
         <p id="usuario"></p>
 
-    </section>
+    </div>
 
-    <section class="dashboard-grid">
+    <div class="info">
 
-        <div class="dashboard-card">
+        <div class="card">
 
-            <h3>📦 Inventario</h3>
+            <h3>
+                📦 Inventario
+            </h3>
 
             <p>
-                Consultar productos registrados.
+                Consultar productos disponibles.
             </p>
 
             <button
-                onclick="window.location.href='catalogo.html'"
+                onclick="
+                window.location.href='catalogo.html'
+                "
             >
                 Abrir
             </button>
 
         </div>
 
-        <div class="dashboard-card">
+        <div class="card">
 
-            <h3>➕ Productos</h3>
+            <h3>
+                🛍 Productos
+            </h3>
 
             <p>
-                Agregar nuevos productos.
+                Ver listado de productos.
             </p>
 
             <button
-                onclick="window.location.href='productos.html'"
+                onclick="
+                window.location.href='productos.html'
+                "
             >
                 Abrir
             </button>
 
         </div>
 
-        <div class="dashboard-card">
+        <div class="card">
 
-            <h3>👤 Mi Perfil</h3>
+            <h3>
+                🌐 Catálogo Público
+            </h3>
 
             <p>
-                Actualizar información personal.
+                Vista para clientes.
             </p>
 
             <button
-                onclick="window.location.href='perfil.html'"
+                onclick="
+                window.location.href='catalogo-publico.html'
+                "
+            >
+                Ver
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                👤 Perfil
+            </h3>
+
+            <p>
+                Consultar datos personales.
+            </p>
+
+            <button
+                onclick="
+                window.location.href='perfil.html'
+                "
             >
                 Abrir
             </button>
 
         </div>
 
-    </section>
+    </div>
 
-</main>
-
-<footer>
-
-    © 2026 Librería
-
-</footer>
+</div>
 
 <script>
 
 document.getElementById('usuario').innerHTML =
-    localStorage.getItem('nombre') || '';
+'Usuario: ' +
+localStorage.getItem('nombre');
 
 </script>
 
