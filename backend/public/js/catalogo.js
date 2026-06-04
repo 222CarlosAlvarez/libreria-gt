@@ -34,15 +34,18 @@ function cargarCategorias(productos) {
     `;
 
     // CATEGORIAS UNICAS
-    const categorias = [
-    ...new Set(
-        productos
-        .map(p => p.categoria)
-        .filter(Boolean)
-    )
-];
+    const categorias = [];
 
-categorias.sort();
+    productos.forEach(producto => {
+
+        if (
+            producto.categoria &&
+            !categorias.includes(producto.categoria)
+        ) {
+
+            categorias.push(producto.categoria);
+        }
+    });
 
     // CREAR OPCIONES
     categorias.forEach(categoria => {
@@ -78,11 +81,6 @@ async function cargarProductos() {
 
         const productos = await response.json();
 
-if (!Array.isArray(productos)) {
-    console.log("Respuesta inválida:", productos);
-    return;
-}
-
         productosGlobal = productos;
 
         mostrarProductos(productos);
@@ -96,45 +94,61 @@ if (!Array.isArray(productos)) {
         console.log(error);
 
     }
-    console.log("PRODUCTOS:", productos);
 }
 
 // MOSTRAR PRODUCTOS
 function mostrarProductos(productos) {
 
     const div = document.getElementById('productos');
-    div.innerHTML = '';
 
-    if (!productos.length) {
-        div.innerHTML = `
-            <div class="card">
-                <h3>No se encontraron productos</h3>
-            </div>
-        `;
-        return;
-    }
+    div.innerHTML = '';
 
     productos.forEach(producto => {
 
         div.innerHTML += `
+        
         <div class="producto">
+
             <h3>${producto.nombre}</h3>
 
-            <img src="${producto.imagen || 'https://via.placeholder.com/250'}"
-                onclick="verImagen(this.src)">
+            <img
+    src="${
+        producto.imagen
+        ?
+        producto.imagen
+        :
+        'https://via.placeholder.com/250'
+    }"
+
+    onclick="verImagen(this.src)"
+
+    style="cursor:pointer;"
+>
 
             <p><strong>SKU:</strong> ${producto.sku}</p>
+
             <p>Categoría: ${producto.categoria}</p>
+
             <p>${producto.descripcion}</p>
+
             <p>Precio: Q${producto.precio}</p>
+
             <p>Stock: ${producto.cantidad}</p>
 
-            <button onclick="editarProducto(${producto.id})">Editar</button>
+            <button onclick="editarProducto(${producto.id})">
+                Editar
+            </button>
 
             ${role === 'admin' ? `
-                <button onclick="eliminarProducto(${producto.id})">Eliminar</button>
+            
+            <button onclick="eliminarProducto(${producto.id})">
+                Eliminar
+            </button>
+
             ` : ''}
-        </div>`;
+
+        </div>
+        `;
     });
 }
 
@@ -159,9 +173,8 @@ function formatearFecha(fecha) {
 
 function mostrarTablaInventario(productos) {
 
-    const tbody = document.getElementById('tablaBody');
-
-if (!tbody) return;
+    const tbody =
+        document.getElementById('tablaBody');
 
     tbody.innerHTML = '';
 
@@ -266,40 +279,24 @@ function filtrarProductos() {
         .getElementById('filtroCategoria')
         .value;
 
+    // FILTRAR
     const filtrados = productosGlobal.filter(producto => {
 
-        const nombre =
+        // BUSCAR POR NOMBRE
+        const coincideNombre =
+
             (producto.nombre || '')
-            .toLowerCase();
+            .toLowerCase()
+            .includes(texto);
 
-        const sku =
+        // BUSCAR POR SKU
+        const coincideSKU =
+
             (producto.sku || '')
-            .toLowerCase();
+            .toLowerCase()
+            .includes(texto);
 
-        const marca =
-            (producto.marca || '')
-            .toLowerCase();
-
-        const descripcion =
-            (producto.descripcion || '')
-            .toLowerCase();
-
-        const coincideTexto =
-
-            nombre.includes(texto)
-
-            ||
-
-            sku.includes(texto)
-
-            ||
-
-            marca.includes(texto)
-
-            ||
-
-            descripcion.includes(texto);
-
+        // BUSCAR POR CATEGORIA
         const coincideCategoria =
 
             categoria === 'todas'
@@ -309,13 +306,15 @@ function filtrarProductos() {
             producto.categoria === categoria;
 
         return (
-            coincideTexto &&
-            coincideCategoria
-        );
+            coincideNombre ||
+            coincideSKU
+        ) && coincideCategoria;
     });
 
+    // ACTUALIZAR CATALOGO
     mostrarProductos(filtrados);
 
+    // ACTUALIZAR TABLA
     mostrarTablaInventario(filtrados);
 }
 
@@ -359,30 +358,6 @@ async function agregarProducto() {
     // CATEGORIA FINAL
     const categoria =
         nuevaCategoria || categoriaExistente;
-
-    if (!nombre.trim()) {
-
-    alert('Ingrese el nombre del producto');
-    return;
-}
-
-if (!categoria.trim()) {
-
-    alert('Seleccione o cree una categoría');
-    return;
-}
-
-if (!precio || precio <= 0) {
-
-    alert('Ingrese un precio válido');
-    return;
-}
-
-if (!cantidad || cantidad < 0) {
-
-    alert('Ingrese una cantidad válida');
-    return;
-}
 
     // FORM DATA
     const formData = new FormData();
@@ -437,9 +412,7 @@ if (!cantidad || cantidad < 0) {
 
     alert(data.mensaje);
 
-limpiarFormulario();
-
-cargarProductos();
+    cargarProductos();
 }
 
 // EDITAR
@@ -556,43 +529,20 @@ function cerrarModal() {
 // ELIMINAR
 async function eliminarProducto(id) {
 
-    const confirmar = confirm(
-        '¿Desea eliminar este producto?'
-    );
+    const response = await fetch(`${API}/api/productos/${id}`, {
 
-    if (!confirmar) return;
+        method: 'DELETE',
 
-    try {
+        headers: {
+            Authorization: token
+        }
+    });
 
-        const response = await fetch(
+    const result = await response.json();
 
-            `${API}/api/productos/${id}`,
+    alert(result.message);
 
-            {
-
-                method: 'DELETE',
-
-                headers: {
-                    Authorization: token
-                }
-            }
-        );
-
-        const result =
-            await response.json();
-
-        alert(result.message);
-
-        cargarProductos();
-
-    } catch(error) {
-
-        console.log(error);
-
-        alert(
-            'Error al eliminar producto'
-        );
-    }
+    cargarProductos();
 }
 
 // ABRIR IMAGEN EN GRANDE
@@ -731,32 +681,6 @@ function resetZoom(e) {
 
     img.style.transform =
         `translate(0px, 0px) scale(1)`;
-}
-
-function limpiarFormulario() {
-
-    document.getElementById('nombre').value = '';
-
-    document.getElementById('marca').value = '';
-
-    document.getElementById('categoriaExistente').value = '';
-
-    document.getElementById('nuevaCategoria').value = '';
-
-    document.getElementById('descripcion').value = '';
-
-    document.getElementById('precio').value = '';
-
-    document.getElementById('sku').value = '';
-
-    document.getElementById('cantidad').value = '';
-
-    document.getElementById('imagen').value = '';
-
-    document.getElementById('archivoImagen').value = '';
-
-    document.getElementById('tipoMovimiento').value =
-        'entrada';
 }
 
 cargarProductos();
