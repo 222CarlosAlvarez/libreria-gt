@@ -424,7 +424,7 @@ function editarProducto(id) {
 
     // ABRIR MODAL
     document.getElementById('modalEditar')
-        .style.display = 'block';
+        .style.display = 'flex';
 
     // LLENAR DATOS
     document.getElementById('editId').value =
