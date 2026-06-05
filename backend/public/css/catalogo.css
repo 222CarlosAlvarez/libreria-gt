@@ -37,9 +37,9 @@ nav button {
     cursor: pointer;
 }
 
-.panel { background: #1b5e20; color: white; }
-.perfil { background: #388e3c; color: white; }
-.logout { background: #c62828; color: white; }
+.panel { background: #1b5e20; color: black; }
+.perfil { background: #388e3c; color: black; }
+.logout { background: #c62828; color: black; }
 
 /* ========================= */
 /* CONTAINER */
