@@ -531,10 +531,13 @@ router.post(
                     '';
 
                 const precio =
-                    parseFloat(
-                        fila.precio ||
-                        fila.Precio
-                    ) || 0;
+    parseFloat(
+        fila.precio ||
+        fila.Precio ||
+        fila.PRECIO ||
+        fila['Precio Venta'] ||
+        fila['precio venta']
+    ) || 0;
 
                 const cantidad =
                     parseInt(
