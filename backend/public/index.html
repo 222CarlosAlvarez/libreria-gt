@@ -2,34 +2,28 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>TECHNOVA GT</title>
+    <title>LIBRERIA ESCOLAR GT</title>
 
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
     <header>
       <div class="header-container">
-        <h1>TECHNOVA GT</h1>
+        <h1>LIBRERIA ESCOLAR GT</h1>
 
         <nav>
+          <button onclick="window.location.href = 'login.html'">
+            Crear cuenta / Iniciar sesión
+          </button>
 
-    <button onclick="window.location.href='login.html'">
-        Crear cuenta / Iniciar sesión
-    </button>
-
-    <div style="text-align:center; margin-top:15px;">
-
-    <button
-        onclick="window.location.href='catalogo-publico.html'"
-    >
-        📦 Ver Catálogo Público
-    </button>
-
-</div>
-
-</nav>
+          <div style="text-align: center; margin-top: 15px">
+            <button onclick="window.location.href = 'catalogo-publico.html'">
+              📦 Ver Catálogo Público
+            </button>
+          </div>
+        </nav>
       </div>
     </header>
 
@@ -37,9 +31,13 @@
       <h2>Innovación y Tecnología para el Futuro</h2>
 
       <p>
-        TECHNOVA GT es una empresa especializada en la gestión y distribución de
-        productos tecnológicos, ofreciendo soluciones modernas para inventarios,
-        equipos electrónicos y administración empresarial.
+        Librería Escolar GT es una empresa guatemalteca dedicada a proveer
+        materiales educativos, útiles escolares y recursos de aprendizaje de
+        alta calidad. Nació con el propósito de apoyar a estudiantes, docentes e
+        instituciones educativas en todo el país, facilitando el acceso a
+        herramientas que potencian el desarrollo académico en cada nivel
+        educativo. Somos más que una librería: somos un puente entre el
+        conocimiento y quienes lo buscan.
       </p>
 
       <a href="login.html">
@@ -52,8 +50,10 @@
         <h2>Misión</h2>
 
         <p>
-          Brindar soluciones tecnológicas innovadoras mediante una plataforma
-          moderna y eficiente para el control de inventarios y productos.
+          Proveer a la comunidad educativa guatemalteca materiales escolares,
+          didácticos y de oficina de calidad, a precios accesibles, con un
+          servicio cálido y eficiente que inspire el aprendizaje y contribuya al
+          desarrollo integral de niños, jóvenes y profesionales de la educación.
         </p>
       </div>
 
@@ -61,8 +61,11 @@
         <h2>Visión</h2>
 
         <p>
-          Ser una empresa líder en tecnología y administración digital en
-          Guatemala, ofreciendo herramientas eficientes para negocios modernos.
+          Ser la librería escolar líder de Guatemala, reconocida por su amplio
+          catálogo, innovación en recursos educativos y compromiso con la
+          excelencia académica; expandiendo nuestra presencia a nivel nacional
+          para que cada estudiante guatemalteco tenga acceso a las herramientas
+          que necesita para crecer y triunfar.
         </p>
       </div>
 
@@ -70,21 +73,36 @@
         <h2>Servicios</h2>
 
         <ul>
-          <li>Gestión de Inventarios</li>
+          <li>
+            Útiles escolares: Cuadernos, lápices, plumas, colores y todo lo
+            necesario para el aula
+          </li>
 
-          <li>Control de Productos</li>
+          <li>
+            Libros de texto: Textos escolares y de consulta para todos los
+            niveles educativos
+          </li>
 
-          <li>Administración de Usuarios</li>
+          <li>
+            Material didáctico: Recursos visuales, mapas, juegos educativos y
+            material lúdico
+          </li>
 
-          <li>Catálogo Tecnológico</li>
+          <li>
+            Útiles de oficina: Artículos para docentes y personal administrativo
+            de instituciones
+          </li>
 
-          <li>Control de Stock</li>
+          <li>
+            Kits escolares: Paquetes completos por grado, listos para inicio del
+            ciclo escolar
+          </li>
         </ul>
       </div>
     </section>
 
     <footer>
-      <p>TECHNOVA GT © 2026</p>
+      <p>LIBRERIA ESCOLAR GT © 2026</p>
     </footer>
     <script>
       const token = localStorage.getItem("token");
