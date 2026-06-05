@@ -1,18 +1,22 @@
 /* =========================
    LIBRERÍA ESCOLAR GT
-   ESTILO GENERAL
+   PRODUCTOS.CSS
 ========================= */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
+
+/* =========================
+   BODY
+========================= */
 
 body {
     background: #f4f9f4;
-    color: #2d2d2d;
+    color: #2e4d2e;
 }
 
 /* =========================
@@ -20,9 +24,9 @@ body {
 ========================= */
 
 header {
-    background: linear-gradient(135deg, #2e7d32, #43a047);
+    background: linear-gradient(90deg, #1b5e20, #2e7d32);
     color: white;
-    padding: 15px 20px;
+    padding: 15px;
 }
 
 .header-container {
@@ -34,21 +38,19 @@ header {
 
 header h1 {
     font-size: 22px;
-    letter-spacing: 1px;
 }
 
 /* =========================
-   BOTONES NAV
+   NAV BUTTONS
 ========================= */
 
 nav button {
-    margin: 5px;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
     background: white;
-    color: #2e7d32;
+    border: none;
+    margin: 5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
     font-weight: bold;
     transition: 0.3s;
 }
@@ -58,13 +60,11 @@ nav button:hover {
 }
 
 /* =========================
-   CONTENEDOR GENERAL
+   CONTAINER
 ========================= */
 
 .container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 20px auto;
+    padding: 20px;
 }
 
 /* =========================
@@ -73,78 +73,84 @@ nav button:hover {
 
 .card {
     background: white;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 15px;
+    margin-bottom: 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 /* =========================
-   INPUTS Y SELECTS
+   PRODUCTOS GRID
 ========================= */
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: #43a047;
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
 }
 
 /* =========================
-   BOTONES PRINCIPALES
+   PRODUCT CARD
+========================= */
+
+.producto-card {
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    text-align: center;
+}
+
+.producto-card:hover {
+    transform: scale(1.03);
+}
+
+.producto-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* =========================
+   TEXTOS
+========================= */
+
+.producto-card h3 {
+    margin-top: 10px;
+    color: #1b5e20;
+}
+
+.producto-card p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* =========================
+   BOTONES
 ========================= */
 
 button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #43a047;
+    background: #2e7d32;
     color: white;
-    font-weight: bold;
-    margin-top: 5px;
-    transition: 0.3s;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 2px;
 }
 
 button:hover {
-    background: #2e7d32;
-}
-
-/* =========================
-   LAYOUT INVENTARIO
-========================= */
-
-.layout-inventario {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.panel-filtros {
-    flex: 1;
-    min-width: 250px;
-}
-
-.panel-inventario {
-    flex: 3;
-    min-width: 300px;
+    background: #1b5e20;
 }
 
 /* =========================
    TABLA INVENTARIO
 ========================= */
 
-.table-container {
+.tablea-container {
     overflow-x: auto;
 }
 
@@ -154,49 +160,34 @@ table {
     background: white;
 }
 
-table th,
-table td {
+th, td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
 
-table th {
+th {
     background: #2e7d32;
     color: white;
 }
 
 /* =========================
-   PRODUCTOS GRID
+   ESTADOS STOCK
 ========================= */
 
-#productos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.stock-ok {
+    color: green;
+    font-weight: bold;
 }
 
-/* =========================
-   PRODUCTO CARD
-========================= */
-
-.producto {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: 0.3s;
+.stock-bajo {
+    color: orange;
+    font-weight: bold;
 }
 
-.producto:hover {
-    transform: scale(1.02);
-}
-
-.producto img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
+.stock-agotado {
+    color: red;
+    font-weight: bold;
 }
 
 /* =========================
@@ -219,30 +210,43 @@ table th {
 .modal-img img {
     max-width: 90%;
     max-height: 90%;
+    border-radius: 10px;
     cursor: grab;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close-img {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media (max-width: 1024px) {
-    #productos {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+@media (max-width: 768px) {
 
-@media (max-width: 600px) {
-    #productos {
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav button {
+        width: 100%;
+    }
+
+    .productos-grid {
         grid-template-columns: 1fr;
     }
 
-    .layout-inventario {
-        flex-direction: column;
-    }
-
-    nav {
-        display: flex;
-        flex-wrap: wrap;
+    table {
+        font-size: 12px;
     }
 }
