@@ -203,3 +203,38 @@ th {
         width: 100%;
     }
 }
+
+.tabla-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+#productos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+
+    /* CLAVE */
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.tabla-container::-webkit-scrollbar,
+#productos::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tabla-container::-webkit-scrollbar-thumb,
+#productos::-webkit-scrollbar-thumb {
+    background: #27ae60;
+    border-radius: 10px;
+}
