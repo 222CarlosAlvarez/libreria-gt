@@ -1,3 +1,143 @@
+/* ========================= */
+/* BASE GENERAL */
+/* ========================= */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f5;
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+header {
+    background: #2e7d32;
+    color: white;
+    padding: 15px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.panel { background: #1b5e20; color: white; }
+.perfil { background: #388e3c; color: white; }
+.logout { background: #c62828; color: white; }
+
+/* ========================= */
+/* CONTAINER */
+/* ========================= */
+
+.container {
+    padding: 20px;
+}
+
+/* ========================= */
+/* CARDS */
+/* ========================= */
+
+.card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ========================= */
+/* GRID PRODUCTOS */
+/* ========================= */
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* ========================= */
+/* PRODUCTO CARD */
+/* ========================= */
+
+.producto-card {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.producto-card:hover {
+    transform: scale(1.02);
+}
+
+.producto-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* ========================= */
+/* MODAL IMAGEN */
+/* ========================= */
+
+.modal-img {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-img img {
+    max-width: 90%;
+    max-height: 90%;
+    cursor: grab;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 1024px) {
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 /* =========================
    LIBRERÍA ESCOLAR GT
    TEMA VERDE MODERNO
