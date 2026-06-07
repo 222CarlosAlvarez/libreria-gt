@@ -788,7 +788,6 @@ router.put(
             const id = req.params.id;
 
             const {
-                sku,
                 nombre,
                 marca,
                 categoria,
@@ -797,6 +796,32 @@ router.put(
                 cantidad,
                 imagen
             } = req.body;
+
+            const productoActual = await get(
+
+    `
+    SELECT * FROM productos
+    WHERE id=?
+    `,
+
+    `
+    SELECT * FROM productos
+    WHERE id=$1
+    `,
+
+    [id]
+);
+
+if (!productoActual) {
+
+    return res.status(404).json({
+
+        message: 'Producto no encontrado'
+    });
+}
+
+const skuFinal =
+    productoActual.sku;
 
             const fechaGuatemala = new Date()
 
@@ -809,31 +834,6 @@ router.put(
                 )
 
                 .replace(',', '');
-
-            const productoSKU = await get(
-
-    `
-    SELECT * FROM productos
-    WHERE LOWER(sku)=LOWER(?)
-    AND id != ?
-    `,
-
-    `
-    SELECT * FROM productos
-    WHERE LOWER(sku)=LOWER($1)
-    AND id != $2
-    `,
-
-    [sku, id]
-);
-
-if (productoSKU) {
-
-    return res.status(400).json({
-
-        message: 'El SKU ya existe'
-    });
-}
 
             await run(
 
@@ -874,7 +874,7 @@ if (productoSKU) {
                 `,
 
                 [
-                    sku,
+                    skuFinal,
                     nombre,
                     marca,
                     categoria,

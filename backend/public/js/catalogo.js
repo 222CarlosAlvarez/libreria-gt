@@ -484,11 +484,6 @@ async function guardarEdicion() {
                         'editMarca'
                     ).value,
 
-                sku:
-                    document.getElementById(
-                        'editSKU'
-                    ).value,
-
                 categoria:
                     document.getElementById(
                         'editCategoria'
