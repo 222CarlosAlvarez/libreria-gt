@@ -128,10 +128,10 @@ if (
 {
 
     console.log(
-    'DESCUENTO:',
-    producto.nombre,
-    producto.descuento
+    'OFERTA ACTIVADA:',
+    producto.nombre
 );
+
     const precioOferta =
 
         producto.precio -
