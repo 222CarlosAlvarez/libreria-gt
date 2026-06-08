@@ -161,10 +161,7 @@ function mostrarCatalogo(productos) {
                             ${producto.categoria}
                         </p>
 
-                        <p>
-                            Precio:
-                            Q${producto.precio}
-                        </p>
+                        ${bloquePrecio}
 
                         <p>
                             ${estado}
@@ -174,6 +171,49 @@ function mostrarCatalogo(productos) {
 
                 `;
             });
+
+            let bloquePrecio = '';
+
+if (
+    producto.descuento &&
+    producto.descuento > 0
+) {
+
+    const precioOferta =
+
+        producto.precio -
+
+        (
+            producto.precio *
+            producto.descuento / 100
+        );
+
+    bloquePrecio = `
+
+        <div class="oferta-badge">
+            🔥 OFERTA ${producto.descuento}% OFF
+        </div>
+
+        <p class="precio-anterior">
+            Q${producto.precio}
+        </p>
+
+        <p class="precio-oferta">
+            Q${precioOferta.toFixed(2)}
+        </p>
+
+    `;
+
+} else {
+
+    bloquePrecio = `
+
+        <p class="precio-normal">
+            Q${producto.precio}
+        </p>
+
+    `;
+}
 
             catalogo.innerHTML += `
 

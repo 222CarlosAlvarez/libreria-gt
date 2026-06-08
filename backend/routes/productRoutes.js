@@ -165,6 +165,7 @@ router.post(
                 categoria,
                 descripcion,
                 precio,
+                descuento,
                 cantidad,
                 tipoMovimiento,
                 imagenURL,
@@ -185,6 +186,9 @@ router.post(
 
             const precioFinal =
                 parseFloat(precio) || 0;
+
+            const descuentoFinal =
+                parseInt(descuento) || 0;
 
             const cantidadFinal =
                 parseInt(cantidad) || 0;
@@ -352,10 +356,11 @@ if (tipoMovimiento === 'salida') {
                     marca=$5,
                     categoria=$6,
                     descripcion=$7,
-                    imagen=$8,
-                    fecha_actualizacion=$9
+                    descuento=$8,
+                    imagen=$9,
+                    fecha_actualizacion=$10
 
-                    WHERE id=$10
+                    WHERE id=$11
                     `,
 
                     [
@@ -366,6 +371,7 @@ if (tipoMovimiento === 'salida') {
                         marca,
                         categoria,
                         descripcion,
+                        descuentoFinal,
                         imagen,
                         fechaGuatemala,
                         productoExistente.id
@@ -402,15 +408,14 @@ if (tipoMovimiento === 'salida') {
                     precio,
                     cantidad,
                     sku,
-                    imagen,
-                    oferta,
                     descuento,
+                    imagen,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
                 // POSTGRESQL
@@ -424,15 +429,14 @@ if (tipoMovimiento === 'salida') {
                     precio,
                     cantidad,
                     sku,
-                    imagen,
-                    oferta,
                     descuento,
+                    imagen,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
                 `,
 
                 [
@@ -443,9 +447,8 @@ if (tipoMovimiento === 'salida') {
                     precioFinal,
                     cantidadFinal,
                     skuFinal,
-                    imagen,
-                    false,
                     0,
+                    imagen,
                     fechaGuatemala,
                     fechaGuatemala
                 ]

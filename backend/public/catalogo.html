@@ -83,6 +83,14 @@
     <input type="number" id="precio" placeholder="Precio">
 
     <input
+    type="number"
+    id="descuento"
+    placeholder="Descuento % (opcional)"
+    min="0"
+    max="100"
+>
+
+    <input
     type="text"
     id="sku"
     placeholder="SKU (opcional)"
@@ -222,6 +230,30 @@
         <input type="number" id="editPrecio">
 
         <input type="number" id="editCantidad">
+
+        <label>Oferta</label>
+
+<select id="editOferta">
+
+    <option value="false">
+        Sin oferta
+    </option>
+
+    <option value="true">
+        Producto en oferta
+    </option>
+
+</select>
+
+<label>Descuento (%)</label>
+
+<input
+    type="number"
+    id="editDescuento"
+    min="0"
+    max="100"
+    placeholder="Ejemplo: 15"
+/>
 
         <input type="text" id="editImagen">
 

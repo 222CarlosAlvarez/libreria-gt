@@ -340,6 +340,9 @@ async function agregarProducto() {
     const precio =
         document.getElementById('precio').value;
 
+    const descuento =
+    document.getElementById('descuento').value || 0;
+
     const sku =
     document.getElementById('sku').value;
 
@@ -374,6 +377,8 @@ async function agregarProducto() {
     formData.append('sku', sku);
 
     formData.append('precio', precio);
+
+    formData.append('descuento', descuento);
 
     formData.append('cantidad', cantidad);
 
@@ -450,6 +455,12 @@ function editarProducto(id) {
 
     document.getElementById('editImagen').value =
         producto.imagen;
+
+    document.getElementById('editOferta').value =
+        producto.oferta ? 'true' : 'false';
+
+    document.getElementById('editDescuento').value =
+        producto.descuento || 0;
 }
 
 async function guardarEdicion() {
@@ -507,7 +518,17 @@ async function guardarEdicion() {
                 imagen:
                     document.getElementById(
                         'editImagen'
-                    ).value
+                    ).value,
+                
+                oferta:
+                    document.getElementById(
+                        'editOferta'
+                    ).value === 'true',
+
+                descuento:
+                    document.getElementById(
+                        'editDescuento'
+                    ).value,
             })
         }
     );
