@@ -803,7 +803,8 @@ router.put(
                 descripcion,
                 precio,
                 cantidad,
-                imagen
+                imagen,
+                descuento
             } = req.body;
 
             const productoActual = await get(
@@ -859,6 +860,7 @@ const skuFinal =
                 precio=?,
                 cantidad=?,
                 imagen=?,
+                descuento=?,
                 fecha_actualizacion=?
 
                 WHERE id=?
@@ -877,9 +879,10 @@ const skuFinal =
                 precio=$6,
                 cantidad=$7,
                 imagen=$8,
-                fecha_actualizacion=$9
+                descuento=$9,
+                fecha_actualizacion=$10
 
-                WHERE id=$10
+                WHERE id=$11
                 `,
 
                 [
@@ -891,6 +894,7 @@ const skuFinal =
                     precio,
                     cantidad,
                     imagen,
+                    descuento,
                     fechaGuatemala,
                     id
                 ]
