@@ -127,7 +127,6 @@ if (
 
 {
 
-
     const precioOferta =
 
         producto.precio -
