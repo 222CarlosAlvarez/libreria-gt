@@ -127,10 +127,6 @@ if (
 
 {
 
-    console.log(
-    'OFERTA ACTIVADA:',
-    producto.nombre
-);
 
     const precioOferta =
 
