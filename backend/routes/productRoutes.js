@@ -1330,13 +1330,13 @@ router.get(
                 `
                 SELECT *
                 FROM productos
-                ORDER BY oferta DESC, nombre ASC
+                ORDER BY nombre ASC
                 `,
 
                 `
                 SELECT *
                 FROM productos
-                ORDER BY oferta DESC, nombre ASC
+                ORDER BY nombre ASC
                 `
             );
 
