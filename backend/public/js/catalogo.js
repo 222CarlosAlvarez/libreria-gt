@@ -456,9 +456,6 @@ function editarProducto(id) {
     document.getElementById('editImagen').value =
         producto.imagen;
 
-    document.getElementById('editOferta').value =
-        producto.oferta ? 'true' : 'false';
-
     document.getElementById('editDescuento').value =
         producto.descuento || 0;
 }
@@ -519,11 +516,6 @@ async function guardarEdicion() {
                     document.getElementById(
                         'editImagen'
                     ).value,
-                
-                oferta:
-                    document.getElementById(
-                        'editOferta'
-                    ).value === 'true',
 
                 descuento:
                     document.getElementById(
