@@ -34,80 +34,155 @@ function mostrarCatalogo(productos) {
     const catalogo =
         document.getElementById('catalogo');
 
+    const indice =
+        document.getElementById('indiceLetras');
+
     catalogo.innerHTML = '';
+
+    indice.innerHTML = '';
+
+    document.getElementById(
+        'contadorProductos'
+    ).innerHTML =
+
+    `Productos encontrados:
+    <b>${productos.length}</b>`;
+
+    // ORDENAR
+    productos.sort((a, b) =>
+
+        a.nombre.localeCompare(
+            b.nombre,
+            'es'
+        )
+    );
+
+    const grupos = {};
 
     productos.forEach(producto => {
 
-        document.getElementById(
-    'contadorProductos'
-).innerHTML =
+        let letra = producto.nombre
+            .charAt(0)
+            .toUpperCase();
 
-`Productos encontrados:
-<b>${productos.length}</b>`;
+        if (!/[A-ZÁÉÍÓÚÑ]/.test(letra)) {
 
-        const estado =
+            letra = '#';
+        }
 
-            producto.cantidad > 0
+        if (!grupos[letra]) {
 
-            ? '<span style="color:green;font-weight:bold;">En existencia</span>'
+            grupos[letra] = [];
+        }
 
-            : '<span style="color:red;font-weight:bold;">Agotado</span>';
-
-        catalogo.innerHTML += `
-
-        <div class="producto-card">
-
-            <img
-    src="${producto.imagen || 'https://via.placeholder.com/250'}"
-    onclick="abrirImagen(this.src)"
-    style="cursor:pointer;"
->
-
-            <h3>${producto.nombre}</h3>
-
-            <p class="descripcion-corta">
-
-    ${
-        producto.descripcion.length > 80
-
-        ?
-
-        producto.descripcion.substring(0,80)
-        + '...'
-
-        :
-
-        producto.descripcion
-    }
-
-</p>
-
-<button
-    onclick="verDescripcion(
-        \`${producto.descripcion}\`
-    )"
->
-    Ver más
-</button>
-
-            <p>
-                Categoría:
-                ${producto.categoria}
-            </p>
-
-            <p>
-                Precio:
-                Q${producto.precio}
-            </p>
-
-            <p>
-                ${estado}
-            </p>
-
-        </div>
-
-        `;
+        grupos[letra].push(producto);
     });
+
+    Object.keys(grupos)
+
+        .sort()
+
+        .forEach(letra => {
+
+            indice.innerHTML += `
+
+                <button
+                    onclick="irALetra('${letra}')"
+                >
+                    ${letra}
+                </button>
+
+            `;
+
+            catalogo.innerHTML += `
+
+                <div
+                    id="letra-${letra}"
+                    class="grupo-letra"
+                >
+
+                    <h2 class="titulo-letra">
+                        ${letra}
+                    </h2>
+
+                    <div class="productos-grid">
+
+            `;
+
+            grupos[letra].forEach(producto => {
+
+                const estado =
+
+                    producto.cantidad > 0
+
+                    ? '<span style="color:green;font-weight:bold;">En existencia</span>'
+
+                    : '<span style="color:red;font-weight:bold;">Agotado</span>';
+
+                catalogo.innerHTML += `
+
+                    <div class="producto-card">
+
+                        <img
+                            src="${producto.imagen || 'https://via.placeholder.com/250'}"
+                            onclick="abrirImagen(this.src)"
+                            style="cursor:pointer;"
+                        >
+
+                        <h3>${producto.nombre}</h3>
+
+                        <p class="descripcion-corta">
+
+                            ${
+                                producto.descripcion.length > 80
+
+                                ?
+
+                                producto.descripcion.substring(0,80)
+                                + '...'
+
+                                :
+
+                                producto.descripcion
+                            }
+
+                        </p>
+
+                        <button
+                            onclick="verDescripcion(
+                            \`${producto.descripcion}\`
+                            )"
+                        >
+                            Ver más
+                        </button>
+
+                        <p>
+                            Categoría:
+                            ${producto.categoria}
+                        </p>
+
+                        <p>
+                            Precio:
+                            Q${producto.precio}
+                        </p>
+
+                        <p>
+                            ${estado}
+                        </p>
+
+                    </div>
+
+                `;
+            });
+
+            catalogo.innerHTML += `
+
+                    </div>
+
+                </div>
+
+            `;
+        });
 }
 
 function cargarCategorias(productos) {
@@ -305,6 +380,24 @@ function filtrarLetra(letra) {
     letraSeleccionada = letra;
 
     filtrarProductos();
+}
+
+function irALetra(letra) {
+
+    const seccion =
+
+        document.getElementById(
+            `letra-${letra}`
+        );
+
+    if (!seccion) return;
+
+    seccion.scrollIntoView({
+
+        behavior:'smooth',
+
+        block:'start'
+    });
 }
 
 cargarCatalogo();
