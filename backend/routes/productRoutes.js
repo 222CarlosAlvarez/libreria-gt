@@ -403,12 +403,14 @@ if (tipoMovimiento === 'salida') {
                     cantidad,
                     sku,
                     imagen,
+                    oferta,
+                    descuento,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `,
 
                 // POSTGRESQL
@@ -423,12 +425,14 @@ if (tipoMovimiento === 'salida') {
                     cantidad,
                     sku,
                     imagen,
+                    oferta,
+                    descuento,
                     fecha_creacion,
                     fecha_actualizacion
                 )
 
                 VALUES
-                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+                ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
                 `,
 
                 [
@@ -440,6 +444,8 @@ if (tipoMovimiento === 'salida') {
                     cantidadFinal,
                     skuFinal,
                     imagen,
+                    false,
+                    0,
                     fechaGuatemala,
                     fechaGuatemala
                 ]
@@ -1321,13 +1327,13 @@ router.get(
                 `
                 SELECT *
                 FROM productos
-                ORDER BY nombre
+                ORDER BY oferta DESC, nombre ASC
                 `,
 
                 `
                 SELECT *
                 FROM productos
-                ORDER BY nombre
+                ORDER BY oferta DESC, nombre ASC
                 `
             );
 
