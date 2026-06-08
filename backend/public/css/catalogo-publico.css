@@ -150,3 +150,48 @@ button:hover {
         width: 100%;
     }
 }
+
+.barra-abecedario{
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+
+    justify-content:center;
+
+    margin:20px 0;
+}
+
+.barra-abecedario button{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2e7d32;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.barra-abecedario button:hover{
+
+    transform:scale(1.08);
+
+    background:#1b5e20;
+}
+
+.barra-abecedario button:first-child{
+
+    width:auto;
+
+    padding:0 15px;
+}

@@ -3,6 +3,8 @@ window.location.origin;
 
 let productosGlobal = [];
 
+let letraSeleccionada = 'TODOS';
+
 async function cargarCatalogo() {
 
     try {
@@ -155,6 +157,19 @@ function filtrarProductos() {
         .getElementById('categoriaFiltro')
         .value;
 
+    const coincideLetra = (nombre) => {
+
+    if (letraSeleccionada === 'TODOS')
+        return true;
+
+    if (letraSeleccionada === '#')
+        return /^[0-9]/.test(nombre);
+
+    return nombre
+        .toUpperCase()
+        .startsWith(letraSeleccionada);
+};
+
     const filtrados =
 
         productosGlobal.filter(p => {
@@ -174,9 +189,13 @@ function filtrarProductos() {
                 p.categoria === categoria;
 
             return (
-                coincideNombre &&
-                coincideCategoria
-            );
+
+    coincideNombre &&
+
+    coincideCategoria &&
+
+    coincideLetra(p.nombre)
+);
         });
 
     mostrarCatalogo(filtrados);
@@ -279,6 +298,13 @@ window.onclick = function(event) {
 
         modal.style.display = 'none';
     }
+}
+
+function filtrarLetra(letra) {
+
+    letraSeleccionada = letra;
+
+    filtrarProductos();
 }
 
 cargarCatalogo();

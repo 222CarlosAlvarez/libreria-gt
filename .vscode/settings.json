@@ -31,6 +31,22 @@
             "database": "technova_v2_db",
             "username": "technova_v2_db_user",
             "name": "TECHNOVA_V2"
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": false
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "dpg-d8isvoeq1p3s73f40rpg-a.oregon-postgres.render.com",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "libreria",
+            "database": "libreria_gt_db",
+            "username": "libreria_gt_db_user"
         }
     ]
 }
