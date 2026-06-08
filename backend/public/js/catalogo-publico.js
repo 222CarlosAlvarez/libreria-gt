@@ -232,19 +232,6 @@ function filtrarProductos() {
         .getElementById('categoriaFiltro')
         .value;
 
-    const coincideLetra = (nombre) => {
-
-    if (letraSeleccionada === 'TODOS')
-        return true;
-
-    if (letraSeleccionada === '#')
-        return /^[0-9]/.test(nombre);
-
-    return nombre
-        .toUpperCase()
-        .startsWith(letraSeleccionada);
-};
-
     const filtrados =
 
         productosGlobal.filter(p => {
@@ -373,13 +360,6 @@ window.onclick = function(event) {
 
         modal.style.display = 'none';
     }
-}
-
-function filtrarLetra(letra) {
-
-    letraSeleccionada = letra;
-
-    filtrarProductos();
 }
 
 function irALetra(letra) {
