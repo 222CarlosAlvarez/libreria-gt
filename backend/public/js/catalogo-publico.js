@@ -122,10 +122,16 @@ function mostrarCatalogo(productos) {
                 let bloquePrecio = '';
 
 if (
-    producto.descuento &&
-    producto.descuento > 0
-) {
+    Number(producto.descuento) > 0
+)
 
+{
+
+    console.log(
+    'DESCUENTO:',
+    producto.nombre,
+    producto.descuento
+);
     const precioOferta =
 
         producto.precio -
@@ -204,10 +210,7 @@ if (
                             ${producto.categoria}
                         </p>
 
-                        <p>
-                            Precio:
-                            Q${producto.precio}
-                        </p>
+                        ${bloquePrecio}
 
                         <p>
                             ${estado}
